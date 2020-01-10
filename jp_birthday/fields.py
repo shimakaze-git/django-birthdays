@@ -20,9 +20,10 @@ class BirthdayField(DateField):
         super(BirthdayField, self).contribute_to_class(cls, name)
 
         if hasattr(cls._meta, 'birthday_field'):
-            raise FieldError(
-                'django-birthday does not support multiple BirthdayFields on a single model'
-            )
+            error_message = 'django-birthday does not support '
+            error_message += 'multiple BirthdayFields on a single model'
+
+            raise FieldError(error_message)
 
         cls._meta.birthday_field = self
 
