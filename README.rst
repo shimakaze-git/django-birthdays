@@ -1,5 +1,5 @@
 ==================
-django-birthdays
+django-jp-birthdays
 ==================
 
 django-jp-birthday is a helper library to work with birthdays and ages in models.
@@ -49,9 +49,9 @@ Or order the user profiles according to their birthday:
     ModelsTest.objects.order_by_birthday()
 
 Reference
-============
+-------
 
-django-birthday `docs`_
+django-jp-birthday `docs`_
 
 .. _docs: https://django-birthday.readthedocs.io/en/latest/usage.html
 
