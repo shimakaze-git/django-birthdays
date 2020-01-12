@@ -7,7 +7,6 @@ python:
   - "3.7"
   - "3.6"
   - "3.5"
-  - "3.4"
 
 env:
   - DJANGO_VERSION=2.2
@@ -15,13 +14,12 @@ env:
   - DJANGO_VERSION=2.0
 
 before_install:
-  # - pip install -q django==$DJANGO_VERSION
   - pip install -r requirements-test.txt
   - python --version
 
 install:
-  # - python setup.py develop
-  - pip install -r requirements.txt
+  - python setup.py develop
+  - pip install -q django==$DJANGO_VERSION
   - python --version
 
 script:
