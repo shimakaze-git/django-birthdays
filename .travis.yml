@@ -1,5 +1,5 @@
 # Config file for automatic testing at travis-ci.org
-# dist: xenial
+dist: xenial
 language: python
 
 sudo: false
@@ -16,13 +16,16 @@ env:
 
 before_install:
   # - pip install -q django==$DJANGO_VERSION
+  - pip install requirements-test.txt
   - python --version
+
 install:
   # - python setup.py develop
+  - pip install requirements.txt
   - python --version
+
 script:
-  # - python setup.py test
-  - python --version
+  - python setup.py test
 
 # matrix:
 #   exclude:
