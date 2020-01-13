@@ -26,10 +26,10 @@ class BirthdayTest(TestCase):
             print("birthday", birthday)
 
     def test_default(self):
-        from django.conf import settings
+        # from django.conf import settings
 
         print("test_default")
-        print('settings', settings)
+        # print('settings', settings)
 
         # assert 1 == 2
 
