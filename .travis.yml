@@ -25,6 +25,7 @@ install:
 
 script:
   - python setup.py test
+  - coverage html
 
 after_success:
   - codecov
