@@ -7,6 +7,9 @@ django-jp-birthday is a helper library to work with birthdays and ages in models
 Authored by `shimakaze_soft <https://github.com/shimakaze-git>`_,  and some great
 `contributors <https://github.com/shimakaze-git/django-jp-birthday/contributors>`_.
 
+.. image:: https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/shimakaze-git/django-jp-birthday
+
 .. image:: https://img.shields.io/github/license/bashu/django-birthday.svg
     :target: https://pypi.python.org/pypi/django-birthday/
 
