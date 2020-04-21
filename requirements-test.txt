@@ -1,4 +1,6 @@
 Django >= 2.1
+flake8 == 3.7.9
 pytest == 4.5.0
 pytest-django == 3.4.7
+pytest-flake8 == 1.0.4
 pytest-cov == 2.7.1

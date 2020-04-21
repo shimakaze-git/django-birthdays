@@ -2,9 +2,10 @@ dist: xenial
 language: python
 sudo: false
 python:
-  - '3.7'
-  - '3.6'
-  - '3.5'
+  - 3.8
+  - 3.7
+  - 3.6
+  - 3.5
 
 env:
   matrix:
@@ -16,6 +17,7 @@ env:
 
 before_install:
   - pip install coveralls codecov coverage
+  - pip install -U twine
   - pip install -r requirements-test.txt
   - python --version
 
@@ -26,6 +28,7 @@ install:
 
 script:
   - python setup.py test
+  - coverage html
 
 after_success:
   # - coveralls

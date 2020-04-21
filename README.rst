@@ -1,14 +1,24 @@
-==================
+====================
 django-jp-birthdays
-==================
+====================
+
+.. image:: https://travis-ci.com/shimakaze-git/django-jp-birthday.svg?branch=master
+   :target: https://travis-ci.com/shimakaze-git/django-jp-birthday
+
+.. image:: https://img.shields.io/pypi/shimakaze-git/django-jp-birthday.svg
+    :target: https://pypi.python.org/pypi/django-jp-birthday/
+
+.. image:: https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/shimakaze-git/django-jp-birthday
+
+.. image:: https://img.shields.io/github/license/shimakaze-git/django-jp-birthday.svg
+    :target: https://pypi.python.org/pypi/django-jp-birthday/
 
 django-jp-birthday is a helper library to work with birthdays and ages in models.
 
 Authored by `shimakaze_soft <https://github.com/shimakaze-git>`_,  and some great
-`contributors <https://github.com/shimakaze-git/django-jp-birthday/contributors>`_.
 
-.. image:: https://img.shields.io/github/license/bashu/django-birthday.svg
-    :target: https://pypi.python.org/pypi/django-birthday/
+`contributors <https://github.com/shimakaze-git/django-jp-birthday/contributors>`_.
 
 Installation
 ------------
@@ -48,12 +58,13 @@ Or order the user profiles according to their birthday:
 
     ModelsTest.objects.order_by_birthday()
 
-Reference
+Docs
 -------
 
 django-jp-birthday `docs`_
 
-.. _docs: https://django-birthday.readthedocs.io/en/latest/usage.html
+.. _docs: https://github.com/shimakaze-git/django-jp-birthday#usage
+
 
 License
 -------
