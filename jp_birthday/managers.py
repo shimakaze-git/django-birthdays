@@ -83,20 +83,20 @@ class JpBirthdayManager(models.Manager):
     j2w = jeraconv.J2W()
 
     def _check_language(self, string):
-        l_type = ''
+        l_type = ""
         for ch in string:
             name = unicodedata.name(ch)
 
             if "CJK UNIFIED" in name:
-                l_type = 'kanji'
+                l_type = "kanji"
             elif "HIRAGANA" in name:
-                l_type = 'hiragana'
+                l_type = "hiragana"
             elif "KATAKANA" in name:
-                l_type = 'katakana'
+                l_type = "katakana"
             elif "LATIN" in name:
-                l_type = 'english'
+                l_type = "english"
             else:
-                l_type = 'none'
+                l_type = "none"
         return l_type
 
     def get_wareki_birthdays(self, wareki: str):
@@ -110,20 +110,20 @@ class JpBirthdayManager(models.Manager):
 
         data = None
         for key, value in self.j2w._J2W__data_dic.items():
-            reading = value['reading']
+            reading = value["reading"]
 
-            reading_jp = reading['jp']
-            reading_en = reading['en']
+            reading_jp = reading["jp"]
+            reading_en = reading["en"]
 
-            if l_type == 'kanji':
+            if l_type == "kanji":
                 if wareki == key:
                     data = value
-            elif l_type == 'katakana' or l_type == 'hiragana':
+            elif l_type == "katakana" or l_type == "hiragana":
                 wareki = jaconv.kata2hira(wareki)
                 if wareki == reading_jp:
                     data = value
                     break
-            elif l_type == 'english':
+            elif l_type == "english":
                 if wareki == reading_en:
                     data = value
                     break
@@ -131,23 +131,18 @@ class JpBirthdayManager(models.Manager):
                 break
 
         if data:
-            start = data['start']
-            end = data['end']
+            start = data["start"]
+            end = data["end"]
 
-            start_date = str(start['year']) + '-'
-            start_date += str(start['month']) + '-'
-            start_date += str(start['day'])
+            start_date = str(start["year"]) + "-"
+            start_date += str(start["month"]) + "-"
+            start_date += str(start["day"])
 
-            end_date = str(end['year']) + '-'
-            end_date += str(end['month']) + '-'
-            end_date += str(end['day'])
+            end_date = str(end["year"]) + "-"
+            end_date += str(end["month"]) + "-"
+            end_date += str(end["day"])
 
-            range_birthdays = self.filter(
-                birthday__range=[
-                    start_date,
-                    end_date
-                ]
-            )
+            range_birthdays = self.filter(birthday__range=[start_date, end_date])
             return range_birthdays
         return self.filter(birthday=None)
 
@@ -159,7 +154,7 @@ class JpBirthdayManager(models.Manager):
     #     print('self.model._meta', self.model._meta)
     #     print('_meta.fields', self.model._meta.fields)
     #     # print('self.model._meta.birthday_field', self.model._meta.birthday_field.doy_name)
-        
+
     #     # ._meta.fields
 
     #     # return 10

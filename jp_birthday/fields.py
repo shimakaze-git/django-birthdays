@@ -4,7 +4,7 @@ from django.db.models.signals import pre_save
 
 
 def pre_save_listener(instance, **kwargs):
-    print('pre_save_listener instance', instance)
+    print("pre_save_listener instance", instance)
     field_obj = instance._meta.birthday_field
 
     birthday = getattr(instance, field_obj.name)
@@ -18,7 +18,7 @@ class BirthdayField(DateField):
 
     Args:
         DateField ([type]): [description]
-    """    
+    """
 
     # def contribute_to_class(self, cls, name):
     #     if hasattr(cls._meta, "birthday_field"):

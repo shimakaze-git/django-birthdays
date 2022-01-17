@@ -8,6 +8,7 @@ from .fields import BirthdayField
 # from jp_birthday.managers import BirthdayManager
 from .managers import JpBirthdayManager
 
+
 class BaseBirthdayModel(models.Model):
     """[summary]
 
@@ -24,22 +25,18 @@ class BaseBirthdayModel(models.Model):
     def _get_wareki_birthday(self):
         birthday = self.birthday
 
-        era_date = EraDate(
-            birthday.year,
-            birthday.month,
-            birthday.day
-        )
+        era_date = EraDate(birthday.year, birthday.month, birthday.day)
 
         wareki = era_date.strftime("%-A")
         wareki_short = era_date.strftime("%-a")
         wareki_year = int(era_date.strftime("%-o"))
 
         return {
-            'wareki' : wareki,
-            'wareki_short' : wareki_short,
-            'year' : int(wareki_year),
-            'month' : int(birthday.month),
-            'day' : int(birthday.day),
+            "wareki": wareki,
+            "wareki_short": wareki_short,
+            "year": int(wareki_year),
+            "month": int(birthday.month),
+            "day": int(birthday.day),
         }
 
     def get_wareki_birthday(self, dict_type=False):
@@ -49,8 +46,9 @@ class BaseBirthdayModel(models.Model):
             year = str(wareki_birthday["year"])
             month = str(wareki_birthday["month"])
             day = str(wareki_birthday["day"])
-            wareki_birthday = wareki + '-' + year + '-' + month + '-' + day
+            wareki_birthday = wareki + "-" + year + "-" + month + "-" + day
         return wareki_birthday
+
 
 class BirthdayModel(BaseBirthdayModel):
     """[summary]
