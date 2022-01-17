@@ -1,7 +1,8 @@
 from django.db import models
 
 from django.test import TestCase
-from datetime import datetime
+from datetime import datetime, date
+
 
 from tests.models import ModelTest
 
@@ -51,6 +52,12 @@ class InitTest(TestCase):
         for m in wareki_birthdays:
             birthday = str(m.birthday)
             self.assertTrue(birthday in self.heisei)
+
+    def test_get_age(self):
+        model_tests = ModelTest.objects.all()
+        for m in model_tests:
+            age = m.get_age()
+            self.assertTrue("int" in str(type(age)))
 
     @classmethod
     def teardown_class(self):
