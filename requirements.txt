@@ -1,0 +1,6 @@
+tox
+pre-commit
+django-birthday
+japanera
+jeraconv
+jaconv
