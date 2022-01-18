@@ -15,10 +15,11 @@ class InitTest(TestCase):
         print("setup_class")
 
     def setUp(self):
-        self.showa = ["1980-7-7"]
+        self.meiji = ["1905-1-1", "1905-1-2"]
+        self.showa = ["1980-7-7", "1975-1-1"]
         self.heisei = ["2001-01-01", "2000-01-02", "2002-12-31"]
 
-        birthdays = self.showa + self.heisei
+        birthdays = self.meiji + self.showa + self.heisei
         for birthday in birthdays:
             model_test = ModelTest(birthday=birthday)
             model_test.save()
