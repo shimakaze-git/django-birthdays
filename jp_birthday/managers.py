@@ -1,9 +1,10 @@
-from datetime import date
-
 from django.db import models
 from django.db.models.query_utils import Q
 
 from jeraconv import jeraconv
+from math import pow
+from datetime import datetime, date, time, timedelta
+import pytz
 
 import unicodedata
 import jaconv
@@ -161,45 +162,51 @@ class JpBirthdayManager(models.Manager):
     #     # return self.model._meta.birthday_field
     #     return self.model._meta.birthday_field.doy_name
 
-    # def _doy(self, day):
-    #     if not day:
-    #         day = date.today()
-    #     return day.timetuple().tm_yday
+    def get_upcoming_birthdays(
+        self,
+        days=30,
+        after=None,
+        include_day=True,
+        order=True,
+        # reverse=False
+    ):
+        # 今後の誕生日
 
-    # def get_upcoming_birthdays(self, days=30, after=None, include_day=True, order=True, reverse=False):
-    #     print('days', days)
-    #     print('after', after)
+        if after:
+            after = datetime.combine(after, time())
+            after = pytz.timezone('Asia/Tokyo').localize(after)
+        else:
+            after = datetime.now()
 
-    #     today = self._doy(after)
-    #     print('today', today)
+        if include_day:
+            start_date = after.date()
+        else:
+            after = after + timedelta(days=1)
+            start_date = after.date()
 
-    #     limit = today + days
-    #     print('limit', limit)
+        end_date = (after + timedelta(days=days)).date()
 
-    #     q = Q(**{"{}__gt{}".format(self._birthday_doy_field, "e" if include_day else ""): today})
-    #     q &= Q(**{"%s__lt" % self._birthday_doy_field: limit})
+        birthdays = self.filter(
+            birthday__range=[start_date, end_date]
+        )
 
-    #     if limit > 365:
-    #         limit = limit - 365
-    #         today = 1
-    #         q2 = Q(**{"%s__gte" % self._birthday_doy_field: today})
-    #         q2 &= Q(**{"%s__lt" % self._birthday_doy_field: limit})
-    #         q = q | q2
+        if order:
+            birthdays = birthdays.filter().order_by(
+                *('birthday',)
+            )
+        return birthdays
 
-    #     if order:
-    #         qs = _order(self, reverse, True)
-    #         return qs.filter(q)
+    def get_birthdays(self, day=None):
+        today = date.today()
+        if not day:
+            day = today
 
-    #     return self.filter(q)
+        birthdays = self.filter(
+            birthday__month__exact=day.month,
+            birthday__day__exact=day.day,            
+        )
+        return birthdays
 
-    # def get_birthdays(self, day=None):
-    #     print('self._doy(day)', self._doy(day))
-    #     # print('_birthday_doy_field', self._birthday_doy_field)
+    def order_by_birthday(self, reverse=False):
+        pass
 
-    #     return self.filter(**{self._birthday_doy_field: self._doy(day)})
-    #     # return 1
-
-    # #     return self.filter(**{self._birthday_doy_field: self._doy(day)})
-
-    # # def order_by_birthday(self, reverse=False):
-    # #     return _order(self, reverse)
