@@ -9,14 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@master
       # - uses: actions/checkout@v2
-      - name: library installs
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
         run: pip install -r requirements.txt
 
-      - name: tox
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         run: |
           ls -la
           tox
