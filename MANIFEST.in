@@ -1,0 +1,13 @@
+include Makefile
+include CHANGES.md
+include tox.ini
+include MANIFEST.in 
+include AUTHORS.md
+include *.md
+include LICENSE
+include requirements*.txt
+
+graft docs
+
+recursive-include jp_birthday *.py
+recursive-include tests *.py
