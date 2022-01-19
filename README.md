@@ -11,6 +11,7 @@ Authored by `shimakaze_soft <https://github.com/shimakaze-git>`_,  and some grea
 
 `contributors <https://github.com/shimakaze-git/django-jp-birthday/contributors>`_.
 
+
 # Installation
 
 ```Bash
