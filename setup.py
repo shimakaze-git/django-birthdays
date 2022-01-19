@@ -14,7 +14,7 @@ def long_desc(root_path):
 HERE = os.path.abspath(os.path.dirname(__file__))
 long_description = "\n\n".join(long_desc(HERE))
 
-install_requires = ["jeraconv" "jaconv"]
+install_requires = ["jeraconv", "jaconv"]
 
 
 classifiers = [
@@ -55,7 +55,6 @@ setup(
     classifiers=classifiers,
     keywords="birthday era",
     install_requires=install_requires,
-    requires=install_requires,
     package_data=package_data,
     zip_safe=False,
 )
