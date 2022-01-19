@@ -2,8 +2,8 @@
 django-jp-birthdays
 ====================
 
-.. image:: https://img.shields.io/github/languages/repo-size/shimakaze-git/django-jp-birthday
-    :target: https://img.shields.io/github/languages/repo-size/shimakaze-git/django-jp-birthday
+.. image:: https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday
+    :target: https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday
 
 .. image:: https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday
     :target: https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday
