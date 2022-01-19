@@ -10,14 +10,12 @@ jobs:
       - uses: actions/checkout@master
       # - uses: actions/checkout@v2
 
-      - name: Install
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
         run: pip install -r requirements.txt
 
-      - name: Run Test
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         run: |
           ls -la
           tox
@@ -25,8 +23,7 @@ jobs:
       # - run: python -m pipenv sync --dev
       # - run: python -m pipenv run coverage_xml
 
-      - name: upload coverage
-        uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v2
         with:
           name: codecov-umbrella # optional
 
