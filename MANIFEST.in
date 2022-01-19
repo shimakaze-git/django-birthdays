@@ -1,9 +1,8 @@
-include Makefile
 include CHANGES.md
 include tox.ini
 include MANIFEST.in 
 include AUTHORS.md
-include *.md
+include README.md
 include LICENSE
 include requirements*.txt
 
