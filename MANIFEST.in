@@ -1,4 +1,4 @@
-include CHANGES.md
+include CHANGELOG.md
 include tox.ini
 include MANIFEST.in 
 include AUTHORS.md
