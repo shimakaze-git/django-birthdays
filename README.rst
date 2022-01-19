@@ -2,11 +2,11 @@
 django-jp-birthdays
 ====================
 
-.. image:: https://travis-ci.com/shimakaze-git/django-jp-birthday.svg?branch=master
-   :target: https://travis-ci.com/shimakaze-git/django-jp-birthday
+.. image:: https://img.shields.io/github/languages/repo-size/shimakaze-git/django-jp-birthday
+    :target: https://img.shields.io/github/languages/repo-size/shimakaze-git/django-jp-birthday
 
-.. image:: https://img.shields.io/pypi/shimakaze-git/django-jp-birthday.svg
-    :target: https://pypi.python.org/pypi/django-jp-birthday/
+.. image:: https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday
+    :target: https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday
 
 .. image:: https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/shimakaze-git/django-jp-birthday
@@ -70,3 +70,6 @@ License
 -------
 
 ``django-jp-birthday`` is released under the MIT license.
+
+.. image:: https://img.shields.io/pypi/shimakaze-git/django-jp-birthday.svg
+    :target: https://pypi.python.org/pypi/django-jp-birthday/
