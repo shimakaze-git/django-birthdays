@@ -12,8 +12,9 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+      - run: pip install -r requirements.txt
       - run: ls -la
-      - run: pwd
+      - run: tox
         # tox
       # - run: python -m pip install pipenv
       # - run: python -m pipenv sync --dev
