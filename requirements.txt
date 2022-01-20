@@ -1,3 +1,4 @@
+sphinx
 tox
 pre-commit
 django-birthday
