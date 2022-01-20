@@ -6,8 +6,8 @@
 import unittest
 from click.testing import CliRunner
 
-from django_jp_birthday import django_jp_birthday
-from django_jp_birthday import cli
+from jp_birthday import django_jp_birthday
+from jp_birthday import cli
 
 
 class TestDjango_jp_birthday(unittest.TestCase):
