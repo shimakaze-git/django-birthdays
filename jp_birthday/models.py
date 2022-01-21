@@ -1,7 +1,7 @@
 from django.db import models
 
 from jeraconv import jeraconv
-from datetime import datetime, date
+from datetime import date
 
 # from jp_birthday.fields import BirthdayField
 from .fields import BirthdayField
@@ -29,14 +29,14 @@ class BaseBirthdayModel(models.Model):
         birthday = self.birthday
 
         era_date = self.w2j.convert(
-            birthday.year, birthday.month, birthday.day, return_type='dict'
+            birthday.year, birthday.month, birthday.day, return_type="dict"
         )
 
-        era = era_date['era']
-        era_year = era_date['year']
+        era = era_date["era"]
+        era_year = era_date["year"]
 
         reading = self.w2j._W2J__data_dic[era]["reading"]
-        era_en = reading['en']
+        era_en = reading["en"]
         era_en_short = era_en[0]
 
         return {
@@ -62,14 +62,10 @@ class BaseBirthdayModel(models.Model):
 
         Returns:
             [type]: [description]
-        """        
+        """
         today = date.today()
 
-        this_year_birthday = date(
-            today.year,
-            self.birthday.month,
-            self.birthday.day
-        )
+        this_year_birthday = date(today.year, self.birthday.month, self.birthday.day)
 
         age = (today - self.birthday).days
         age = int(age / 365)
@@ -79,6 +75,7 @@ class BaseBirthdayModel(models.Model):
 
         return age
 
+
 class BirthdayModel(BaseBirthdayModel):
     """[summary]
 
@@ -86,7 +83,11 @@ class BirthdayModel(BaseBirthdayModel):
         BaseBirthdayModel ([type]): [description]
     """
 
-    # order = models.PositiveIntegerField(_("order"), editable=False, db_index=True)
+    # order = models.PositiveIntegerField(
+    #     _("order"),
+    #     editable=False,
+    #     db_index=True
+    # )
     # order_field_name = "order"
 
     class Meta:

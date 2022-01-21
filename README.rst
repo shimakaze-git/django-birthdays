@@ -6,9 +6,6 @@ django-jp-birthday
 .. image:: https://img.shields.io/pypi/v/django_jp_birthday.svg
         :target: https://pypi.python.org/pypi/django_jp_birthday
 
-.. image:: https://img.shields.io/travis/shimakaze-git/django_jp_birthday.svg
-        :target: https://travis-ci.com/shimakaze-git/django_jp_birthday
-
 .. image:: https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
         :target: https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
         :alt: Documentation Status

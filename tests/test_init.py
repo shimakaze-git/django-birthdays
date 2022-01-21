@@ -1,7 +1,8 @@
-from django.db import models
+# from django.db import models
 
 from django.test import TestCase
-from datetime import datetime, date
+
+# from datetime import datetime, date
 
 
 from tests.models import ModelTest

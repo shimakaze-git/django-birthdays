@@ -6,7 +6,7 @@
 import unittest
 from click.testing import CliRunner
 
-from jp_birthday import django_jp_birthday
+# from jp_birthday import django_jp_birthday
 from jp_birthday import cli
 
 

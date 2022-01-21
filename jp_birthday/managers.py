@@ -1,8 +1,10 @@
 from django.db import models
-from django.db.models.query_utils import Q
+
+# from django.db.models.query_utils import Q
 
 from jeraconv import jeraconv
-from math import pow
+
+# from math import pow
 from datetime import datetime, date, time, timedelta
 import pytz
 
@@ -42,9 +44,14 @@ import jaconv
 #             day = date.today()
 #         return day.timetuple().tm_yday
 
-#     def get_upcoming_birthdays(
-#         self, days=30, after=None, include_day=True, order=True, reverse=False
-#     ):
+#    def get_upcoming_birthdays(
+#        self,
+#        days=30,
+#        after=None,
+#        include_day=True,
+#        order=True,
+#        reverse=False
+#    ):
 #         today = self._doy(after)
 #         limit = today + days
 #         q = Q(
@@ -154,7 +161,10 @@ class JpBirthdayManager(models.Manager):
 
     #     print('self.model._meta', self.model._meta)
     #     print('_meta.fields', self.model._meta.fields)
-    #     # print('self.model._meta.birthday_field', self.model._meta.birthday_field.doy_name)
+    #     print(
+    #         'self.model._meta.birthday_field',
+    #         self.model._meta.birthday_field.doy_name
+    #     )
 
     #     # ._meta.fields
 
@@ -174,7 +184,7 @@ class JpBirthdayManager(models.Manager):
 
         if after:
             after = datetime.combine(after, time())
-            after = pytz.timezone('Asia/Tokyo').localize(after)
+            after = pytz.timezone("Asia/Tokyo").localize(after)
         else:
             after = datetime.now()
 
@@ -186,14 +196,10 @@ class JpBirthdayManager(models.Manager):
 
         end_date = (after + timedelta(days=days)).date()
 
-        birthdays = self.filter(
-            birthday__range=[start_date, end_date]
-        )
+        birthdays = self.filter(birthday__range=[start_date, end_date])
 
         if order:
-            birthdays = birthdays.filter().order_by(
-                *('birthday',)
-            )
+            birthdays = birthdays.filter().order_by(*("birthday",))
         return birthdays
 
     def get_birthdays(self, day=None):
@@ -203,10 +209,9 @@ class JpBirthdayManager(models.Manager):
 
         birthdays = self.filter(
             birthday__month__exact=day.month,
-            birthday__day__exact=day.day,            
+            birthday__day__exact=day.day,
         )
         return birthdays
 
     def order_by_birthday(self, reverse=False):
         pass
-

@@ -63,8 +63,8 @@ setup(
             # "django_jp_birthday.*"
         ]
     ),
-    test_suite="tests",
-    tests_require=test_requirements,
+    # test_suite="tests",
+    # tests_require=test_requirements,
     url="https://github.com/shimakaze-git/django-jp-birthday",
     version="0.1.0",
     zip_safe=False,
