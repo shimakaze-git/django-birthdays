@@ -25,6 +25,30 @@ class BaseBirthdayModel(models.Model):
     class Meta:
         abstract = True
 
+    @property
+    def birthday_month(self):
+        return self.birthday.timetuple().tm_mon
+
+    @property
+    def birthday_day(self):
+        return self.birthday.timetuple().tm_mday
+
+    @property
+    def birthday_month_day(self):
+        month = self.birthday.timetuple().tm_mon
+        if 10 > month:
+            month = "0" + str(month)
+
+        day = self.birthday.timetuple().tm_mday
+        if 10 > day:
+            day = "0" + str(day)
+
+        return str(month) + "-" + str(day)
+
+    @property
+    def birthday_tm_yday(self):
+        return self.birthday.timetuple().tm_yday
+
     def _get_wareki_birthday(self) -> dict:
         birthday = self.birthday
 

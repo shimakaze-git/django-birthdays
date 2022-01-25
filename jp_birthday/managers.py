@@ -89,31 +89,12 @@ class JpBirthdayManager(models.Manager):
         return self.filter(birthday=None)
 
     def get_upcoming_birthdays(
-        self,
-        days=30,
-        after=None,
-        include_day=True,
-        order=True,
-        # reverse=False
+        self, days=30, after=None, include_day=True, order=True, reverse=False
     ):
         # 今後の誕生日
 
-        # birthdays = self.filter(birthday__range=[start_date, end_date])
-
-        # birthdays = self.extra(
-        #     where=["DATE_FORMAT(birthday, '%Y-%m-%d') = %s"],
-        #     params=['2000-01-01']
-        # )
-
-        # print("birthdays", birthdays)
-
-        # print("days", days)
-        # print("after", after)
-        all = self.all()
-
-        all_list = []
-        # all_list = [b.birthday for b in all]
-        print("all", all)
+        birthdays = self.filter()
+        birthdays_list = [b.birthday_tm_yday for b in birthdays]
 
         if after:
             after = datetime.combine(after, time())
@@ -121,26 +102,40 @@ class JpBirthdayManager(models.Manager):
         else:
             after = datetime.now()
 
-        if include_day:
-            start_date = after.date()
-        else:
+        days += 1
+        if not include_day:
             after = after + timedelta(days=1)
-            start_date = after.date()
-        end_date = (after + timedelta(days=days)).date()
+            days -= 1
 
-        # print("start_date", start_date)
-        # print("end_date", end_date)
+        after_list = [
+            (after + timedelta(days=i)).date().timetuple().tm_yday for i in range(days)
+        ]
 
-        birthdays = self.filter(birthday__range=[start_date, end_date])
+        idx_list = []
+        for a_t in after_list:
+            if birthdays_list.count(None) == len(birthdays_list):
+                break
 
+            for _ in birthdays_list:
+                if a_t in birthdays_list:
+                    n = birthdays_list.index(a_t)
+                    # print("n", n, a_t, birthdays_list[n])
+                    birthdays_list[n] = None
+                    idx_list.append(n)
+
+        pk_list = [birthdays[idx].pk for idx in idx_list]
+
+        birthdays = birthdays.filter(pk__in=pk_list)
         if order:
-            birthdays = birthdays.filter().order_by(*("birthday",))
+            birthdays = birthdays.order_by(*("birthday",))
+
+        if reverse:
+            birthdays = birthdays.reverse()
         return birthdays
 
     def get_birthdays(self, day=None):
-        today = date.today()
         if not day:
-            day = today
+            day = date.today()
 
         birthdays = self.filter(
             birthday__month__exact=day.month,
