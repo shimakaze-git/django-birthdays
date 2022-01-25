@@ -97,16 +97,25 @@ class InitTest(TestCase):
         # self.assertEqual(doys, [365, 1, 2])
         # doys = [
         #     getattr(obj, "birthday_dayofyear_internal")
-        #     for obj in TestModel.objects.get_upcoming_birthdays(30, dec31, reverse=True)
+        #     for obj in TestModel.objects.get_upcoming_birthdays(
+        #         30, dec31, reverse=True
+        #     )
         # ]
         # self.assertEqual(doys, [2, 1, 365])
         # doys = [
         #     getattr(obj, "birthday_dayofyear_internal")
-        #     for obj in TestModel.objects.get_upcoming_birthdays(30, dec31, order=False)
+        #     for obj in TestModel.objects.get_upcoming_birthdays(
+        #         30, dec31, order=False
+        #     )
         # ]
         # self.assertEqual(doys, [1, 2, 365])
 
-        # self.assertEqual(TestModel.objects.get_upcoming_birthdays(30, dec31, False).count(), 2)
+        # self.assertEqual(
+        #     TestModel.objects.get_upcoming_birthdays(
+        #         30, dec31, False
+        #     ).count(),
+        #     2
+        # )
         # self.assertTrue(TestModel.objects.get_birthdays().count() in [0, 1])
 
     @classmethod

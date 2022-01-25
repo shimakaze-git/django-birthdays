@@ -8,14 +8,14 @@ from jp_birthday.fields import BirthdayField as BirthdayFieldHoge
 from jp_birthday.managers import JpBirthdayManager
 
 
-class TestModel(models.Model):
-    __test__ = False
+# class TestModel(models.Model):
+#     __test__ = False
 
-    birthday = BirthdayField()
-    objects = BirthdayManager()
+#     birthday = BirthdayField()
+#     objects = BirthdayManager()
 
-    class Meta:
-        ordering = ("pk",)
+#     class Meta:
+#         ordering = ("pk",)
 
 
 # class TestHogeModel(BirthdayModel):
