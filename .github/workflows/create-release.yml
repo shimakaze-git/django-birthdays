@@ -27,7 +27,7 @@ jobs:
           ls -la
           pwd
           python --version
-          python setup.py
+          python setup.py --version
 
         # run: |
         #   VERSION=`python setup.py --version`
