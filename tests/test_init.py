@@ -32,7 +32,7 @@ class BirthdayTest(TestCase):
         pks1 = [obj.pk for obj in ModelTest.objects.order_by("birthday")]
         pks2 = [obj.pk for obj in ModelTest.objects.order_by_birthday(True)]
 
-        # self.assertNotEqual(pks1, pks2)
+        self.assertNotEqual(pks1, pks2)
 
         # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday()]
         # self.assertEqual(doys, [1, 2, 365])
