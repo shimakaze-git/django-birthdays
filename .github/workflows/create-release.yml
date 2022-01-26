@@ -28,6 +28,8 @@ jobs:
           pwd
           python --version
           python setup.py --version
+          VERSION=`python setup.py --version`
+          echo $VERSION
 
         # run: |
         #   VERSION=`python setup.py --version`
