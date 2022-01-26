@@ -31,6 +31,11 @@ jobs:
           ruby-version: 3.0
 
       - name: Create a release pull request
+        run: |
+          gem install -N git-pr-release -v "1.2.0"
+          git-pr-release
+        # run: git-pr-release --no-fetch
+        # echo ${{ secrets.GITHUB_TOKEN }}
         env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
@@ -44,12 +49,6 @@ jobs:
           # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
           GIT_PR_RELEASE_BRANCH_STAGING: develop
           GIT_PR_RELEASE_LABELS: release
-        run: gem install -N git-pr-release -v "1.2.0"
-        run: git-pr-release
-        # run: git-pr-release --no-fetch
-        # echo ${{ secrets.GITHUB_TOKEN }}
-
-          
 
         # env:
         #   GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
