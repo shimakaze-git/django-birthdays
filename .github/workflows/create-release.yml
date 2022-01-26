@@ -28,7 +28,8 @@ jobs:
           pwd
           python --version
           python setup.py --version
-          VERSION=`python setup.py --version`
+          echo VERSION=`python setup.py --version`
+          echo VERSION=`python setup.py --version` >> $GITHUB_ENV
           echo $VERSION
           export VERSION
 
@@ -40,4 +41,4 @@ jobs:
       - name: Create a release pull request
         # uses: bakunyo/git-pr-release-action@master
         run: |
-          env
+          echo "The HOGE is ${{ env.VERSION }}"
