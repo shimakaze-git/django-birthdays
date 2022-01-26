@@ -31,9 +31,16 @@ class BirthdayTest(TestCase):
 
         self.assertNotEqual(pks1, pks2)
 
-        # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday()]
+        # doys = [
+        #     getattr(obj, "birthday_dayofyear_internal")
+        #     for obj in ModelTest.objects.order_by_birthday()
+        # ]
         # self.assertEqual(doys, [1, 2, 365])
-        # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday(True)]
+
+        # doys = [
+        #     getattr(obj, "birthday_dayofyear_internal")
+        #     for obj in ModelTest.objects.order_by_birthday(True)
+        # ]
         # self.assertEqual(doys, [365, 2, 1])
 
         years = [obj.birthday.year for obj in ModelTest.objects.order_by("birthday")]
@@ -56,17 +63,23 @@ class BirthdayTest(TestCase):
         self.assertEqual(ModelTest.objects.get_upcoming_birthdays(30, dec31).count(), 3)
 
         # doys = [
-        #     getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.get_upcoming_birthdays(30, dec31)
+        #     getattr(obj, "birthday_dayofyear_internal")
+        #     for obj in ModelTest.objects.get_upcoming_birthdays(30, dec31)
         # ]
         # self.assertEqual(doys, [365, 1, 2])
         # doys = [
         #     getattr(obj, "birthday_dayofyear_internal")
-        #     for obj in ModelTest.objects.get_upcoming_birthdays(30, dec31, reverse=True)
+        #     for obj in ModelTest.objects.get_upcoming_birthdays(
+        #         30, dec31, reverse=True
+        #     )
         # ]
         # self.assertEqual(doys, [2, 1, 365])
+
         # doys = [
         #     getattr(obj, "birthday_dayofyear_internal")
-        #     for obj in ModelTest.objects.get_upcoming_birthdays(30, dec31, order=False)
+        #     for obj in ModelTest.objects.get_upcoming_birthdays(
+        #         30, dec31, order=False
+        #     )
         # ]
         # self.assertEqual(doys, [1, 2, 365])
 

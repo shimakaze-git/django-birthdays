@@ -1,8 +1,4 @@
-from django.db import models
-
 from django.test import TestCase
-from datetime import datetime, date
-
 
 from tests.models import ModelTest
 
@@ -30,9 +26,16 @@ class InitTest(TestCase):
 
         self.assertNotEqual(pks1, pks2)
 
-        # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday()]
+        # doys = [
+        #     getattr(obj, "birthday_dayofyear_internal")
+        #     for obj in ModelTest.objects.order_by_birthday()
+        # ]
         # self.assertEqual(doys, [1, 2, 365])
-        # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday(True)]
+
+        # doys = [
+        #     getattr(obj, "birthday_dayofyear_internal")
+        #     for obj in ModelTest.objects.order_by_birthday(True)
+        # ]
         # self.assertEqual(doys, [365, 2, 1])
 
         years = [obj.birthday.year for obj in ModelTest.objects.order_by("birthday")]

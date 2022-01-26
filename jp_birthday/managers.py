@@ -9,7 +9,6 @@ from jeraconv import jeraconv
 from datetime import datetime, date, time, timedelta
 import pytz
 
-import itertools
 import unicodedata
 import jaconv
 
