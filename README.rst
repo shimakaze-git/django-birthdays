@@ -1,54 +1,28 @@
 django-jp-birthday
 ==================
 
-.. figure:: https://img.shields.io/pypi/v/django_jp_birthday.svg
-   :alt: https://pypi.python.org/pypi/django_jp_birthday
-
-   https://pypi.python.org/pypi/django_jp_birthday
-
-.. figure:: https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
-   :alt: https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
-
-   https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
-
-.. figure:: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
-   :alt: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/
-
-   https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/
-
+|https://pypi.python.org/pypi/django_jp_birthday|
+|https://django-jp-birthday.readthedocs.io/en/latest/?version=latest|
+|https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/|
 |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday|
 |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday|
 |https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg|
 |https://img.shields.io/github/license/shimakaze-git/django-jp-birthday.svg|
 
-Django model for Japanese birthday.
+django-jp-birthday is a django’s model for use Japanese birthdays and
+ages.
 
--  Free software: MIT license
--  Documentation: https://django-jp-birthday.readthedocs.io.
+Based library is https://github.com/bashu/django-birthday .
+
+Authored by `shimakaze_soft <https://github.com/shimakaze-git>`__ and
+some great
+
+`contributors <https://github.com/shimakaze-git/django-jp-birthday/CONTRIBUTING.rst>`__
 
 Features
 ========
 
 -  TODO
-
-Credits
-=======
-
-This package was created with
-`Cookiecutter <https://github.com/audreyr/cookiecutter>`__ and the
-`audreyr/cookiecutter-pypackage <https://github.com/audreyr/cookiecutter-pypackage>`__
-project template.
-
-Main
-====
-
-django-jp-birthday is a helper library to work with birthdays and ages
-in models.
-
-Authored by ``shimakaze_soft <https://github.com/shimakaze-git>``\ \_,
-and some great
-
-``contributors <https://github.com/shimakaze-git/django-jp-birthday/contributors>``\ \_.
 
 Installation
 ============
@@ -92,14 +66,16 @@ Or order the user profiles according to their birthday:
 Docs
 ====
 
-django-jp-birthday
-```docs`` <https://github.com/shimakaze-git/django-jp-birthday#usage>`__
+-  Documentation: https://django-jp-birthday.readthedocs.io.
 
 License
 =======
 
 ``django-jp-birthday`` is released under the MIT license.
 
+.. |https://pypi.python.org/pypi/django_jp_birthday| image:: https://img.shields.io/pypi/v/django_jp_birthday.svg
+.. |https://django-jp-birthday.readthedocs.io/en/latest/?version=latest| image:: https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
+.. |https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/| image:: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
 .. |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday| image:: https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday
 .. |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday| image:: https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday
 .. |https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg| image:: https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg
