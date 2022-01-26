@@ -3,11 +3,8 @@ from django.db import models
 from jeraconv import jeraconv
 from datetime import date
 
-# from jp_birthday.fields import BirthdayField
-from .fields import BirthdayField
-
-# from jp_birthday.managers import BirthdayManager
-from .managers import JpBirthdayManager
+from jp_birthday.fields import BirthdayField
+from jp_birthday.managers import JpBirthdayManager
 
 
 class BaseBirthdayModel(models.Model):
@@ -106,13 +103,6 @@ class BirthdayModel(BaseBirthdayModel):
     Args:
         BaseBirthdayModel ([type]): [description]
     """
-
-    # order = models.PositiveIntegerField(
-    #     _("order"),
-    #     editable=False,
-    #     db_index=True
-    # )
-    # order_field_name = "order"
 
     class Meta:
         abstract = True

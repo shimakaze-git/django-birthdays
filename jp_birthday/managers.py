@@ -9,11 +9,9 @@ from jeraconv import jeraconv
 from datetime import datetime, date, time, timedelta
 import pytz
 
+import itertools
 import unicodedata
 import jaconv
-
-# J2W
-# # from .fields import BirthdayField
 
 
 class JpBirthdayManager(models.Manager):
@@ -156,10 +154,10 @@ class JpBirthdayManager(models.Manager):
 
         birthdays_ids = []
         for i in range(1, 13):
-            birthdays_month = self.filter(
-                birthday__month__exact=i,
-            ).order_by(*("birthday",))
-            birthdays_ids += [b.pk for b in birthdays_month]
+            birthdays_ids += [
+                b.pk
+                for b in self.filter(birthday__month__exact=i).order_by(*("birthday",))
+            ]
 
         cases = [When(id=id, then=pos) for pos, id in enumerate(birthdays_ids)]
         order = Case(*cases)

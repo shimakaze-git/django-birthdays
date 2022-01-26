@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date, datetime
-from django.core.exceptions import FieldError
 
-# from django.db import models
+# from django.core.exceptions import FieldError
+
 from django.conf import settings
 from django.db import connection
 from django.test import TestCase
 
-# from birthday.fields import BirthdayField
-# from birthday.managers import BirthdayManager
-
-from .models import ModelTest
+from tests.models import ModelTest
 
 
 class BirthdayTest(TestCase):
@@ -43,7 +40,7 @@ class BirthdayTest(TestCase):
         self.assertEqual(years, [2000, 2001, 2002])
 
     def test_manager(self):
-        settings.DEBUG = True
+        # settings.DEBUG = True
 
         jan1 = date(year=2010, month=1, day=1)
         # jan1 = date(year=2010, month=12, day=30)
