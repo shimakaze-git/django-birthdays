@@ -11,10 +11,10 @@ django-jp-birthday
 
    https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
 
-.. figure:: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/
-   :alt: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
+.. figure:: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
+   :alt: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/
 
-   https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
+   https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/
 
 |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday|
 |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday|
