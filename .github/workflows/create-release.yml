@@ -23,19 +23,18 @@ jobs:
         uses: actions/setup-python@v2
 
       - name: get-py-package-version
-        run: |
-          echo VERSION=`python setup.py --version` >> $GITHUB_ENV
-
-        # run: |
-        #   VERSION=`python setup.py --version`
-        #   export $VERSION
-        #   env|grep VERSION
+        run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
 
       - name: Create a release pull request
         uses: bakunyo/git-pr-release-action@master
-        run: |
-          echo "${{ env.VERSION }}"
-          echo ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: release-${{ env.VERSION }}
+          GIT_PR_RELEASE_BRANCH_STAGING: master
+          GIT_PR_RELEASE_LABELS: release
+          PACKAGE_VERSION: v${{ env.VERSION }}
+          GIT_PR_RELEASE_TEMPLATE: .github/.git-pr-release-template
+
         # env:
         #   GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         #   GIT_PR_RELEASE_BRANCH_PRODUCTION: master
