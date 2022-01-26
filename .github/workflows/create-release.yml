@@ -1,0 +1,14 @@
+name: deploy
+on:
+  pull_request:
+    branches:
+      - master
+    types: [closed]
+
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
