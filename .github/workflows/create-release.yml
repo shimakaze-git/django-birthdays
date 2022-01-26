@@ -30,7 +30,7 @@ jobs:
           python setup.py --version
           VERSION=`python setup.py --version`
           echo $VERSION
-          export $VERSION
+          export VERSION
 
         # run: |
         #   VERSION=`python setup.py --version`
