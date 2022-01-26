@@ -32,13 +32,18 @@ jobs:
 
       - name: Create a release pull request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_PR_RELEASE_BRANCH_PRODUCTION: master
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
           # GIT_PR_RELEASE_BRANCH_PRODUCTION: release-${{ env.VERSION }}
-          GIT_PR_RELEASE_BRANCH_STAGING: develop
+          # GIT_PR_RELEASE_BRANCH_STAGING: develop
           # GIT_PR_RELEASE_LABELS: release
           # PACKAGE_VERSION: v${{ env.VERSION }}
           # GIT_PR_RELEASE_TEMPLATE: .github/.git-pr-release-template
+
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: master
+          GIT_PR_RELEASE_BRANCH_STAGING: develop
+          GIT_PR_RELEASE_LABELS: release
         run: |
           echo ${{ secrets.GITHUB_TOKEN }}
           gem install -N git-pr-release -v "1.2.0"
