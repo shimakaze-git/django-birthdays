@@ -26,7 +26,9 @@ jobs:
         run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
 
       - name: Create a release pull request
-        uses: bakunyo/git-pr-release-action@master
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.x
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: master
@@ -35,8 +37,10 @@ jobs:
           # GIT_PR_RELEASE_LABELS: release
           # PACKAGE_VERSION: v${{ env.VERSION }}
           # GIT_PR_RELEASE_TEMPLATE: .github/.git-pr-release-template
-        # run: |
-        #   echo ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }}
+          gem install -N git-pr-release -v "1.2.0"
+          git-pr-release --no-fetch
 
         # env:
         #   GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
