@@ -1,14 +1,31 @@
-name: deploy
+name: Create Release
+
 on:
   pull_request:
     branches:
       - master
     types: [closed]
+  push:
+    branches:
+      - develop
+      - master
 
 jobs:
   create-release-pr:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: get-py-package-version
+        run: |
+          VERSION=`python setup.py --version`
+          export $VERSION
+          env|grep VERSION
+
+      - name: Create a release pull request
+        uses: bakunyo/git-pr-release-action@master
+        run: |
+          env|grep VERSION
