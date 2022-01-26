@@ -1,6 +1,6 @@
 # django-jp-birthday
 
-![https://img.shields.io/pypi/v/django_jp_birthday.svg](https://img.shields.io/pypi/v/django_jp_birthday.svg)
+![https://pypi.python.org/pypi/django_jp_birthday](https://img.shields.io/pypi/v/django_jp_birthday.svg)
 
 ![https://img.shields.io/pypi/v/django_jp_birthday.svg](https://pypi.python.org/pypi/django_jp_birthday)
 

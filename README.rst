@@ -2,9 +2,9 @@ django-jp-birthday
 ==================
 
 .. figure:: https://img.shields.io/pypi/v/django_jp_birthday.svg
-   :alt: https://img.shields.io/pypi/v/django_jp_birthday.svg
+   :alt: https://pypi.python.org/pypi/django_jp_birthday
 
-   https://img.shields.io/pypi/v/django_jp_birthday.svg
+   https://pypi.python.org/pypi/django_jp_birthday
 
 .. figure:: https://pypi.python.org/pypi/django_jp_birthday
    :alt: https://img.shields.io/pypi/v/django_jp_birthday.svg
