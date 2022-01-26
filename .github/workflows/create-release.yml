@@ -25,10 +25,12 @@ jobs:
       - name: get-py-package-version
         run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
 
-      - name: Create a release pull request
+      - name: Set up Ruby 2.6
         uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.6.x
+
+      - name: Create a release pull request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: master
