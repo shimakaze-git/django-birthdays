@@ -27,6 +27,7 @@ jobs:
           ls -la
           pwd
           python --version
+          python setup.py
 
         # run: |
         #   VERSION=`python setup.py --version`
@@ -36,4 +37,4 @@ jobs:
       - name: Create a release pull request
         # uses: bakunyo/git-pr-release-action@master
         run: |
-          env|grep VERSION
+          env
