@@ -16,10 +16,11 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
-        # with:
-        #   fetch-depth: 0
+        with:
+          fetch-depth: 0
 
       - name: get-py-package-version
+        uses: actions/setup-python@v2
         run: |
           VERSION=`python setup.py --version`
           export $VERSION
