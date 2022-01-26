@@ -19,14 +19,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: get-py-package-version
+      - name: Set up Python
         uses: actions/setup-python@v2
+
+      - name: get-py-package-version
         run: |
           VERSION=`python setup.py --version`
           export $VERSION
           env|grep VERSION
 
-      - name: Create a release pull request
-        uses: bakunyo/git-pr-release-action@master
-        run: |
-          env|grep VERSION
+      # - name: Create a release pull request
+      #   uses: bakunyo/git-pr-release-action@master
+      #   run: |
+      #     env|grep VERSION
