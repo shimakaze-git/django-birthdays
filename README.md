@@ -2,9 +2,7 @@
 
 ![https://pypi.python.org/pypi/django_jp_birthday](https://img.shields.io/pypi/v/django_jp_birthday.svg)
 
-![https://img.shields.io/pypi/v/django_jp_birthday.svg](https://pypi.python.org/pypi/django_jp_birthday)
-
-![https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest](https://django-jp-birthday.readthedocs.io/en/latest/?version=latest)
+![https://django-jp-birthday.readthedocs.io/en/latest/?version=latest](https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest)
 
 ![https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg](https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/)
 

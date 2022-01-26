@@ -6,15 +6,10 @@ django-jp-birthday
 
    https://pypi.python.org/pypi/django_jp_birthday
 
-.. figure:: https://pypi.python.org/pypi/django_jp_birthday
-   :alt: https://img.shields.io/pypi/v/django_jp_birthday.svg
+.. figure:: https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
+   :alt: https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
 
-   https://img.shields.io/pypi/v/django_jp_birthday.svg
-
-.. figure:: https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
-   :alt: https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
-
-   https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
+   https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
 
 .. figure:: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/
    :alt: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
