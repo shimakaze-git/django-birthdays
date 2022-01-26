@@ -1,16 +1,24 @@
 # django-jp-birthday
 
+![https://pypi.python.org/pypi/django_jp_birthday](https://img.shields.io/pypi/v/django_jp_birthday.svg)
+![https://django-jp-birthday.readthedocs.io/en/latest/?version=latest](https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest)
+![https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/](https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg)
 ![https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday](https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday)
 ![https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday](https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday)
 ![https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg](https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg)
 ![https://img.shields.io/github/license/shimakaze-git/django-jp-birthday.svg](https://img.shields.io/github/license/shimakaze-git/django-jp-birthday.svg)
 
-django-jp-birthday is a helper library to work with birthdays and ages in models.
+django-jp-birthday is a django's model for use Japanese birthdays and ages.
 
-Authored by `shimakaze_soft <https://github.com/shimakaze-git>`_,  and some great
+Based library is [https://github.com/bashu/django-birthday](https://github.com/bashu/django-birthday) .
 
-`contributors <https://github.com/shimakaze-git/django-jp-birthday/contributors>`_.
+Authored by [shimakaze_soft](https://github.com/shimakaze-git) and some great
 
+[contributors](https://github.com/shimakaze-git/django-jp-birthday/CONTRIBUTING.rst)
+
+# Features
+
+- TODO
 
 # Installation
 
@@ -18,7 +26,6 @@ Authored by `shimakaze_soft <https://github.com/shimakaze-git>`_,  and some grea
 $ pip install django-jp-birthday
 $ python steup.py install
 ```
-
 
 # Usage
 
@@ -52,7 +59,7 @@ ModelsTest.objects.order_by_birthday()
 
 # Docs
 
-django-jp-birthday [`docs`](https://github.com/shimakaze-git/django-jp-birthday#usage)
+- Documentation: https://django-jp-birthday.readthedocs.io.
 
 # License
 

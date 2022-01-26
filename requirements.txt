@@ -1,6 +1,8 @@
-sphinx
-tox
-pre-commit
-django-birthday
-jeraconv
-jaconv
+# sphinx
+# tox
+# pre-commit
+# django-birthday
+# jeraconv
+# jaconv
+
+# Django==3.0.11

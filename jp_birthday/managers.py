@@ -1,77 +1,17 @@
 from django.db import models
-from django.db.models.query_utils import Q
+from django.db.models import Case, When
+
+# from django.db.models.query_utils import Q
 
 from jeraconv import jeraconv
-from math import pow
+
+# from math import pow
 from datetime import datetime, date, time, timedelta
 import pytz
 
+import itertools
 import unicodedata
 import jaconv
-
-# J2W
-# # from .fields import BirthdayField
-
-
-# CASE = "CASE WHEN %(bdoy)s<%(cdoy)s THEN %(bdoy)s+365 ELSE %(bdoy)s END"
-
-
-# def _order(manager, reverse=False, case=False):
-#     cdoy = date.today().timetuple().tm_yday
-#     bdoy = manager._birthday_doy_field
-#     doys = {'cdoy': cdoy, 'bdoy': bdoy}
-#     if case:
-#         qs = manager.extra(select={'internal_bday_order': CASE % doys})
-#         order_field = 'internal_bday_order'
-#     else:
-#         qs = manager.all()
-#         order_field = bdoy
-#     if reverse:
-#         return qs.order_by('-%s' % order_field)
-#     return qs.order_by('%s' % order_field)
-
-
-# class BirthdayManager(models.Manager):
-
-#     @property
-#     def _birthday_doy_field(self):
-#         return self.model._meta.birthday_field.doy_name
-
-#     def _doy(self, day):
-#         if not day:
-#             day = date.today()
-#         return day.timetuple().tm_yday
-
-#     def get_upcoming_birthdays(
-#         self, days=30, after=None, include_day=True, order=True, reverse=False
-#     ):
-#         today = self._doy(after)
-#         limit = today + days
-#         q = Q(
-#             **{'%s__gt%s' % (
-#                 self._birthday_doy_field, 'e' if include_day else ''
-#             ): today}
-#         )
-#         q &= Q(**{'%s__lt' % self._birthday_doy_field: limit})
-
-#         if limit > 365:
-#             limit = limit - 365
-#             today = 1
-#             q2 = Q(**{'%s__gte' % self._birthday_doy_field: today})
-#             q2 &= Q(**{'%s__lt' % self._birthday_doy_field: limit})
-#             q = q | q2
-
-#         if order:
-#             qs = _order(self, reverse, True)
-#             return qs.filter(q)
-
-#         return self.filter(q)
-
-#     def get_birthdays(self, day=None):
-#         return self.filter(**{self._birthday_doy_field: self._doy(day)})
-
-#     def order_by_birthday(self, reverse=False):
-#         return _order(self, reverse)
 
 
 class JpBirthdayManager(models.Manager):
@@ -147,66 +87,83 @@ class JpBirthdayManager(models.Manager):
             return range_birthdays
         return self.filter(birthday=None)
 
-    # @property
-    # def _birthday_doy_field(self):
-    #     # return 20
-    #     # return self.model._meta.birthday_field.doy_name
-
-    #     print('self.model._meta', self.model._meta)
-    #     print('_meta.fields', self.model._meta.fields)
-    #     # print('self.model._meta.birthday_field', self.model._meta.birthday_field.doy_name)
-
-    #     # ._meta.fields
-
-    #     # return 10
-    #     # return self.model._meta.birthday_field
-    #     return self.model._meta.birthday_field.doy_name
-
     def get_upcoming_birthdays(
-        self,
-        days=30,
-        after=None,
-        include_day=True,
-        order=True,
-        # reverse=False
+        self, days=30, after=None, include_day=True, order=True, reverse=False
     ):
         # 今後の誕生日
 
+        birthdays = self.filter()
+        birthdays_list = [b.birthday_tm_yday for b in birthdays]
+
         if after:
             after = datetime.combine(after, time())
-            after = pytz.timezone('Asia/Tokyo').localize(after)
+            after = pytz.timezone("Asia/Tokyo").localize(after)
         else:
             after = datetime.now()
 
-        if include_day:
-            start_date = after.date()
-        else:
+        days += 1
+        if not include_day:
             after = after + timedelta(days=1)
-            start_date = after.date()
+            days -= 1
 
-        end_date = (after + timedelta(days=days)).date()
+        after_list = [
+            (after + timedelta(days=i)).date().timetuple().tm_yday for i in range(days)
+        ]
 
-        birthdays = self.filter(
-            birthday__range=[start_date, end_date]
-        )
+        idx_list = []
+        for a_t in after_list:
+            if birthdays_list.count(None) == len(birthdays_list):
+                break
 
+            for _ in birthdays_list:
+                if a_t in birthdays_list:
+                    n = birthdays_list.index(a_t)
+                    # print("n", n, a_t, birthdays_list[n])
+                    birthdays_list[n] = None
+                    idx_list.append(n)
+
+        pk_list = [birthdays[idx].pk for idx in idx_list]
+
+        birthdays = birthdays.filter(pk__in=pk_list)
         if order:
-            birthdays = birthdays.filter().order_by(
-                *('birthday',)
-            )
+            birthdays = birthdays.order_by(*("birthday",))
+
+        if reverse:
+            birthdays = birthdays.reverse()
         return birthdays
 
     def get_birthdays(self, day=None):
-        today = date.today()
         if not day:
-            day = today
+            day = date.today()
 
         birthdays = self.filter(
             birthday__month__exact=day.month,
-            birthday__day__exact=day.day,            
+            birthday__day__exact=day.day,
         )
         return birthdays
 
     def order_by_birthday(self, reverse=False):
-        pass
+        """[summary]
 
+        Args:
+            reverse (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            [type]: [description]
+        """
+
+        birthdays_ids = []
+        for i in range(1, 13):
+            birthdays_ids += [
+                b.pk
+                for b in self.filter(birthday__month__exact=i).order_by(*("birthday",))
+            ]
+
+        cases = [When(id=id, then=pos) for pos, id in enumerate(birthdays_ids)]
+        order = Case(*cases)
+
+        birthdays = self.filter(id__in=birthdays_ids).order_by(order)
+
+        if reverse:
+            birthdays = birthdays.reverse()
+        return birthdays
