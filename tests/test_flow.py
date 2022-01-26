@@ -13,35 +13,7 @@ from .models import ModelTest
 
 
 class BirthdayTest(TestCase):
-    @classmethod
-    # def setup_class(self):
-    #     """テストclass実行の前処理"""
-
-    #     print("setup_class")
-
-    #     settings.DEBUG = True
-    #     import logging
-
-    #     l = logging.getLogger('django.db.backends')
-    #     l.setLevel(logging.DEBUG)
-    #     l.addHandler(logging.StreamHandler())
-
-    # @staticmethod
-    # def setUpClass():
-    #     settings.DEBUG = True
-    #     import logging
-    #     l = logging.getLogger('django.db.backends')
-    #     l.setLevel(logging.DEBUG)
-    #     l.addHandler(logging.StreamHandler())
-
     def setUp(self):
-        # settings.DEBUG = True
-        # import logging
-
-        # l = logging.getLogger('django.db.backends')
-        # l.setLevel(logging.DEBUG)
-        # l.addHandler(logging.StreamHandler())
-
         self.birthdays = ["2001-01-01", "2000-01-02", "2002-12-31"]
         for birthday in self.birthdays:
             ModelTest.objects.create(
@@ -59,6 +31,11 @@ class BirthdayTest(TestCase):
         pks2 = [obj.pk for obj in ModelTest.objects.order_by_birthday(True)]
 
         self.assertNotEqual(pks1, pks2)
+
+        # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday()]
+        # self.assertEqual(doys, [1, 2, 365])
+        # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday(True)]
+        # self.assertEqual(doys, [365, 2, 1])
 
         years = [obj.birthday.year for obj in ModelTest.objects.order_by("birthday")]
         self.assertEqual(years, [2000, 2001, 2002])
