@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Case, When
 
 # from django.db.models.query_utils import Q
 
@@ -153,7 +154,18 @@ class JpBirthdayManager(models.Manager):
             [type]: [description]
         """
 
-        birthdays = self.filter().order_by(*("birthday",))
+        birthdays_ids = []
+        for i in range(1, 13):
+            birthdays_month = self.filter(
+                birthday__month__exact=i,
+            ).order_by(*("birthday",))
+            birthdays_ids += [b.pk for b in birthdays_month]
+
+        cases = [When(id=id, then=pos) for pos, id in enumerate(birthdays_ids)]
+        order = Case(*cases)
+
+        birthdays = self.filter(id__in=birthdays_ids).order_by(order)
+
         if reverse:
             birthdays = birthdays.reverse()
         return birthdays

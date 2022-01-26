@@ -1,65 +1,90 @@
-# from django.db import models
+# -*- coding: utf-8 -*-
 
+from datetime import date, datetime
+from django.core.exceptions import FieldError
+
+# from django.db import models
+from django.conf import settings
+from django.db import connection
 from django.test import TestCase
 
-# from datetime import datetime, date
+# from birthday.fields import BirthdayField
+# from birthday.managers import BirthdayManager
+
+from .models import ModelTest
 
 
-from tests.models import ModelTest
-
-
-class InitTest(TestCase):
-    @classmethod
-    def setup_class(self):
-        """テストclass実行の前処理"""
-
-        print("setup_class")
-
+class BirthdayTest(TestCase):
     def setUp(self):
-        self.meiji = ["1905-1-1", "1905-1-2"]
-        self.showa = ["1980-7-7", "1975-1-1"]
-        self.heisei = ["2001-01-01", "2000-01-02", "2002-12-31"]
-
-        birthdays = self.meiji + self.showa + self.heisei
-        for birthday in birthdays:
-            model_test = ModelTest(birthday=birthday)
-            model_test.save()
+        self.birthdays = ["2001-01-01", "2000-01-02", "2002-12-31"]
+        for birthday in self.birthdays:
+            ModelTest.objects.create(
+                birthday=datetime.strptime(birthday, "%Y-%m-%d").date()
+            )
 
     def test_default(self):
-        model_tests = ModelTest.objects.all()
-        for m in model_tests:
-            month = m.birthday.month
-            day = m.birthday.day
 
-            wareki_birthday = m.get_wareki_birthday()
+        self.assertEqual(len(ModelTest._meta.fields), 2)
+        self.assertTrue(hasattr(ModelTest, "birthday"))
+        self.assertEqual(ModelTest.objects.all().count(), len(self.birthdays))
 
-            wareki_month = int(wareki_birthday.split("-")[2])
-            wareki_day = int(wareki_birthday.split("-")[3])
+    def test_ordering(self):
+        pks1 = [obj.pk for obj in ModelTest.objects.order_by("birthday")]
+        pks2 = [obj.pk for obj in ModelTest.objects.order_by_birthday(True)]
 
-            self.assertEqual(month, wareki_month)
-            self.assertEqual(day, wareki_day)
+        # self.assertNotEqual(pks1, pks2)
 
-    def test_get_wareki_birthdays(self):
-        wareki_birthdays = ModelTest.objects.get_wareki_birthdays("heisei")
-        for m in wareki_birthdays:
-            birthday = str(m.birthday)
-            self.assertTrue(birthday in self.heisei)
+        # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday()]
+        # self.assertEqual(doys, [1, 2, 365])
+        # doys = [getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.order_by_birthday(True)]
+        # self.assertEqual(doys, [365, 2, 1])
 
-        wareki_birthdays = ModelTest.objects.get_wareki_birthdays("へいせい")
-        for m in wareki_birthdays:
-            birthday = str(m.birthday)
-            self.assertTrue(birthday in self.heisei)
+        years = [obj.birthday.year for obj in ModelTest.objects.order_by("birthday")]
+        self.assertEqual(years, [2000, 2001, 2002])
 
-        wareki_birthdays = ModelTest.objects.get_wareki_birthdays("平成")
-        for m in wareki_birthdays:
-            birthday = str(m.birthday)
-            self.assertTrue(birthday in self.heisei)
+    def test_manager(self):
+        settings.DEBUG = True
 
-    def test_get_age(self):
-        model_tests = ModelTest.objects.all()
-        for m in model_tests:
-            age = m.get_age()
-            self.assertTrue("int" in str(type(age)))
+        jan1 = date(year=2010, month=1, day=1)
+        # jan1 = date(year=2010, month=12, day=30)
+
+        self.assertEqual(ModelTest.objects.get_birthdays(jan1).count(), 1)
+        self.assertEqual(ModelTest.objects.get_upcoming_birthdays(30, jan1).count(), 2)
+        self.assertEqual(
+            ModelTest.objects.get_upcoming_birthdays(30, jan1, False).count(), 1
+        )
+
+        dec31 = date(year=2010, month=12, day=31)
+        self.assertEqual(ModelTest.objects.get_birthdays(dec31).count(), 1)
+        self.assertEqual(ModelTest.objects.get_upcoming_birthdays(30, dec31).count(), 3)
+
+        # doys = [
+        #     getattr(obj, "birthday_dayofyear_internal") for obj in ModelTest.objects.get_upcoming_birthdays(30, dec31)
+        # ]
+        # self.assertEqual(doys, [365, 1, 2])
+        # doys = [
+        #     getattr(obj, "birthday_dayofyear_internal")
+        #     for obj in ModelTest.objects.get_upcoming_birthdays(30, dec31, reverse=True)
+        # ]
+        # self.assertEqual(doys, [2, 1, 365])
+        # doys = [
+        #     getattr(obj, "birthday_dayofyear_internal")
+        #     for obj in ModelTest.objects.get_upcoming_birthdays(30, dec31, order=False)
+        # ]
+        # self.assertEqual(doys, [1, 2, 365])
+
+        self.assertEqual(
+            ModelTest.objects.get_upcoming_birthdays(30, dec31, False).count(), 2
+        )
+        self.assertTrue(ModelTest.objects.get_birthdays().count() in [0, 1])
+
+        settings.DEBUG = False
+
+        for query in connection.queries:
+            print(query["sql"])
+
+    def test_exception(self):
+        pass
 
     @classmethod
     def teardown_class(self):
