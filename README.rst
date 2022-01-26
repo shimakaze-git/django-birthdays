@@ -1,9 +1,25 @@
 django-jp-birthday
 ==================
 
-|https://img.shields.io/pypi/v/django_jp_birthday.svg|
-|https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest|
-|https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg|
+.. figure:: https://img.shields.io/pypi/v/django_jp_birthday.svg
+   :alt: https://img.shields.io/pypi/v/django_jp_birthday.svg
+
+   https://img.shields.io/pypi/v/django_jp_birthday.svg
+
+.. figure:: https://pypi.python.org/pypi/django_jp_birthday
+   :alt: https://img.shields.io/pypi/v/django_jp_birthday.svg
+
+   https://img.shields.io/pypi/v/django_jp_birthday.svg
+
+.. figure:: https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
+   :alt: https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
+
+   https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
+
+.. figure:: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/
+   :alt: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
+
+   https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
 
 |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday|
 |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday|
@@ -89,9 +105,6 @@ License
 
 ``django-jp-birthday`` is released under the MIT license.
 
-.. |https://img.shields.io/pypi/v/django_jp_birthday.svg| image:: https://pypi.python.org/pypi/django_jp_birthday
-.. |https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest| image:: https://django-jp-birthday.readthedocs.io/en/latest/?version=latest
-.. |https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg| image:: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/
 .. |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday| image:: https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday
 .. |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday| image:: https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday
 .. |https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg| image:: https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg
