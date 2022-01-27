@@ -58,10 +58,7 @@ jobs:
           TZ: Asia/Tokyo
           BASE: ${{ steps.get_branch.outputs.BRANCH }}
           # VERSION: ${{ steps.vup.outputs.VERSION }}
-          HEAD: ${{ steps.push_branch.outputs.BRANCH_NAME }}
-
-          # BRANCH: ${{ steps.get_branch.outputs.BRANCH }}
-          VERSION: ${{ env.VERSION }}
+          HEAD: ${{ env.REF_NAME }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
