@@ -47,7 +47,7 @@ jobs:
           labels: release
           branch: master
           # branch: yq-version-${{ steps.latest.outputs.version }}
-          base: branch
+          # base: branch
           draft: true
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
