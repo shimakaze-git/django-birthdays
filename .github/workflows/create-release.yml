@@ -47,6 +47,7 @@ jobs:
           script: |
             console.log(process.env.PRODUCTION_BRANCH);
             console.log(process.env.TZ);
+            console.log("context.repo", context);
 
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
