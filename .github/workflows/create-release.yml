@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - master
-    types: [closed]
+    # types: [closed]
   push:
     branches:
       - develop
@@ -22,20 +22,6 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
 
-      - name: extract branch name
-        id: get_branch
-        shell: bash
-        env:
-          PR_HEAD: ${{ github.head_ref }}
-          REF: ${{ github.ref }}
-          REF_NAME: ${{ github.ref_name }}
-        run: |
-          echo "test!!"
-          echo ${{ github }}
-          echo ${{ github.head_ref }}
-          echo "$(echo ${PR_HEAD})"
-          echo "##[set-output name=branch;]$(echo ${PR_HEAD#refs/heads/} | tr / -)"
-
       - name: get-py-package-version
         run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
 
@@ -47,11 +33,18 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(process.env.BRANCH);
-            console.log(process.env.HEAD);
-            console.log(process.env.TZ);
-            console.log("context.repo");
-            console.log("version", process.env.VERSION);
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = `v${process.env.VERSION}`;
+            let body = ``;
+
+            const head = process.env.HEAD; 
+            const base = process.env.BRANCH;
+
+            console.log("head", head);
+            console.log("base", base);
+            console.log("title", title);
 
 # github.pulls.create({
 #   owner: context.repo.owner,
@@ -69,6 +62,15 @@ jobs:
 #   body: `version:`,
 #   head: "develop",
 #   base: "master"
+# })
+
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `generate java client code : v${process.env.VERSION} from ${process.env.HEAD}`,
+#   body: `generate v${process.env.VERSION}`,
+#   head: `${context.repo.owner}:${process.env.HEAD}`,
+#   base: process.env.BASE
 # })
 
         # env:
