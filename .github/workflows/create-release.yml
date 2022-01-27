@@ -54,14 +54,14 @@ jobs:
             console.log(process.env.TZ);
             console.log("context.repo", context);
 
-            github.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `chore`,
-              body: `version:`,
-              head: "develop",
-              base: "master"
-            })
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `chore`,
+#   body: `version:`,
+#   head: "develop",
+#   base: "master"
+# })
 
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
