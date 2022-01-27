@@ -27,6 +27,8 @@ jobs:
         shell: bash
         env:
           PR_HEAD: ${{ github.head_ref }}
+          REF: ${{ github.ref }}
+          REF_NAME: ${{ github.ref_name }}
         run: |
           echo "test!!"
           echo ${{ github }}
