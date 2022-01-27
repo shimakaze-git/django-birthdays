@@ -34,7 +34,7 @@ jobs:
       - name: Create a release pull request
         uses: peter-evans/create-pull-request@v3.12.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.JP_BIRTHDAY_TOKEN }}
           commit-message: 'Feat: update default yq version'
           # title: Release new yq version ${{ steps.latest.outputs.version }}
           title: Release new yq version
