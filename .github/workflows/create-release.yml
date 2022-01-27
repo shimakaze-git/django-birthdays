@@ -28,6 +28,9 @@ jobs:
         env:
           PR_HEAD: ${{ github.head_ref }}
         run: |
+          echo "test!!"
+          echo ${{ github }}
+          echo ${{ github.head_ref }}
           echo "$(echo ${PR_HEAD})"
           echo "##[set-output name=branch;]$(echo ${PR_HEAD#refs/heads/} | tr / -)"
 
