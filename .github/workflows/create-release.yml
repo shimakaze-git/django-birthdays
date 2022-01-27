@@ -39,35 +39,28 @@ jobs:
       - name: get-py-package-version
         run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
 
-      # - name: Set up Ruby 2.6
-      #   uses: actions/setup-ruby@v1
-      #   with:
-      #     ruby-version: 3.0
-
-      # - name: "Test!!"
-      #   run: |
-      #     echo ${{ steps.get_branch.outputs }}
-      #     echo ${{ steps.bump_version.outputs }}
-
       - name: Create a release pull request
         uses: actions/github-script@v2
         env:
-          # BRANCH: ${{ steps.get_branch.outputs.BRANCH }}
-          # VERSION: ${{ steps.bump_version.outputs.VERSION }}
-          # PRODUCTION_BRANCH: release
-          TZ: Asia/Tokyo
-          BASE: ${{ steps.get_branch.outputs.BRANCH }}
-          # VERSION: ${{ steps.vup.outputs.VERSION }}
-          HEAD: ${{ env.REF_NAME }}
+          BRANCH: "master"
+          HEAD: ${{ github.ref_name }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(process.env.BASE);
+            console.log(process.env.BRANCH);
             console.log(process.env.HEAD);
-            console.log(process.env.PRODUCTION_BRANCH);
             console.log(process.env.TZ);
-            console.log("context.repo", context);
+            console.log("context.repo");
             console.log("version", process.env.VERSION);
+
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `chore(*): bump v${process.env.VERSION}`,
+#   body: `version: ${process.env.BRANCH}`,
+#   head: process.env.BRANCH,
+#   base: "main"
+# })
 
 # github.pulls.create({
 #   owner: context.repo.owner,
