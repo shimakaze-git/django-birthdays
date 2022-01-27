@@ -32,7 +32,8 @@ jobs:
 
       - name: "Test!!"
         run: |
-          echo ${{ steps.get_branch }}
+          echo ${{ steps.get_branch.outputs }}
+          echo ${{ steps.bump_version.outputs }}
 
       # - name: Create a release pull request
       - uses: actions/github-script@0.3.0
