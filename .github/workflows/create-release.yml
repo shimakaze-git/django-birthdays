@@ -49,6 +49,15 @@ jobs:
             console.log(process.env.TZ);
             console.log("context.repo", context);
 
+            github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `chore(*)`,
+              body: `version: ${process.env.BRANCH}`,
+              head: process.env.BRANCH,
+              base: "master"
+            })
+
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
