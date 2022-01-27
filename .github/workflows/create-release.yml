@@ -30,7 +30,7 @@ jobs:
         with:
           ruby-version: 3.0
 
-      - name: Create a release pull request
+      # - name: Create a release pull request
       - uses: actions/github-script@0.3.0
         env:
           PRODUCTION_BRANCH: release
