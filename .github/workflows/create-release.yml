@@ -40,8 +40,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(${process.env.BRANCH});
-            console.log(${process.env.VERSION});
+            console.log(process.env.BRANCH);
+            console.log(process.env.VERSION);
 
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
