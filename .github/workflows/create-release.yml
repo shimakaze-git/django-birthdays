@@ -28,7 +28,7 @@ jobs:
         env:
           PR_HEAD: ${{ github.head_ref }}
         run: |
-          echo ${PR_HEAD}
+          echo $PR_HEAD
           echo "##[set-output name=branch;]$(echo ${PR_HEAD#refs/heads/} | tr / -)"
 
       - name: get-py-package-version
