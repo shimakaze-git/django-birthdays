@@ -59,6 +59,9 @@ jobs:
           BASE: ${{ steps.get_branch.outputs.BRANCH }}
           # VERSION: ${{ steps.vup.outputs.VERSION }}
           HEAD: ${{ steps.push_branch.outputs.BRANCH_NAME }}
+
+          # BRANCH: ${{ steps.get_branch.outputs.BRANCH }}
+          VERSION: ${{ env.VERSION }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -67,6 +70,7 @@ jobs:
             console.log(process.env.PRODUCTION_BRANCH);
             console.log(process.env.TZ);
             console.log("context.repo", context);
+            console.log("version", process.env.VERSION);
 
 # github.pulls.create({
 #   owner: context.repo.owner,
