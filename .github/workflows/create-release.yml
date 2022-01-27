@@ -59,7 +59,9 @@ jobs:
           GIT_PR_RELEASE_LABELS: release
         run: |
           gem install -N git-pr-release -v "1.2.0"
-          git-pr-release
+          ls -la
+          pwd
+          cat .git/config
 # git-pr-release --no-fetch
 
 # github.pulls.create({
