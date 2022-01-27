@@ -34,7 +34,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3.12.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: release
+          branch: master
           # base: master
           title: "Release"
           body: "## Pull-requests in this release\n- TBD"
