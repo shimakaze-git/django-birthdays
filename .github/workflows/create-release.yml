@@ -20,7 +20,14 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Python
+        id: get_branch
         uses: actions/setup-python@v2
+        shell: bash
+        env:
+          PR_HEAD: ${{ github.head_ref }}
+        run: |
+          echo ${PR_HEAD}
+          echo "##[set-output name=branch;]$(echo ${PR_HEAD#refs/heads/} | tr / -)"
 
       - name: get-py-package-version
         run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
