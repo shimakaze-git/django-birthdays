@@ -37,11 +37,13 @@ jobs:
           VERSION: ${{ steps.bump_version.outputs.VERSION }}
           PRODUCTION_BRANCH: release
           TZ: Asia/Tokyo
+        run: |
+          echo ${{ steps.get_branch }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(process.env.BRANCH);
-            console.log(process.env.VERSION);
+            console.log(process.env.PRODUCTION_BRANCH);
+            console.log(process.env.TZ);
 
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
