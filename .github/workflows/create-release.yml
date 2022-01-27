@@ -25,15 +25,6 @@ jobs:
       - name: get-py-package-version
         run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
 
-      - uses: bakunyo/git-pr-release-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_PR_RELEASE_BRANCH_PRODUCTION: master
-          GIT_PR_RELEASE_BRANCH_STAGING: develop
-          GIT_PR_RELEASE_LABELS: release
-          PACKAGE_VERSION: v${{ env.VERSION }}
-          GIT_PR_RELEASE_TEMPLATE: .github/.git-pr-release-template
-
       - name: Create a release pull request
         uses: actions/github-script@v2
         env:
@@ -54,6 +45,12 @@ jobs:
             console.log("head", head);
             console.log("base", base);
             console.log("title", title);
+
+      - name: 'Master Complete Task'
+        env:
+          PULL_REQ_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo $PULL_REQ_BODY
 
 # github.pulls.create({
 #   owner: context.repo.owner,
