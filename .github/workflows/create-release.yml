@@ -31,28 +31,33 @@ jobs:
           ruby-version: 3.0
 
       - name: Create a release pull request
-        uses: peter-evans/create-pull-request@v3.12.0
+      - uses: actions/github-script@0.3.0
+        env:
+          PRODUCTION_BRANCH: release
+          TZ: Asia/Tokyo
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
-          # base: master
-          title: "Release"
-          body: "## Pull-requests in this release\n- TBD"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request
+            console.log("pr", pr);
+            if (!(pr.merged && pr.base.ref === process.env.PRODUCTION_BRANCH)) return;
 
-          # token: ${{ secrets.JP_BIRTHDAY_TOKEN }}
-          # commit-message: 'Feat: update default yq version'
-          # title: Release new yq version ${{ steps.latest.outputs.version }}
-          # title: Release new yq version
-          # body: |
-          #   - [x] update default version in yq
-          #   - [ ] add new checksums to yq/toolchain.bzl
-          #   - [ ] update documents (README, actions.yml)
-          #   - [ ] update sample workflow
-          # labels: release
-          # branch: master
-          # branch: yq-version-${{ steps.latest.outputs.version }}
-          # base: branch
-          # draft: true
+            const merged_at = new Date(pr.merged_at);
+            const tag_name = String(merged_at.getFullYear()).padStart(4, '0')
+              + String(merged_at.getMonth() + 1).padStart(2, '0')
+              + String(merged_at.getDate()).padStart(2, '0')
+              + String(merged_at.getHours()).padStart(2, '0')
+              + String(merged_at.getMinutes()).padStart(2, '0')
+              + String(merged_at.getSeconds()).padStart(2, '0');
+
+            github.repos.createRelease({
+              ...context.repo,
+              draft: true,
+              tag_name: tag_name,
+              name: tag_name,
+              target_commitish: process.env.GITHUB_SHA,
+              body: pr.body
+            });
 
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
