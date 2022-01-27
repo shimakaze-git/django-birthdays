@@ -54,7 +54,7 @@ jobs:
               repo: context.repo.repo,
               title: `chore`,
               body: `version:`,
-              head: process.env.BRANCH,
+              head: "develop",
               base: "master"
             })
 
