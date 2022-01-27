@@ -30,6 +30,10 @@ jobs:
         with:
           ruby-version: 3.0
 
+      - name: "Test!!"
+        run: |
+          echo ${{ steps.get_branch }}
+
       # - name: Create a release pull request
       - uses: actions/github-script@0.3.0
         env:
@@ -37,8 +41,6 @@ jobs:
           VERSION: ${{ steps.bump_version.outputs.VERSION }}
           PRODUCTION_BRANCH: release
           TZ: Asia/Tokyo
-        run: |
-          echo ${{ steps.get_branch }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
