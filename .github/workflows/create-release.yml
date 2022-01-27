@@ -39,7 +39,6 @@ jobs:
           # title: Release new yq version ${{ steps.latest.outputs.version }}
           title: Release new yq version
           body: |
-            @matsubara0507
             - [x] update default version in yq
             - [ ] add new checksums to yq/toolchain.bzl
             - [ ] update documents (README, actions.yml)
@@ -48,7 +47,8 @@ jobs:
           branch: master
           # branch: yq-version-${{ steps.latest.outputs.version }}
           # base: branch
-          draft: true
+          # draft: true
+
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
