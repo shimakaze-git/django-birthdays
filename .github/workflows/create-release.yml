@@ -30,13 +30,26 @@ jobs:
         with:
           ruby-version: 3.0
 
+
       - name: Create a release pull request
-        run: |
-          gem install -N git-pr-release -v "1.2.0"
-          git-pr-release
-        # run: git-pr-release --no-fetch
-        # echo ${{ secrets.GITHUB_TOKEN }}
-        env:
+        uses: peter-evans/create-pull-request@v3.12.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Feat: update default yq version'
+          # title: Release new yq version ${{ steps.latest.outputs.version }}
+          title: Release new yq version
+          body: |
+            @matsubara0507
+            - [x] update default version in yq
+            - [ ] add new checksums to yq/toolchain.bzl
+            - [ ] update documents (README, actions.yml)
+            - [ ] update sample workflow
+          labels: release
+          branch: master
+          # branch: yq-version-${{ steps.latest.outputs.version }}
+          base: branch
+          draft: true
+        # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
           # GIT_PR_RELEASE_BRANCH_PRODUCTION: release-${{ env.VERSION }}
@@ -45,10 +58,10 @@ jobs:
           # PACKAGE_VERSION: v${{ env.VERSION }}
           # GIT_PR_RELEASE_TEMPLATE: .github/.git-pr-release-template
 
-          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
-          GIT_PR_RELEASE_BRANCH_STAGING: develop
-          GIT_PR_RELEASE_LABELS: release
+          # GIT_PR_RELEASE_BRANCH_STAGING: develop
+          # GIT_PR_RELEASE_LABELS: release
 
         # env:
         #   GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
