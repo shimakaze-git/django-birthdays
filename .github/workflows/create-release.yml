@@ -46,11 +46,20 @@ jobs:
             console.log("base", base);
             console.log("title", title);
 
-      - name: 'Master Complete Task'
+      - name: Set up Ruby 2.6
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.x
+
+      - name: Create a release pull request
         env:
-          PULL_REQ_BODY: ${{ github.event.pull_request.body }}
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: master
+          GIT_PR_RELEASE_BRANCH_STAGING: develop
+          GIT_PR_RELEASE_LABELS: release
         run: |
-          echo $PULL_REQ_BODY
+          gem install -N git-pr-release -v "1.2.0"
+          git-pr-release --no-fetch
 
 # github.pulls.create({
 #   owner: context.repo.owner,
