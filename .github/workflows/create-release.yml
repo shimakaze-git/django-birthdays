@@ -30,21 +30,26 @@ jobs:
         with:
           ruby-version: 3.0
 
-
       - name: Create a release pull request
         uses: peter-evans/create-pull-request@v3.12.0
         with:
-          token: ${{ secrets.JP_BIRTHDAY_TOKEN }}
-          commit-message: 'Feat: update default yq version'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release
+          # base: master
+          title: "Release"
+          body: "## Pull-requests in this release\n- TBD"
+
+          # token: ${{ secrets.JP_BIRTHDAY_TOKEN }}
+          # commit-message: 'Feat: update default yq version'
           # title: Release new yq version ${{ steps.latest.outputs.version }}
-          title: Release new yq version
-          body: |
-            - [x] update default version in yq
-            - [ ] add new checksums to yq/toolchain.bzl
-            - [ ] update documents (README, actions.yml)
-            - [ ] update sample workflow
-          labels: release
-          branch: master
+          # title: Release new yq version
+          # body: |
+          #   - [x] update default version in yq
+          #   - [ ] add new checksums to yq/toolchain.bzl
+          #   - [ ] update documents (README, actions.yml)
+          #   - [ ] update sample workflow
+          # labels: release
+          # branch: master
           # branch: yq-version-${{ steps.latest.outputs.version }}
           # base: branch
           # draft: true
