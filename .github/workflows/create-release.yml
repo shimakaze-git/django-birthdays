@@ -52,8 +52,8 @@ jobs:
             github.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `chore(*)`,
-              body: `version: ${process.env.BRANCH}`,
+              title: `chore`,
+              body: `version:`,
               head: process.env.BRANCH,
               base: "master"
             })
