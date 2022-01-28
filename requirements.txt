@@ -2,7 +2,8 @@
 # tox
 # pre-commit
 # django-birthday
-# jeraconv
-# jaconv
-
 # Django==3.0.11
+
+jeraconv==0.2.1
+jaconv==0.3
+Click>=7.0

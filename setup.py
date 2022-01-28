@@ -11,11 +11,11 @@ with open("README.rst") as readme_file:
 with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
-requirements = [
-    "jeraconv",
-    "jaconv",
-    "Click>=7.0",
-]
+with open("requirements.txt") as requirements_txt:
+    requirements = [
+        r.replace("\n", "") for r in requirements_txt if ("#" not in r) and ("\n" != r)
+    ]
+    # print("requirements", requirements)
 
 test_requirements = []
 
