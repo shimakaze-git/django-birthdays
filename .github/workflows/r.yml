@@ -26,6 +26,7 @@ jobs:
           echo "${GITHUB_HEAD_REF}"
           echo "${GITHUB_REF}"
           echo "${{ github.ref }}"
+          echo "<< >>"
           echo "::set-output name=tagVersion::${GITHUB_REF##*/}"
           echo "end : --------"
 
