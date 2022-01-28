@@ -1,0 +1,34 @@
+name: GitHub-auto-release
+
+on:
+  push:
+    tags:
+      - 'v_*'
+    branches:
+      # - master
+      - develop
+
+jobs:
+  release:
+    name: Create Relaese
+    runs-on: ubuntu-latest
+    steps:
+      # ソースコードをチェックアウト
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # タグバージョンを取得する
+      - name: Get Tag Version
+        id: get-version
+        run: |
+          echo "${GITHUB_REF#refs/heads/}"
+          echo "${GITHUB_HEAD_REF}"
+          echo "${GITHUB_REF}"
+          echo "${{ github.ref }}"
+          echo "::set-output name=tagVersion::${GITHUB_REF##*/}"
+
+      # Javaのセットアップ(spring-io/github-changelog-generator 実行用)
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0.x
