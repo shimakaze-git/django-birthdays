@@ -22,10 +22,10 @@ jobs:
         id: get-version
         run: |
           echo "start : --------"
+          echo "${GITHUB_BASE_REF}"
           echo "${GITHUB_REF#refs/heads/}"
           echo "${GITHUB_HEAD_REF}"
           echo "${GITHUB_REF}"
-          echo "${GITHUB_BASE_REF}"
           echo "${{ github.ref }}"
           echo "<< >>"
           echo "::set-output name=tagVersion::${GITHUB_REF##*/}"
