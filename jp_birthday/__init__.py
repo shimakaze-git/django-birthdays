@@ -2,7 +2,7 @@
 
 __author__ = """shimakaze-git"""
 __email__ = "shimakaze.soft+github@googlemail.com"
-__version__ = "0.1.2"
+__version__ = "0.1.1"
 
 __copyright__ = "Copyright (C) 2020 shimakaze-git"
 __license__ = "MIT"
