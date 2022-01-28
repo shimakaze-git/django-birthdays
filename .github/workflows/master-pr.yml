@@ -1,4 +1,4 @@
-name: Create Release
+name: Create Pull Request to master
 
 on:
   pull_request:
