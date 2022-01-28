@@ -26,8 +26,7 @@ jobs:
         run: |
           echo VERSION=`python setup.py --version` >> $GITHUB_ENV
           echo ${{ github.event.pull_request.head.ref }}
-          echo ${{ github.event.pull_request.head }}
-          echo ${{ github.event.payload }}
+          echo ${{ github.base_ref }}
 
       - name: Create a release pull request
         uses: actions/github-script@v2
