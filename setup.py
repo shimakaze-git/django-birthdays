@@ -11,11 +11,11 @@ with open("README.rst") as readme_file:
 with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
-requirements = [
-    "jeraconv",
-    "jaconv",
-    "Click>=7.0",
-]
+with open("requirements.txt") as requirements_txt:
+    requirements = [
+        r.replace("\n", "") for r in requirements_txt if ("#" not in r) and ("\n" != r)
+    ]
+    # print("requirements", requirements)
 
 test_requirements = []
 
@@ -54,6 +54,7 @@ setup(
     install_requires=requirements,
     license="MIT license",
     long_description=readme + "\n\n" + history,
+    long_description_content_type="text/x-rst",
     include_package_data=True,
     keywords="django_jp_birthday django birthday era",
     name="django_jp_birthday",
