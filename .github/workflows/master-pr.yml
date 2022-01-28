@@ -31,7 +31,7 @@ jobs:
 
       - name: git-cmd
         run: |
-          git fetch orogin
+          git fetch origin
           git branch -a
 
       - name: Create a release pull request
