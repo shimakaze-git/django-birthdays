@@ -46,24 +46,6 @@ jobs:
             console.log("base", base);
             console.log("title", title);
 
-      - name: Set up Ruby 2.6
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: 2.6.x
-
-      - name: Create a release pull request 2
-        env:
-          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_PR_RELEASE_BRANCH_PRODUCTION: master
-          GIT_PR_RELEASE_BRANCH_STAGING: develop
-          GIT_PR_RELEASE_LABELS: release
-        run: |
-          gem install -N git-pr-release -v "1.2.0"
-          ls -la
-          pwd
-          cat .git/config
-# git-pr-release --no-fetch
-
 # github.pulls.create({
 #   owner: context.repo.owner,
 #   repo: context.repo.repo,
