@@ -10,7 +10,7 @@ on:
   #   - '*'
 
 jobs:
-  build:
+  publish:
     # if: github.repository == 'jazzband/django-model-utils'
     runs-on: ubuntu-latest
     env:
@@ -64,7 +64,7 @@ jobs:
       #     password: ${{ secrets.JAZZBAND_RELEASE_KEY }}
       #     repository_url: https://jazzband.co/projects/django-model-utils/upload
 
-  publish:
+  release:
     needs: build
     # if: github.repository == 'jazzband/django-model-utils'
     runs-on: ubuntu-latest
