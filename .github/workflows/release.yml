@@ -46,6 +46,10 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: update README
+        run: |
+          source readme.sh
+
       - name: Install dependencies
         run: |
           pip --no-cache-dir install --upgrade pip
