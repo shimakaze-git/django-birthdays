@@ -30,7 +30,6 @@ jobs:
           echo ${{ github.event.pull_request.head.ref }}
           echo ${{ github.base_ref }}
           echo ${{ github.ref_name }}
-          echo startsWith(github.event.pull_request.head.ref, 'develop')
 
       - name: git-cmd
         run: |
