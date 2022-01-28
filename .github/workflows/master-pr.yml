@@ -13,7 +13,7 @@ on:
 jobs:
   create-develop-to-master-pr:
     runs-on: ubuntu-latest
-    if: startsWith(github.event.pull_request.head.ref, 'develop/')
+    # if: startsWith(github.event.pull_request.head.ref, 'develop')
     # if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
