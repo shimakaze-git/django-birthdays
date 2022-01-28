@@ -28,13 +28,13 @@ jobs:
 
       - name: git-cmd
         run: |
-          git fetch origin
-          git branch -a
           echo ${{ env.VERSION }}
-
           echo ${{ github.event.pull_request.head.ref }}
           echo ${{ github.base_ref }}
           echo ${{ github.ref_name }}
+
+          git fetch origin
+          git branch -a
 
           git checkout -b release-${{ env.VERSION }}
           git push --set-upstream origin release-${{ env.VERSION }}
