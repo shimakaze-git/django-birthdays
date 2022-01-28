@@ -16,6 +16,7 @@ jobs:
     env:
       TWINE_USERNAME: "__token__"
     steps:
+      # - uses: actions/checkout@master
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -62,3 +63,25 @@ jobs:
       #     user: jazzband
       #     password: ${{ secrets.JAZZBAND_RELEASE_KEY }}
       #     repository_url: https://jazzband.co/projects/django-model-utils/upload
+
+  publish:
+    needs: build
+    # if: github.repository == 'jazzband/django-model-utils'
+    runs-on: ubuntu-latest
+    env:
+      TWINE_USERNAME: "__token__"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.pull_request.title }}
+          release_name: ${{ github.event.pull_request.title }}
+          body: ${{ github.event.pull_request.body }}
+          draft: false
+          prerelease: false
