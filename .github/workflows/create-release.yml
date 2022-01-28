@@ -5,54 +5,84 @@ on:
     branches:
       - master
     types: [closed]
-  push:
-    branches:
-      - develop
-      - master
+  # push:
+  #   branches:
+  #     - develop
+  #     - master
 
 jobs:
   create-release-pr:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
 
-      # - name: get-py-package-version
-      #   run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
-
-      - name: Set up Ruby 2.6
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: 3.0
+      - name: get-py-package-version
+        run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
 
       - name: Create a release pull request
-        uses: peter-evans/create-pull-request@v3.12.0
+        uses: actions/github-script@v2
+        env:
+          BRANCH: "master"
+          HEAD: ${{ github.ref_name }}
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
-          # base: master
-          title: "Release"
-          body: "## Pull-requests in this release\n- TBD"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
 
-          # token: ${{ secrets.JP_BIRTHDAY_TOKEN }}
-          # commit-message: 'Feat: update default yq version'
-          # title: Release new yq version ${{ steps.latest.outputs.version }}
-          # title: Release new yq version
-          # body: |
-          #   - [x] update default version in yq
-          #   - [ ] add new checksums to yq/toolchain.bzl
-          #   - [ ] update documents (README, actions.yml)
-          #   - [ ] update sample workflow
-          # labels: release
-          # branch: master
-          # branch: yq-version-${{ steps.latest.outputs.version }}
-          # base: branch
-          # draft: true
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = `v${process.env.VERSION}`;
+            let body = ``;
+
+            const head = process.env.HEAD; 
+            const base = process.env.BRANCH;
+
+            console.log("head", head);
+            console.log("base", base);
+            console.log("title", title);
+
+      - name: Create a release pull request
+        uses: bakunyo/git-pr-release-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: release-{{ env.VERSION }}
+          GIT_PR_RELEASE_BRANCH_STAGING: master
+          GIT_PR_RELEASE_LABELS: 🚀 release
+          PACKAGE_VERSION: v${{ env.VERSION }}
+          # NPM_VERSION: v${{ steps.package-version.outputs.current-version}}
+          GIT_PR_RELEASE_TEMPLATE: .github/.git-pr-release-template
+
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `chore(*): bump v${process.env.VERSION}`,
+#   body: `version: ${process.env.BRANCH}`,
+#   head: process.env.BRANCH,
+#   base: "main"
+# })
+
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `chore`,
+#   body: `version:`,
+#   head: "develop",
+#   base: "master"
+# })
+
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `generate java client code : v${process.env.VERSION} from ${process.env.HEAD}`,
+#   body: `generate v${process.env.VERSION}`,
+#   head: `${context.repo.owner}:${process.env.HEAD}`,
+#   base: process.env.BASE
+# })
 
         # env:
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
