@@ -1,14 +1,15 @@
 name: Create Release
 
 on:
-  # push:
-  #   tags:
-  #   - '*'
   pull_request:
     types: [closed]
     branches:
-      - release-'*'
+      - release-*
+      # - master
 
+  # push:
+  #   tags:
+  #   - '*'
 jobs:
   build:
     # if: github.repository == 'jazzband/django-model-utils'
