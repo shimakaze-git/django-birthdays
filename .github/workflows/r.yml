@@ -47,3 +47,38 @@ jobs:
           echo "${GITHUB_REPOSITORY}"
           echo "${{ secrets.GITHUB_TOKEN }}"
           echo "${{steps.get-version.outputs.tagVersion}}"
+
+          java -jar github-changelog-generator.jar \
+              --changelog.repository=${GITHUB_REPOSITORY} \
+              --github.token=${{ secrets.GITHUB_TOKEN }} \
+              ${{steps.get-version.outputs.tagVersion}} ./CHANGELOG.md
+
+      # GitHubへのリリース
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{steps.get-version.outputs.tagVersion}}
+          release_name: Release ${{steps.get-version.outputs.tagVersion}}
+          body_path: ./CHANGELOG.md
+          draft: false
+          prerelease: false
+
+      # GitHubへAssetをアップロード(今回はtarget/CHANGELOG.mdをアップロードする)
+      - name: Create Release Asset
+        run: |
+          mkdir target
+          mv CHANGELOG.md target/CHANGELOG.md
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/CHANGELOG.md
+          asset_name: CHANGELOG.md
+          asset_content_type: application/txt
