@@ -21,14 +21,27 @@ jobs:
       - name: Get Tag Version
         id: get-version
         run: |
+          echo "start : --------"
           echo "${GITHUB_REF#refs/heads/}"
           echo "${GITHUB_HEAD_REF}"
           echo "${GITHUB_REF}"
           echo "${{ github.ref }}"
           echo "::set-output name=tagVersion::${GITHUB_REF##*/}"
+          echo "end : --------"
 
       # Javaのセットアップ(spring-io/github-changelog-generator 実行用)
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.x
+
+      # リリースノート(CHANGELOG.md) の出力 ★本日の記事にて紹介した機能
+      - name: Create Release Note
+        id: create_relase_note
+        run: |
+          wget -q -O github-changelog-generator.jar https://github.com/spring-io/github-changelog-generator/releases/download/v0.0.5/github-changelog-generator.jar
+          chmod +x github-changelog-generator.jar
+
+          echo "${GITHUB_REPOSITORY}"
+          echo "${{ secrets.GITHUB_TOKEN }}"
+          echo "${{steps.get-version.outputs.tagVersion}}"
