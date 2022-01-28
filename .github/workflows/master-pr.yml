@@ -1,0 +1,96 @@
+name: Create Release
+
+on:
+  pull_request:
+    branches:
+    #   - master
+    # types: [closed]
+  push:
+    branches:
+      - develop
+      # - master
+
+jobs:
+  create-develop-to-master-pr:
+    runs-on: ubuntu-latest
+    # if: github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+
+      - name: get-py-package-version
+        run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
+
+      - name: Create a release pull request
+        uses: actions/github-script@v2
+        env:
+          BRANCH: "master"
+          HEAD: ${{ github.ref_name }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = `v${process.env.VERSION}`;
+            let body = ``;
+
+            const head = process.env.HEAD; 
+            const base = process.env.BRANCH;
+
+            console.log("head", head);
+            console.log("base", base);
+            console.log("title", title);
+
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `chore(*): bump v${process.env.VERSION}`,
+#   body: `version: ${process.env.BRANCH}`,
+#   head: process.env.BRANCH,
+#   base: "main"
+# })
+
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `chore`,
+#   body: `version:`,
+#   head: "develop",
+#   base: "master"
+# })
+
+# github.pulls.create({
+#   owner: context.repo.owner,
+#   repo: context.repo.repo,
+#   title: `generate java client code : v${process.env.VERSION} from ${process.env.HEAD}`,
+#   body: `generate v${process.env.VERSION}`,
+#   head: `${context.repo.owner}:${process.env.HEAD}`,
+#   base: process.env.BASE
+# })
+
+        # env:
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
+          # GIT_PR_RELEASE_BRANCH_PRODUCTION: release-${{ env.VERSION }}
+          # GIT_PR_RELEASE_BRANCH_STAGING: develop
+          # GIT_PR_RELEASE_LABELS: release
+          # PACKAGE_VERSION: v${{ env.VERSION }}
+          # GIT_PR_RELEASE_TEMPLATE: .github/.git-pr-release-template
+
+          # GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GIT_PR_RELEASE_BRANCH_PRODUCTION: master
+          # GIT_PR_RELEASE_BRANCH_STAGING: develop
+          # GIT_PR_RELEASE_LABELS: release
+
+        # env:
+        #   GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #   GIT_PR_RELEASE_BRANCH_PRODUCTION: master
+        #   GIT_PR_RELEASE_BRANCH_STAGING: ${{ steps.vars.outputs.branch_name }}
+        #   GIT_PR_RELEASE_LABELS: ${{ steps.vars.outputs.branch_prefix }}
+        #   GIT_PR_RELEASE_TITLE: "[ReleasePR] ${{ steps.vars.outputs.branch_name }}"
+        #   GIT_PR_RELEASE_TEMPLATE: .git-pr-release-template
