@@ -37,6 +37,8 @@ jobs:
           git branch -a
           echo ${{ env.VERSION }}
 
+          git checkout -b sample-${{ env.VERSION }}
+
       - name: Create a release pull request
         uses: actions/github-script@v2
         env:
