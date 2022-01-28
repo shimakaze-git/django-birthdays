@@ -26,24 +26,24 @@ jobs:
       - name: get-py-package-version
         run: echo VERSION=`python setup.py --version` >> $GITHUB_ENV
 
-      - name: git-cmd
-        run: |
-          echo ${{ env.VERSION }}
-          echo ${{ github.event.pull_request.head.ref }}
-          echo ${{ github.base_ref }}
-          echo ${{ github.ref_name }}
+      # - name: git-cmd
+      #   run: |
+      #     echo ${{ env.VERSION }}
+      #     echo ${{ github.event.pull_request.head.ref }}
+      #     echo ${{ github.base_ref }}
+      #     echo ${{ github.ref_name }}
 
-          git fetch origin
-          git branch -a
+      #     git fetch origin
+      #     git branch -a
 
-          git checkout -b release-${{ env.VERSION }}
-          git push --set-upstream origin release-${{ env.VERSION }}
+      #     git checkout -b release-${{ env.VERSION }}
+      #     git push --set-upstream origin release-${{ env.VERSION }}
 
       - name: Create a release pull request
         uses: bakunyo/git-pr-release-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_PR_RELEASE_BRANCH_PRODUCTION: release-${{ env.VERSION }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: release
           GIT_PR_RELEASE_BRANCH_STAGING: master
           GIT_PR_RELEASE_LABELS: 🚀 release
           PACKAGE_VERSION: v${{ env.VERSION }}
