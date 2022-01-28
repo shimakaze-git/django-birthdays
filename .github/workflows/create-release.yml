@@ -4,16 +4,16 @@ on:
   pull_request:
     branches:
       - master
-    # types: [closed]
-  push:
-    branches:
-      - develop
-      - master
+    types: [closed]
+  # push:
+  #   branches:
+  #     - develop
+  #     - master
 
 jobs:
   create-release-pr:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
         with:
@@ -45,6 +45,17 @@ jobs:
             console.log("head", head);
             console.log("base", base);
             console.log("title", title);
+
+      - name: Create a release pull request
+        uses: bakunyo/git-pr-release-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: master
+          GIT_PR_RELEASE_BRANCH_STAGING: develop
+          GIT_PR_RELEASE_LABELS: 🚀 release
+          PACKAGE_VERSION: v${{ env.VERSION }}
+          # NPM_VERSION: v${{ steps.package-version.outputs.current-version}}
+          GIT_PR_RELEASE_TEMPLATE: .github/.git-pr-release-template
 
 # github.pulls.create({
 #   owner: context.repo.owner,
