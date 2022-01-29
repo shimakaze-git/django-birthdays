@@ -19,17 +19,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
 
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.event.pull_request.title }}
-      #     release_name: ${{ github.event.pull_request.title }}
-      #     body: ${{ github.event.pull_request.body }}
-      #     draft: false
-      #     prerelease: false
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.pull_request.title }}
+          release_name: ${{ github.event.pull_request.title }}
+          body: ${{ github.event.pull_request.body }}
+          draft: false
+          prerelease: false
 
   changelog:
     runs-on: ubuntu-latest
@@ -79,7 +79,8 @@ jobs:
           git config user.email
           git config user.name
 
-          git add *.rst
+        # git add *.rst
+          git add ./
           git commit -m "docs: update HISTORY [$(date --iso-8601=seconds)]"
           git push
 
@@ -92,18 +93,18 @@ jobs:
           git merge release
           git push
 
-      # - name: update develop
-      #   run: |
-      #     ls -la
+      - name: update develop
+        run: |
+          ls -la
 
-      #     git fetch origin
-      #     git pull
+          git fetch origin
+          git pull
 
-      #     git checkout develop
-      #     git branch
+          git checkout develop
+          git branch
 
-      #     git merge master
-      #     git push
+          git merge master
+          git push
 
   publish:
     # if: github.repository == 'jazzband/django-model-utils'
