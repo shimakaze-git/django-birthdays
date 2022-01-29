@@ -54,7 +54,7 @@ jobs:
           github_changelog_generator -u ${{ env.ACTOR }} \
                                     -p ${{ env.REPOSITORY }} \
                                     --header-label '# HISTORY' \
-                                    -t ${{ env.TOKEN }}
+                                    -t ${{ env.TOKEN }} \
                                     --output HISTORY.md
 
       - name: convert md to rst HISTORY.
