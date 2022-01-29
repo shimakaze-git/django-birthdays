@@ -3,7 +3,9 @@ on:
     branches:
       - master
       - develop
-  # pull_request:
+    paths:
+      - 'jp_birthday/*'
+      - 'tests/*'
 
 jobs:
   build:
