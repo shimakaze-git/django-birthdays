@@ -8,11 +8,7 @@ from jp_birthday.managers import JpBirthdayManager
 
 
 class BaseBirthdayModel(models.Model):
-    """[summary]
-
-    Args:
-        models ([type]): [description]
-    """
+    """BaseBirthdayModel"""
 
     objects = JpBirthdayManager()
     birthday = BirthdayField()
@@ -69,6 +65,14 @@ class BaseBirthdayModel(models.Model):
         }
 
     def get_wareki_birthday(self, dict_type=False) -> object:
+        """get wareki birthday
+
+        Args:
+            dict_type (bool, optional): 辞書型で返すか文字列で返すかのフォーマト指定. Defaults to False.
+
+        Returns:
+            object: dictで返すか文字列で返すのどちらかになる.
+        """
         wareki_birthday = self._get_wareki_birthday()
         if not dict_type:
             wareki = wareki_birthday["era_short"]
@@ -79,10 +83,12 @@ class BaseBirthdayModel(models.Model):
         return wareki_birthday
 
     def get_age(self) -> int:
-        """[summary]
+        """get age from birthday.
+
+        誕生日を元に年齢を割り出して返す.
 
         Returns:
-            [type]: [description]
+            int: age.
         """
         today = date.today()
 
@@ -98,11 +104,7 @@ class BaseBirthdayModel(models.Model):
 
 
 class BirthdayModel(BaseBirthdayModel):
-    """[summary]
-
-    Args:
-        BaseBirthdayModel ([type]): [description]
-    """
+    """BirthdayModel"""
 
     class Meta:
         abstract = True
