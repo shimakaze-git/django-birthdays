@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TOKEN: ${{ secrets.JP_BIRTHDAY_TOKEN }}
+      REPOSITORY: $(echo ${{ github.repository }} | sed -e "s#.*/##")
+      ACTOR: ${{ github.actor }}
     steps:
       - uses: actions/checkout@v2
 
@@ -20,6 +22,8 @@ jobs:
         run: |
           gem install github_changelog_generator
           echo ${{ env.TOKEN }}
+          echo ${{ env.REPOSITORY }}
+          echo ${{ env.ACTOR }}
 
           REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
           echo $REPOSITORY
