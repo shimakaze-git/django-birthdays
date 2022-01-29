@@ -74,18 +74,18 @@ jobs:
           git config user.email
           git config user.name
 
-# git add *.rst
-# git commit -m "docs: update HISTORY [$(date --iso-8601=seconds)]"
-# git push
+          git add *.rst
+          git commit -m "docs: update HISTORY [$(date --iso-8601=seconds)]"
+          git push
 
-# git fetch origin
-# git pull
+          git fetch origin
+          git pull
 
-# git checkout master
-# git branch
+          git checkout master
+          git branch
 
-# git merge release
-# git push
+          git merge release
+          git push
 
       # - name: update develop
       #   run: |
