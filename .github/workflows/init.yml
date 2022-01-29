@@ -31,3 +31,7 @@ jobs:
                                     -t ${{ env.TOKEN }}
 
           cat CHANGELOG.md
+
+      - name: push develop
+        run: |
+          ls -la
