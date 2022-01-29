@@ -40,6 +40,9 @@ jobs:
       REPOSITORY: $(echo ${{ github.repository }} | sed -e "s#.*/##")
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - uses: fregante/setup-git-user@v1
 
       - name: Set up Ruby 3.0
