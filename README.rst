@@ -27,7 +27,7 @@ Features
 Installation
 ============
 
-`pypi <https://pypi.org/project/django-jp-birthday/>`__
+-  `pypi <https://pypi.org/project/django-jp-birthday/>`__
 
 .. code:: bash
 
