@@ -27,9 +27,12 @@ Features
 Installation
 ============
 
+`pypi <https://pypi.org/project/django-jp-birthday/>`__
+
 .. code:: bash
 
    $ pip install django-jp-birthday
+
    $ python steup.py install
 
 Usage
