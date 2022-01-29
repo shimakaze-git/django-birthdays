@@ -89,6 +89,18 @@ class JpBirthdayManager(models.Manager):
     def get_upcoming_birthdays(
         self, days=30, after=None, include_day=True, order=True, reverse=False
     ):
+        """[summary]
+
+        Args:
+            days (int, optional): [description]. Defaults to 30.
+            after ([type], optional): [description]. Defaults to None.
+            include_day (bool, optional): [description]. Defaults to True.
+            order (bool, optional): [description]. Defaults to True.
+            reverse (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            [type]: [description]
+        """
         # 今後の誕生日
 
         birthdays = self.filter()
@@ -132,6 +144,14 @@ class JpBirthdayManager(models.Manager):
         return birthdays
 
     def get_birthdays(self, day=None):
+        """[summary]
+
+        Args:
+            day ([type], optional): [description]. Defaults to None.
+
+        Returns:
+            [type]: [description]
+        """
         if not day:
             day = date.today()
 
