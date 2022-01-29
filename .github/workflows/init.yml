@@ -35,3 +35,9 @@ jobs:
       - name: push develop
         run: |
           ls -la
+
+          git branch -a
+          git remote -v
+
+          git config user.name
+          git config user.email
