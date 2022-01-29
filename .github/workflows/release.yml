@@ -77,18 +77,18 @@ jobs:
           git merge release
           git push
 
-      - name: update develop
-        run: |
-          ls -la
+      # - name: update develop
+      #   run: |
+      #     ls -la
 
-          git fetch origin
-          git pull
+      #     git fetch origin
+      #     git pull
 
-          git checkout develop
-          git branch
+      #     git checkout develop
+      #     git branch
 
-          git merge master
-          git push
+      #     git merge master
+      #     git push
 
   publish:
     # if: github.repository == 'jazzband/django-model-utils'
