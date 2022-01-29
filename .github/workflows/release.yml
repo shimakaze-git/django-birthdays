@@ -2,10 +2,12 @@ name: Create Release && Publish pypi
 
 on:
   pull_request:
-    types: [closed]
+    # types: [closed]
+    # branches:
+    #   - release
+  push:
     branches:
       - release
-  # push:
   #   tags:
   #   - '*'
 
