@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TOKEN: ${{ secrets.JP_BIRTHDAY_TOKEN }}
-      REPOSITORY: $(echo ${{ github.repository }} | sed -e "s#.*/##")
       ACTOR: ${{ github.actor }}
+      REPOSITORY: $(echo ${{ github.repository }} | sed -e "s#.*/##")
     steps:
       - uses: actions/checkout@v2
 
@@ -24,22 +24,10 @@ jobs:
           echo ${{ env.TOKEN }}
           echo ${{ env.REPOSITORY }}
           echo ${{ env.ACTOR }}
+          
+          github_changelog_generator -u ${{ env.ACTOR }} \
+                                    -p ${{ env.REPOSITORY }} \
+                                    --header-label '# HISTORY' \
+                                    -t ${{ env.TOKEN }}
 
-          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-          echo $REPOSITORY
-
-          echo $GITHUB_ACTOR
-          echo $GITHUB_REPOSITORY
-          echo $GITHUB_WORKSPACE
-          echo $GITHUB_BASE_REF
-          echo $GITHUB_HEAD_REF
-          echo $GITHUB_REF_NAME
-          echo $GITHUB_REF
-          echo ${{ github.actor }}
-          echo ${{ github.repository }}
-          echo ${{ github.ref }}
-          echo ${{ github.ref_name }}
-          echo ${{ github.base_ref }}
-
-# github_changelog_generator -u shimakaze-git -p django-jp-birthday --header-label '# HISTORY'
-# github_changelog_generator -t <token>
+          cat CHANGELOG.md
