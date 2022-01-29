@@ -23,7 +23,7 @@ Authored by [shimakaze_soft](https://github.com/shimakaze-git) and some great
 
 # Installation
 
-[pypi](https://pypi.org/project/django-jp-birthday/)
+- [pypi](https://pypi.org/project/django-jp-birthday/)
 
 ```Bash
 $ pip install django-jp-birthday
