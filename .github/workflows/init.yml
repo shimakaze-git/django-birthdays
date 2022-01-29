@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # TWINE_USERNAME: "__token__"
+      # JP_BIRTHDAY_TOKEN
+      TOKEN: ${{ secrets.JP_BIRTHDAY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby 3.0
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.0
+
+      - name: update CHANGELOG
+        run: |
+          gem install github_changelog_generator
+          echo ${{ env.TOKEN }}
+
+# github_changelog_generator -u shimakaze-git -p django-jp-birthday --header-label '# HISTORY'
+# github_changelog_generator -t <token>
