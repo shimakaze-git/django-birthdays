@@ -17,6 +17,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
 
+      - name: add HISTORY.rst
+        run: |
+          echo ${{ github.event.pull_request.body }}
+          echo ${{ github.event.pull_request.body }} >> HISTORY.rst
+          cat HISTORY.rst
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
