@@ -68,6 +68,10 @@ jobs:
         run: |
           ls -la
 
+          git add *.rst
+          git commit -m "docs: update HISTORY [$(date --iso-8601=seconds)]"
+          git push
+
           git fetch origin
           git pull
 
