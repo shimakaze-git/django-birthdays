@@ -6,4 +6,4 @@
 
 jeraconv==0.2.1
 jaconv==0.3
-Click>=7.0
+Click>=8.0
