@@ -21,5 +21,15 @@ jobs:
           gem install github_changelog_generator
           echo ${{ env.TOKEN }}
 
+          echo $GITHUB_ACTOR
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+          echo $GITHUB_BASE_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_REF_NAME
+          echo $GITHUB_REF
+          echo ${{ github.repository }}
+          echo ${{ github.ref }}
+
 # github_changelog_generator -u shimakaze-git -p django-jp-birthday --header-label '# HISTORY'
 # github_changelog_generator -t <token>
