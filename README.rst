@@ -3,7 +3,7 @@ django-jp-birthday
 
 |https://pypi.python.org/pypi/django_jp_birthday|
 |https://django-jp-birthday.readthedocs.io/en/latest/?version=latest|
-|https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/|
+|Updates| |Python 3|
 |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday|
 |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday|
 |https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg|
@@ -75,7 +75,10 @@ License
 
 .. |https://pypi.python.org/pypi/django_jp_birthday| image:: https://img.shields.io/pypi/v/django_jp_birthday.svg
 .. |https://django-jp-birthday.readthedocs.io/en/latest/?version=latest| image:: https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
-.. |https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/| image:: https://pyup.io/repos/github/shimakaze-git/django_jp_birthday/shield.svg
+.. |Updates| image:: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/shield.svg
+   :target: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/
+.. |Python 3| image:: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/python-3-shield.svg
+   :target: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/
 .. |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday| image:: https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday
 .. |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday| image:: https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday
 .. |https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg| image:: https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg
