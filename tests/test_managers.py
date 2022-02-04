@@ -29,22 +29,28 @@ class BirthdayTestManagers(TestCase):
 
     def test_get_upcoming_birthdays(self):
 
-        settings.DEBUG = True
+        # settings.DEBUG = True
 
         jan1 = date(year=2010, month=1, day=1)
-        print("jan1", jan1)
 
         # 1月の要素だけ抽出
         count = [int(birthday.split("-")[1]) for birthday in self.birthdays].count(1)
-        print("count", count)
 
-        # get_upcoming_birthdays = ModelTest.objects.get_upcoming_birthdays(30, jan1, False)
         get_upcoming_birthdays = ModelTest.objects.get_upcoming_birthdays(30, jan1)
         self.assertEqual(get_upcoming_birthdays.count(), count)
 
-        # self.assertEqual(
-        #     ModelTest.objects.get_upcoming_birthdays(30, jan1, False).count(), 1
-        # )
+        count = 0
+        for birthday in self.birthdays:
+            month = int(birthday.split("-")[1])
+            day = int(birthday.split("-")[2])
+
+            if month == 1 and day != 1:
+                count += 1
+
+        get_upcoming_birthdays = ModelTest.objects.get_upcoming_birthdays(
+            30, jan1, False
+        )
+        self.assertEqual(get_upcoming_birthdays.count(), count)
 
         # data = ModelTest.objects.raw(sql)
         # for d in data:

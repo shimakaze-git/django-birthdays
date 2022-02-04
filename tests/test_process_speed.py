@@ -7,7 +7,7 @@ from datetime import date
 from tests.models import ModelTest
 
 
-class InitTest(TestCase):
+class BirthdayTestProcessSpeed(TestCase):
     @classmethod
     def setup_class(self):
         """テストclass実行の前処理"""
@@ -24,7 +24,8 @@ class InitTest(TestCase):
         self.birthdays = self.meiji + self.showa + self.heisei
 
         count = 10000
-        count = 2500
+        # count = 2500
+        # count = 100
         self.birthdays = [str(fakegen.date_of_birth()) for _ in range(count)]
         for birthday in self.birthdays:
             model_test = ModelTest(birthday=birthday)
@@ -40,7 +41,7 @@ class InitTest(TestCase):
         run_time = end - start
         print("test_get_upcoming_birthdays", run_time)
 
-        self.assertTrue(20 > run_time)
+        self.assertTrue(2 > run_time)
 
     def test_get_birthdays(self):
         start = time.perf_counter()

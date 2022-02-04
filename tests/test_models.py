@@ -3,7 +3,7 @@ from django.test import TestCase
 from tests.models import ModelTest
 
 
-class InitTest(TestCase):
+class BirthdayTestModels(TestCase):
     @classmethod
     def setup_class(self):
         """テストclass実行の前処理"""

@@ -29,8 +29,8 @@ class BirthdayTestPerformances(TestCase):
 
         self.birthdays = self.meiji + self.showa + self.heisei
         count = len(self.birthdays)
-        count = 5000
-        # count = 500
+        # count = 5000
+        count = 500
 
         self.birthdays = [str(fakegen.date_of_birth()) for _ in range(count)]
         for birthday in self.birthdays:
@@ -167,7 +167,7 @@ class BirthdayTestPerformances(TestCase):
             print("sql", sql)
 
     def test_pagination(self):
-        settings.DEBUG = True
+        # settings.DEBUG = True
 
         page_num = 10
         # page_num = 1

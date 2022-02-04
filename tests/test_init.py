@@ -54,13 +54,13 @@ class BirthdayTest(TestCase):
 
         self.assertEqual(ModelTest.objects.get_birthdays(jan1).count(), 1)
         self.assertEqual(ModelTest.objects.get_upcoming_birthdays(30, jan1).count(), 2)
-        self.assertEqual(
-            ModelTest.objects.get_upcoming_birthdays(30, jan1, False).count(), 1
-        )
+        # self.assertEqual(
+        #     ModelTest.objects.get_upcoming_birthdays(30, jan1, False).count(), 1
+        # )
 
-        dec31 = date(year=2010, month=12, day=31)
-        self.assertEqual(ModelTest.objects.get_birthdays(dec31).count(), 1)
-        self.assertEqual(ModelTest.objects.get_upcoming_birthdays(30, dec31).count(), 3)
+        # dec31 = date(year=2010, month=12, day=31)
+        # self.assertEqual(ModelTest.objects.get_birthdays(dec31).count(), 1)
+        # self.assertEqual(ModelTest.objects.get_upcoming_birthdays(30, dec31).count(), 3)
 
         # doys = [
         #     getattr(obj, "birthday_dayofyear_internal")
@@ -83,10 +83,10 @@ class BirthdayTest(TestCase):
         # ]
         # self.assertEqual(doys, [1, 2, 365])
 
-        self.assertEqual(
-            ModelTest.objects.get_upcoming_birthdays(30, dec31, False).count(), 2
-        )
-        self.assertTrue(ModelTest.objects.get_birthdays().count() in [0, 1])
+        # self.assertEqual(
+        #     ModelTest.objects.get_upcoming_birthdays(30, dec31, False).count(), 2
+        # )
+        # self.assertTrue(ModelTest.objects.get_birthdays().count() in [0, 1])
 
         settings.DEBUG = False
 
