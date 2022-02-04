@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from django.db import models, router, connection
+from django.db import models, router, connection, backends
 from django.db.models import Case, When, Value, IntegerField
 
 # from django.db.models.query_utils import Q
@@ -42,6 +42,12 @@ class JpBirthdayManager(models.Manager):
 
     def get_queryset(self):
         return JpBirthdayQuerySet(self.model, using=self._db)
+
+    def cursor_filter_ids(self, cursor: backends.utils.CursorWrapper) -> list:
+        columns = [col[0] for col in cursor.description]
+        ids = [dict(zip(columns, row))["id"] for row in cursor.fetchall()]
+
+        return ids
 
     def _check_language(self, string):
         l_type = ""
@@ -127,12 +133,16 @@ class JpBirthdayManager(models.Manager):
         engine = settings.DATABASES[db_route]["ENGINE"]
         db_table_name = self.model._meta.db_table
 
+        cursor = connection.cursor()
+
         if after:
             after = datetime.combine(after, time())
             after = pytz.timezone("Asia/Tokyo").localize(after)
         else:
             after = datetime.now()
 
+        print("include_day", include_day)
+        print("after", after)
         if not include_day:
             after += timedelta(days=1)
             days -= 1
@@ -142,61 +152,83 @@ class JpBirthdayManager(models.Manager):
         after_str = "'{0}'".format(after)
 
         sql = "select {0}.*, ".format(db_table_name)
-
-        between_sql = "between "
         if "sqlite3" in engine:
             sql += "strftime('%m-%d', birthday) as md "
-
-            between_sql += "strftime('%m-%d', {0}) and ".format(after_str)
-            between_sql += (
-                "strftime('%m-%d', date({0}, 'localtime', '+{1} day'))".format(
-                    after_str, days
-                )
-            )
-
-            # sql += " order by birthday asc;"
+            sql += "from {0} where md ".format(db_table_name)
         else:
             pass
 
-        sql += "from {0} where md ".format(db_table_name)
-        sql += between_sql
+        next = date(year=int(after.year), month=12, day=31) - after
 
-        if order:
-            # print("order")
-            # birthdays = birthdays.order_by(*("birthday",))
-            sql += " order by md asc;"
-
-        print("sql", sql)
-
-        cursor = connection.cursor()
         try:
-            cursor.execute(sql)
+            ids = []
+            if int(days) > next.days:
+                diff = int(days) - next.days
 
-            columns = [col[0] for col in cursor.description]
-            ids = [dict(zip(columns, row))["id"] for row in cursor.fetchall()]
-            # print("ids", ids)
+                sql_1 = sql
+                if "sqlite3" in engine:
+                    # sql_1 += "> strftime('%m-%d', {0})".format(after_str)
+                    sql_1 += ">= strftime('%m-%d', {0})".format(after_str)
+                else:
+                    pass
+
+                if order:
+                    sql_1 += " order by md asc;"
+
+                cursor.execute(sql_1)
+                ids += self.cursor_filter_ids(cursor)
+
+                sql_2 = sql
+                if "sqlite3" in engine:
+                    sql_2 += "between "
+                    sql_2 += "strftime('%m-%d', {0}) and ".format("'2000-01-01'")
+                    sql_2 += (
+                        "strftime('%m-%d', date({0}, 'localtime', '+{1} day'))".format(
+                            "'2000-01-01'", str(diff)
+                        )
+                    )
+                else:
+                    pass
+
+                if order:
+                    sql_2 += " order by md asc;"
+
+                cursor.execute(sql_2)
+                ids += self.cursor_filter_ids(cursor)
+            else:
+                between_sql = "between "
+                if "sqlite3" in engine:
+                    between_sql += "strftime('%m-%d', {0}) and ".format(after_str)
+                    between_sql += (
+                        "strftime('%m-%d', date({0}, 'localtime', '+{1} day'))".format(
+                            after_str, days
+                        )
+                    )
+
+                    # sql += " order by birthday asc;"
+                else:
+                    pass
+
+                sql += between_sql
+                if order:
+                    sql += " order by md asc;"
+
+                print("sql", sql)
+
+                cursor.execute(sql)
+                ids += self.cursor_filter_ids(cursor)
+
+            print("ids*******", ids)
+
+            if reverse:
+                ids.reverse()
 
             birthdays = self.get_queryset().order_by_ids_filter(ids)
 
             return birthdays
         finally:
+            # print("cursor", type(cursor))
             cursor.close()
-
-        # order = False
-        # print("order", order)
-        # print("reverse", reverse)
-        # reverse = True
-
-        # order = True
-        # reverse = True
-
-        # if order:
-        #     print("order")
-        #     birthdays = birthdays.order_by(*("birthday",))
-
-        # if reverse:
-        #     print("reverse")
-        #     birthdays = birthdays.reverse()
 
     # def get_upcoming_birthdays(
     #     self, days=30, after=None, include_day=True, order=True, reverse=False

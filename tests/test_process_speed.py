@@ -23,8 +23,8 @@ class BirthdayTestProcessSpeed(TestCase):
 
         self.birthdays = self.meiji + self.showa + self.heisei
 
-        count = 10000
-        # count = 2500
+        # count = 10000
+        count = 2500
         # count = 100
         self.birthdays = [str(fakegen.date_of_birth()) for _ in range(count)]
         for birthday in self.birthdays:

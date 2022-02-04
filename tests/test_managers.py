@@ -20,7 +20,13 @@ class BirthdayTestManagers(TestCase):
     def setUp(self):
         self.meiji = ["1905-1-2", "1905-1-1", "1905-2-1", "1905-2-2", "1905-1-30"]
         self.showa = ["1980-7-7", "1975-1-1", "1970-2-15"]
-        self.heisei = ["2000-01-02", "2001-01-01", "2002-12-31", "2021-2-20"]
+        self.heisei = [
+            "2000-01-02",
+            "2001-01-01",
+            "2002-12-31",
+            "2021-2-20",
+            "1999-12-25",
+        ]
 
         self.birthdays = self.meiji + self.showa + self.heisei
         for birthday in self.birthdays:
@@ -51,10 +57,6 @@ class BirthdayTestManagers(TestCase):
             30, jan1, False
         )
         self.assertEqual(get_upcoming_birthdays.count(), count)
-
-        # data = ModelTest.objects.raw(sql)
-        # for d in data:
-        #     print("d", d)
 
         print("----" * 15)
 
