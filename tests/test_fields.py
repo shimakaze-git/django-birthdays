@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date, datetime
+from datetime import datetime
 
 # from django.core.exceptions import FieldError
 from django.test import TestCase

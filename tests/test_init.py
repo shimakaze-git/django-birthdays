@@ -3,8 +3,10 @@
 from datetime import date, datetime
 
 from django.core.exceptions import FieldError
-from django.conf import settings
-from django.db import connection, models
+
+# from django.conf import settings
+# from django.db import connection, models
+from django.db import models
 from django.test import TestCase
 
 from jp_birthday.fields import BirthdayField

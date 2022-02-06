@@ -1,7 +1,7 @@
 import time
 
 from faker import Faker
-from datetime import date, datetime
+from datetime import datetime
 
 from django.core.paginator import Paginator
 from django.db import connection
@@ -10,7 +10,7 @@ from django.db import connection
 from django.test import TestCase
 from django.conf import settings
 
-from tests.models import ModelTest, ModelTestPost, ModelTestAuthor
+from tests.models import ModelTestPost, ModelTestAuthor
 
 
 class BirthdayTestPerformances(TestCase):
@@ -56,7 +56,8 @@ class BirthdayTestPerformances(TestCase):
         start = time.perf_counter()
 
         for m in ModelTestPost.objects.all():
-            name = m.author.name
+            # name = m.author.name
+            _ = m.author.name
 
         end = time.perf_counter()
         run_time_1 = end - start
@@ -65,7 +66,9 @@ class BirthdayTestPerformances(TestCase):
         start = time.perf_counter()
         for p in ModelTestPost.objects.prefetch_related("author").all():
             # print(p.author.name)
-            author_name = p.author.name
+            # author_name = p.author.name
+            _ = p.author.name
+
         end = time.perf_counter()
         run_time_2 = end - start
         self.assertTrue(1 > run_time_2)
@@ -73,7 +76,8 @@ class BirthdayTestPerformances(TestCase):
         settings.DEBUG = False
 
         for query in connection.queries:
-            sql = query["sql"]
+            # sql = query["sql"]
+            _ = query["sql"]
             # print("sql: {0}".format(sql))
 
         print("run_time_1", run_time_1)
@@ -135,7 +139,7 @@ class BirthdayTestPerformances(TestCase):
         print("run_time_3", run_time_3)
 
     def test_exists(self):
-        fakegen = Faker("ja_JP")
+        # fakegen = Faker("ja_JP")
 
         # settings.DEBUG = True
 
@@ -180,18 +184,20 @@ class BirthdayTestPerformances(TestCase):
         paginator = Paginator(ModelTestPost.objects.all(), page_size)
         post_tables = paginator.page(page_num).object_list
         for p in post_tables:
-            title = p.title
+            # title = p.title
+            _ = p.title
             # print(p.title)
 
         end = time.perf_counter()
         run_time_1 = end - start
 
         start = time.perf_counter()
-        post_tables = ModelTestPost.objects.all()[
-            (page_num - 1) * page_size : page_num * page_size
-        ]
+        s = (page_num - 1) * page_size
+        e = page_num * page_size
+        post_tables = ModelTestPost.objects.all()[s:e]
         for p in post_tables:
-            title = p.title
+            # title = p.title
+            _ = p.title
             # print(p.title)
 
         end = time.perf_counter()

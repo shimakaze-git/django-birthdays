@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from django.db import connection
+# from django.db import connection
 
 # from django.db import backends
 
@@ -90,7 +90,7 @@ class BirthdayTestManagers(TestCase):
 
         birthdays = ModelTest.objects.order_by_birthday()
         order_by_birthday = [obj.birthday for obj in birthdays]
-        # print("order_by_birthday", order_by_birthday)
+        print("order_by_birthday", len(order_by_birthday))
 
         doys = [
             getattr(obj, "birthday_dayofyear_internal")
