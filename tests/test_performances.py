@@ -42,7 +42,10 @@ class BirthdayTestPerformances(TestCase):
             author.save()
 
             model_test = ModelTestPost(
-                title=title, text=text, author=author, birthday=birthday
+                title=title,
+                text=text,
+                author=author,
+                birthday=datetime.strptime(birthday, "%Y-%m-%d").date(),
             )
             model_test.save()
 
@@ -107,9 +110,9 @@ class BirthdayTestPerformances(TestCase):
         sql += " where id in (" + ",".join([str(c[4]) for c in post_table]) + ")"
         # print("sql", sql)
 
-        cur.execute(
-            sql,
-        ).fetchall()
+        # cur.execute(
+        #     sql,
+        # ).fetchall()
 
         end = time.perf_counter()
         run_time_2 = end - start

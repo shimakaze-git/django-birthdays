@@ -24,7 +24,8 @@ class BirthdayTest(TestCase):
     def test_default(self):
 
         self.assertEqual(len(ModelTest._meta.fields), 3)
-        self.assertTrue(hasattr(ModelTest, "birthday_field"))
+        self.assertTrue(hasattr(ModelTest, "birthday"))
+        # self.assertTrue(hasattr(ModelTest, "birthday_field"))
         self.assertEqual(ModelTest.objects.all().count(), len(self.birthdays))
 
     def test_ordering(self):
