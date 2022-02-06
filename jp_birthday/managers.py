@@ -1,7 +1,8 @@
 from django.conf import settings
 
 from django.db import models, router, connection, backends
-from django.db.models import Case, When, Value, IntegerField
+from django.db.models import Case, When, Value, IntegerField, QuerySet
+from django.db.models.query_utils import Q
 
 # from django.db.models.query_utils import Q
 
@@ -15,7 +16,7 @@ import unicodedata
 import jaconv
 
 
-class JpBirthdayQuerySet(models.QuerySet):
+class JpBirthdayQuerySet(QuerySet):
     def __init__(self, model=None, query=None, using=None, hints=None):
         super().__init__(model, query, using, hints)
 
@@ -55,14 +56,25 @@ class JpBirthdayManager(models.Manager):
             day = date.today()
         return day.timetuple().tm_yday
 
-    def _order(self, reverse=False, case=False):
-        print("~~~" * 30)
+    def _order(self, reverse=False, case=False) -> QuerySet:
+        """[summary]
+
+        Args:
+            reverse (bool, optional): Trueの場合は逆順にする. Defaults to False.
+            case (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            QuerySet: qs.order_byの結果を返す.
+        """
+
+        # print("~~~" * 30)
+
         cdoy = date.today().timetuple().tm_yday
         bdoy = self._birthday_doy_field
         doys = {"cdoy": cdoy, "bdoy": bdoy}
 
         if case:
-            print("CASE", self.CASE % doys)
+            # print("CASE", self.CASE % doys)
             qs = self.extra(select={"internal_bday_order": self.CASE % doys})
             order_field = "internal_bday_order"
         else:
@@ -149,9 +161,49 @@ class JpBirthdayManager(models.Manager):
             return range_birthdays
         return self.filter(birthday=None)
 
+    def _get_upcoming_birthdays(
+        self, days=30, after=None, include_day=True, order=True, reverse=False
+    ) -> JpBirthdayQuerySet:
+        """[summary]
+
+        Args:
+            days (int, optional): [description]. Defaults to 30.
+            after ([type], optional): [description]. Defaults to None.
+            include_day (bool, optional): [description]. Defaults to True.
+            order (bool, optional): [description]. Defaults to True.
+            reverse (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            JpBirthdayQuerySet: [description]
+        """
+        today = self._doy(after)
+        limit = today + days
+
+        q = Q(
+            **{
+                "%s__gt%s"
+                % (self._birthday_doy_field, "e" if include_day else ""): today
+            }
+        )
+        q &= Q(**{"%s__lt" % self._birthday_doy_field: limit})
+
+        if limit > 365:
+            limit = limit - 365
+            today = 1
+
+            q2 = Q(**{"%s__gte" % self._birthday_doy_field: today})
+            q2 &= Q(**{"%s__lt" % self._birthday_doy_field: limit})
+            q = q | q2
+
+        if order:
+            qs = self._order(reverse, True)
+            return qs.filter(q)
+
+        return self.filter(q)
+
     def get_upcoming_birthdays(
         self, days=30, after=None, include_day=True, order=True, reverse=False
-    ):
+    ) -> JpBirthdayQuerySet:
         """get_upcoming_birthdays
 
         Args:
@@ -162,8 +214,10 @@ class JpBirthdayManager(models.Manager):
             reverse (bool, optional): [description]. Defaults to False.
 
         Returns:
-            [type]: [description]
+            JpBirthdayQuerySet: [description]
         """
+
+        return self._get_upcoming_birthdays(30, after, include_day, order, reverse)
 
         db_route = router.db_for_read(self)
         engine = settings.DATABASES[db_route]["ENGINE"]
@@ -266,49 +320,33 @@ class JpBirthdayManager(models.Manager):
             # print("cursor", type(cursor))
             cursor.close()
 
-    def get_birthdays(self, day=None):
+    def get_birthdays(self, day=None) -> JpBirthdayQuerySet:
         """[summary]
 
         Args:
             day ([type], optional): [description]. Defaults to None.
 
         Returns:
-            [type]: [description]
+            JpBirthdayQuerySet: [description]
         """
-        if not day:
-            day = date.today()
+        # print("~~~" * 30)
+        # print("get_birthdays")
+        # print("self._doy(day)", self._doy(day))
+        # print("_birthday_doy_field", self._birthday_doy_field)
 
-        birthdays = self.filter(
-            birthday__month__exact=day.month,
-            birthday__day__exact=day.day,
-        )
-        return birthdays
+        get_birthdays = self.filter(**{self._birthday_doy_field: self._doy(day)})
+        # print("get_birthdays", get_birthdays, type(get_birthdays))
 
-    def order_by_birthday(self, reverse=False):
+        return get_birthdays
+
+    def order_by_birthday(self, reverse=False) -> JpBirthdayQuerySet:
+        """生まれた年は関係なく誕生日順に並べる
+
+        Args:
+            reverse (bool, optional): Trueの場合は逆順にする. Defaults to False.
+
+        Returns:
+            JpBirthdayQuerySet: QuerySetの結果を返す.
+        """
+
         return self._order(reverse)
-
-    # def order_by_birthday(self, reverse=False):
-    #     """[summary]
-
-    #     Args:
-    #         reverse (bool, optional): [description]. Defaults to False.
-
-    #     Returns:
-    #         [type]: [description]
-    #     """
-
-    #     birthdays_ids = []
-    #     for i in range(1, 13):
-    #         birthdays_ids += [
-    #             b.pk
-    #             for b in self.filter(birthday__month__exact=i).order_by(*("birthday",))
-    #         ]
-
-    #     cases = [When(id=id, then=pos) for pos, id in enumerate(birthdays_ids)]
-    #     order = Case(*cases)
-
-    #     birthdays = self.filter(id__in=birthdays_ids).order_by(order)
-
-    #     if reverse:
-    #         birthdays = birthdays.reverse()
-    #     return birthdays
