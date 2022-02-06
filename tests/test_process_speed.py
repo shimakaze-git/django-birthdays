@@ -2,7 +2,7 @@ import time
 from faker import Faker
 
 from django.test import TestCase
-from datetime import date
+from datetime import date, datetime
 
 from tests.models import ModelTest
 
@@ -23,12 +23,16 @@ class BirthdayTestProcessSpeed(TestCase):
 
         self.birthdays = self.meiji + self.showa + self.heisei
 
+        count = 100000
+        # count = 50000
         # count = 10000
-        count = 2500
+        # count = 2500
         # count = 100
         self.birthdays = [str(fakegen.date_of_birth()) for _ in range(count)]
         for birthday in self.birthdays:
-            model_test = ModelTest(birthday=birthday)
+            model_test = ModelTest(
+                birthday=datetime.strptime(birthday, "%Y-%m-%d").date()
+            )
             model_test.save()
 
     def test_get_upcoming_birthdays(self):
@@ -50,7 +54,7 @@ class BirthdayTestProcessSpeed(TestCase):
         run_time = end - start
         print("test_get_birthdays", run_time)
 
-        self.assertTrue(20 > run_time)
+        self.assertTrue(10 > run_time)
 
     def test_order_by_birthday(self):
 
@@ -61,18 +65,18 @@ class BirthdayTestProcessSpeed(TestCase):
 
         end = time.perf_counter()
         run_time = end - start
-        print("test_order_by_birthday", run_time)
+        print("test_order_by_birthday 1", run_time)
 
         self.assertEqual(years, birthdays)
-        self.assertTrue(20 > run_time)
+        self.assertTrue(10 > run_time)
 
         start = time.perf_counter()
         ModelTest.objects.order_by_birthday(True)
         end = time.perf_counter()
         run_time = end - start
-        print("test_order_by_birthday", run_time)
+        print("test_order_by_birthday 2", run_time)
 
-        self.assertTrue(20 > run_time)
+        self.assertTrue(10 > run_time)
 
     @classmethod
     def teardown_class(self):
