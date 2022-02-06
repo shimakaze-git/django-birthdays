@@ -55,6 +55,10 @@ lint/black: ## check style with black
 
 lint: lint/flake8 lint/black ## check style
 
+test-one: ## run tests quickly with the default Python
+	tox -e py38-django30 $(TEST_PATH)
+# make test-one TEST_PATH=tests.test_init
+
 test: ## run tests quickly with the default Python
 	tox -e py38-django30,black,flake8
 

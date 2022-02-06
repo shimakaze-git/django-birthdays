@@ -18,6 +18,8 @@ class BirthdayTestManagers(TestCase):
         print("setup_class")
 
     def setUp(self):
+        print("setUp")
+
         self.meiji = ["1905-1-2", "1905-1-1", "1905-2-1", "1905-2-2", "1905-1-30"]
         self.showa = ["1980-7-7", "1975-1-1", "1970-2-15"]
         self.heisei = [
@@ -30,10 +32,17 @@ class BirthdayTestManagers(TestCase):
 
         self.birthdays = self.meiji + self.showa + self.heisei
         for birthday in self.birthdays:
-            model_test = ModelTest(birthday=birthday)
+            model_test = ModelTest(
+                birthday=datetime.strptime(birthday, "%Y-%m-%d").date()
+            )
             model_test.save()
 
+            # print("model_test.birthday", model_test.birthday, type(model_test.birthday))
+
     def test_get_upcoming_birthdays(self):
+
+        print("---" * 20)
+        print("test_get_upcoming_birthdays")
 
         # settings.DEBUG = True
 
@@ -62,27 +71,47 @@ class BirthdayTestManagers(TestCase):
 
         settings.DEBUG = False
 
-        for query in connection.queries:
-            print(query["sql"])
-            print("----" * 5)
-        print(len(connection.queries))
+        # for query in connection.queries:
+        #     print(query["sql"])
+        #     print("----" * 5)
+        # print(len(connection.queries))
 
     def test_order_by_birthday(self):
+
+        print("---" * 20)
+        print("test_order_by_birthday")
+
         pks1 = [obj.pk for obj in ModelTest.objects.order_by("birthday")]
         pks2 = [obj.pk for obj in ModelTest.objects.order_by_birthday(True)]
 
+        # print("pks1", pks1)
+        # print("pks2", pks2)
         self.assertNotEqual(pks1, pks2)
 
-        # doys = [
-        #     getattr(obj, "birthday_dayofyear_internal")
-        #     for obj in ModelTest.objects.order_by_birthday()
-        # ]
-        # self.assertEqual(doys, [1, 2, 365])
+        birthdays = ModelTest.objects.order_by_birthday()
+        order_by_birthday = [obj.birthday for obj in birthdays]
+        print("order_by_birthday", order_by_birthday)
 
-        # doys = [
-        #     getattr(obj, "birthday_dayofyear_internal")
-        #     for obj in ModelTest.objects.order_by_birthday(True)
-        # ]
+        doys = [
+            getattr(obj, "birthday_dayofyear_internal")
+            for obj in ModelTest.objects.order_by_birthday()
+        ]
+
+        obj_birthdays = [
+            obj.birthday.timetuple().tm_yday
+            for obj in ModelTest.objects.order_by("birthday")
+        ]
+
+        # self.assertEqual(doys, [1, 2, 365])
+        self.assertEqual(doys, sorted(obj_birthdays))
+
+        doys = [
+            getattr(obj, "birthday_dayofyear_internal")
+            for obj in ModelTest.objects.order_by_birthday(True)
+        ]
+        # print("doys", doys)
+        # print("obj_birthdays", obj_birthdays, sorted(obj_birthdays, reverse=True))
+        self.assertEqual(doys, sorted(obj_birthdays, reverse=True))
         # self.assertEqual(doys, [365, 2, 1])
 
         years = [obj.birthday.year for obj in ModelTest.objects.order_by("birthday")]

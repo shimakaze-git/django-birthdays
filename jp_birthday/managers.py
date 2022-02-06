@@ -38,7 +38,43 @@ class JpBirthdayManager(models.Manager):
         models ([type]): [description]
     """
 
+    CASE = "CASE WHEN %(bdoy)s<%(cdoy)s THEN %(bdoy)s+365 ELSE %(bdoy)s END"
     j2w = jeraconv.J2W()
+
+    @property
+    def _birthday_doy_field(self):
+        # print("self.model", self.model)
+        # print("self.model._meta", self.model._meta)
+        # print("self.model._meta.birthday_field", self.model._meta.birthday_field)
+        # print("doy_name", self.model._meta.birthday_field.doy_name)
+
+        return self.model._meta.birthday_field.doy_name
+
+    def _doy(self, day):
+        if not day:
+            day = date.today()
+        return day.timetuple().tm_yday
+
+    def _order(self, reverse=False, case=False):
+        print("~~~" * 30)
+        cdoy = date.today().timetuple().tm_yday
+        bdoy = self._birthday_doy_field
+        doys = {"cdoy": cdoy, "bdoy": bdoy}
+
+        if case:
+            print("CASE", self.CASE % doys)
+            qs = self.extra(select={"internal_bday_order": self.CASE % doys})
+            order_field = "internal_bday_order"
+        else:
+            qs = self.all()
+            order_field = bdoy
+
+        order_by = "%s" % order_field
+        if reverse:
+            order_by = "-%s" % order_field
+
+        results = qs.order_by(order_by)
+        return results
 
     def get_queryset(self):
         return JpBirthdayQuerySet(self.model, using=self._db)
@@ -230,63 +266,6 @@ class JpBirthdayManager(models.Manager):
             # print("cursor", type(cursor))
             cursor.close()
 
-    # def get_upcoming_birthdays(
-    #     self, days=30, after=None, include_day=True, order=True, reverse=False
-    # ):
-    #     """[summary]
-
-    #     Args:
-    #         days (int, optional): [description]. Defaults to 30.
-    #         after ([type], optional): [description]. Defaults to None.
-    #         include_day (bool, optional): [description]. Defaults to True.
-    #         order (bool, optional): [description]. Defaults to True.
-    #         reverse (bool, optional): [description]. Defaults to False.
-
-    #     Returns:
-    #         [type]: [description]
-    #     """
-    #     # 今後の誕生日
-
-    #     birthdays = self.filter()
-    #     birthdays_list = [b.birthday_tm_yday for b in birthdays]
-
-    #     if after:
-    #         after = datetime.combine(after, time())
-    #         after = pytz.timezone("Asia/Tokyo").localize(after)
-    #     else:
-    #         after = datetime.now()
-
-    #     days += 1
-    #     if not include_day:
-    #         after = after + timedelta(days=1)
-    #         days -= 1
-
-    #     after_list = [
-    #         (after + timedelta(days=i)).date().timetuple().tm_yday for i in range(days)
-    #     ]
-
-    #     idx_list = []
-    #     for a_t in after_list:
-    #         if birthdays_list.count(None) == len(birthdays_list):
-    #             break
-
-    #         for _ in birthdays_list:
-    #             if a_t in birthdays_list:
-    #                 n = birthdays_list.index(a_t)
-    #                 # print("n", n, a_t, birthdays_list[n])
-    #                 birthdays_list[n] = None
-    #                 idx_list.append(n)
-
-    #     pk_list = [birthdays[idx].pk for idx in idx_list]
-
-    #     birthdays = birthdays.filter(pk__in=pk_list)
-    #     if order:
-    #         birthdays = birthdays.order_by(*("birthday",))
-
-    #     if reverse:
-    #         birthdays = birthdays.reverse()
-    #     return birthdays
-
     def get_birthdays(self, day=None):
         """[summary]
 
@@ -306,27 +285,30 @@ class JpBirthdayManager(models.Manager):
         return birthdays
 
     def order_by_birthday(self, reverse=False):
-        """[summary]
+        return self._order(reverse)
 
-        Args:
-            reverse (bool, optional): [description]. Defaults to False.
+    # def order_by_birthday(self, reverse=False):
+    #     """[summary]
 
-        Returns:
-            [type]: [description]
-        """
+    #     Args:
+    #         reverse (bool, optional): [description]. Defaults to False.
 
-        birthdays_ids = []
-        for i in range(1, 13):
-            birthdays_ids += [
-                b.pk
-                for b in self.filter(birthday__month__exact=i).order_by(*("birthday",))
-            ]
+    #     Returns:
+    #         [type]: [description]
+    #     """
 
-        cases = [When(id=id, then=pos) for pos, id in enumerate(birthdays_ids)]
-        order = Case(*cases)
+    #     birthdays_ids = []
+    #     for i in range(1, 13):
+    #         birthdays_ids += [
+    #             b.pk
+    #             for b in self.filter(birthday__month__exact=i).order_by(*("birthday",))
+    #         ]
 
-        birthdays = self.filter(id__in=birthdays_ids).order_by(order)
+    #     cases = [When(id=id, then=pos) for pos, id in enumerate(birthdays_ids)]
+    #     order = Case(*cases)
 
-        if reverse:
-            birthdays = birthdays.reverse()
-        return birthdays
+    #     birthdays = self.filter(id__in=birthdays_ids).order_by(order)
+
+    #     if reverse:
+    #         birthdays = birthdays.reverse()
+    #     return birthdays
