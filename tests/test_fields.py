@@ -2,7 +2,6 @@
 
 from datetime import datetime
 
-# from django.core.exceptions import FieldError
 from django.test import TestCase
 
 from tests.models import ModelTest
