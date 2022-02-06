@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.test import TestCase
 
 from tests.models import ModelTest
@@ -17,12 +19,14 @@ class BirthdayTestModels(TestCase):
 
         self.birthdays = self.meiji + self.showa + self.heisei
         for birthday in self.birthdays:
-            model_test = ModelTest(birthday=birthday)
+            model_test = ModelTest(
+                birthday=datetime.strptime(birthday, "%Y-%m-%d").date()
+            )
             model_test.save()
 
     def test_default(self):
 
-        self.assertEqual(len(ModelTest._meta.fields), 2)
+        self.assertEqual(len(ModelTest._meta.fields), 3)
         self.assertTrue(hasattr(ModelTest, "birthday"))
         self.assertEqual(ModelTest.objects.all().count(), len(self.birthdays))
 
