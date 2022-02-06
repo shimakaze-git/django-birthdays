@@ -14,6 +14,7 @@ jobs:
       matrix:
         # python-version: [3.4, 3.5, 3.6, 3.7, 3.8, 3.9]
         python-version: [3.7, 3.8, 3.9]
+        # python-version: [3.7]
 
     steps:
       - uses: actions/checkout@master
@@ -33,6 +34,13 @@ jobs:
       - name: Test with tox
         run: |
           ls -la
+
+        	# tox -e $(TOX_OPTION)
+          # tox -e py38-django30,black,flake8
+          # ${{ matrix.python-version }}
+          # make test TOX_OPTION=py38-django30
+
+          # make test TOX_OPTION=py37-django30
           make test-all
 
       - uses: codecov/codecov-action@v2
