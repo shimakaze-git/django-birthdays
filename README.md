@@ -22,7 +22,9 @@ Authored by [shimakaze_soft](https://github.com/shimakaze-git) and some great
 
 # Features
 
-- TODO
+- Get all user profiles within the next 30 days
+- Get all user profiles which have their birthday today
+- order the user profiles according to their birthday
 
 # Installation
 
@@ -35,6 +37,10 @@ $ python steup.py install
 ```
 
 # Usage
+
+django-jp-birthday provides a `jp_birthday.models.BirthdayModel` model type which is a subclass of django.db.models.Model and thus has the same characteristics as that.
+
+`jp_birthday.managers.JpBirthdayManager` is used as a manager for `jp_birthday.models.BirthdayModel` and provides various methods.
 
 ```Python
 from jp_birthday.models import BirthdayModel
