@@ -20,3 +20,12 @@ class JpEra:
 
     def convert(self, str_arg, limit_check=True):
         pass
+
+    def __pre_process(self, str_arg):
+        pass
+
+    def __is_correct_format(self, str_arg):
+        pass
+
+    def __is_correct_era(self, str_arg):
+        pass
