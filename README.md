@@ -26,6 +26,10 @@ Authored by [shimakaze_soft](https://github.com/shimakaze-git) and some great
 - Get all user profiles which have their birthday today
 - order the user profiles according to their birthday
 
+- Converting Birthdays to Japanese Style
+- Calculate age based on birthday
+- Get all birthdays in the specified Japanese calendar
+
 # Installation
 
 - [pypi](https://pypi.org/project/django-jp-birthday/)
