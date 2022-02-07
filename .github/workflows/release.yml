@@ -127,11 +127,16 @@ jobs:
         run: |
           pip --no-cache-dir install --upgrade pip
           pip --no-cache-dir install setuptools setuptools_scm wheel twine
+          pip --no-cache-dir install sphinx_rtd_theme
           pip list
 
       - name: Create Build package
         run: |
           make dist
+
+      - name: Create Build Document
+        run: |
+          make docs
 
       - name: Run twine check
         env:
