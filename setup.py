@@ -47,7 +47,7 @@ setup(
     description="Django model for Japanese birthday.",
     entry_points={
         "console_scripts": [
-            "django_jp_birthday=jp_birthday.cli:main",
+            # "django_jp_birthday=jp_birthday.cli:main",
             # "django_jp_birthday=django_jp_birthday.cli:main",
         ],
     },
