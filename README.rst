@@ -2,6 +2,7 @@ django-jp-birthday
 ==================
 
 |https://pypi.python.org/pypi/django_jp_birthday| |image|
+|https://img.shields.io:/pypi/djversions/django-jp-birthday|
 |https://django-jp-birthday.readthedocs.io/en/latest/?version=latest|
 |Updates| |Python 3|
 |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday|
@@ -93,6 +94,7 @@ License
 .. |https://pypi.python.org/pypi/django_jp_birthday| image:: https://img.shields.io/pypi/v/django_jp_birthday.svg
 .. |image| image:: https://img.shields.io/pypi/pyversions/django-jp-birthday.svg
    :target: https://pypi.org/project/django-jp-birthday
+.. |https://img.shields.io:/pypi/djversions/django-jp-birthday| image:: https://img.shields.io:/pypi/djversions/django-jp-birthday
 .. |https://django-jp-birthday.readthedocs.io/en/latest/?version=latest| image:: https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest
 .. |Updates| image:: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/shield.svg
    :target: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/
