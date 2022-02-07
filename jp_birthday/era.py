@@ -17,3 +17,6 @@ class JpEra:
             dict: [description]
         """
         pass
+
+    def convert(self, str_arg, limit_check=True):
+        pass
