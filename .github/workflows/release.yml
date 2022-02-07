@@ -13,6 +13,7 @@ on:
 
 jobs:
   release:
+    if: github.event.pull_request.merged == true
     # if: github.repository == 'jazzband/django-model-utils'
     runs-on: ubuntu-latest
     steps:
@@ -70,7 +71,7 @@ jobs:
           pandoc -f markdown -t rst -o README.rst README.md
           pandoc -f markdown -t rst -o HISTORY.rst HISTORY.md
 
-          rm HISTORY.md
+        # rm HISTORY.md
 
       - name: update master
         run: |

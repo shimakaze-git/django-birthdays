@@ -1,14 +1,23 @@
 #!/usr/bin/env python
 
 """The setup script."""
-
+from os import path
 from jp_birthday import __version__
 from setuptools import setup, find_packages
 
-with open("README.rst") as readme_file:
+here = path.abspath(path.dirname(__file__))
+
+
+# with open("README.md") as readme_file:
+# with open("README.rst", encoding='utf-8') as readme_file:
+# with open("README.md", encoding='utf-8') as readme_file:
+with open(path.join(here, "README.md")) as readme_file:
     readme = readme_file.read()
 
-with open("HISTORY.rst") as history_file:
+# with open("HISTORY.md") as history_file:
+# with open("HISTORY.rst", encoding='utf-8') as history_file:
+# with open("HISTORY.md", encoding='utf-8') as history_file:
+with open(path.join(here, "HISTORY.md")) as history_file:
     history = history_file.read()
 
 with open("requirements.txt") as requirements_txt:
@@ -16,6 +25,10 @@ with open("requirements.txt") as requirements_txt:
         r.replace("\n", "") for r in requirements_txt if ("#" not in r) and ("\n" != r)
     ]
     # print("requirements", requirements)
+
+long_description = readme
+long_description += "\n\n\n -------- \n\n\n"
+long_description += history
 
 test_requirements = []
 
@@ -53,8 +66,9 @@ setup(
     },
     install_requires=requirements,
     license="MIT license",
-    long_description=readme + "\n\n" + history,
-    long_description_content_type="text/x-rst",
+    long_description=long_description,
+    # long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     include_package_data=True,
     keywords="django_jp_birthday django birthday era",
     name="django_jp_birthday",
