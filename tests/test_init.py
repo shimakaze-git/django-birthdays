@@ -4,8 +4,6 @@ from datetime import date, datetime
 
 from django.core.exceptions import FieldError
 
-# from django.conf import settings
-# from django.db import connection, models
 from django.db import models
 from django.test import TestCase
 
@@ -17,7 +15,6 @@ from tests.models import ModelTest
 class BirthdayTest(TestCase):
     def setUp(self):
         self.birthdays = ["2001-01-01", "2000-01-02", "2002-12-31"]
-        # self.birthdays = ["2001-01-01", "2000-01-02", "2002-12-31", "2002-12-20"]
         for birthday in self.birthdays:
             ModelTest.objects.create(
                 birthday=datetime.strptime(birthday, "%Y-%m-%d").date()
@@ -92,11 +89,6 @@ class BirthdayTest(TestCase):
         )
         self.assertTrue(ModelTest.objects.get_birthdays().count() in [0, 1])
         # print("~~~" * 20)
-
-        # settings.DEBUG = False
-
-        # for query in connection.queries:
-        #     print(query["sql"])
 
     def test_exception(self):
         class BrokenModel(models.Model):
