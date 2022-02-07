@@ -8,16 +8,16 @@ from setuptools import setup, find_packages
 here = path.abspath(path.dirname(__file__))
 
 
-with open("README.md") as readme_file:
-    # with open("README.rst", encoding='utf-8') as readme_file:
-    # with open("README.md", encoding='utf-8') as readme_file:
-    # with open(path.join(here, "README.md"), encoding="utf-8") as readme_file:
+# with open("README.md") as readme_file:
+# with open("README.rst", encoding='utf-8') as readme_file:
+# with open("README.md", encoding='utf-8') as readme_file:
+with open(path.join(here, "README.md")) as readme_file:
     readme = readme_file.read()
 
-with open("HISTORY.md") as history_file:
-    # with open("HISTORY.rst", encoding='utf-8') as history_file:
-    # with open("HISTORY.md", encoding='utf-8') as history_file:
-    # with open(path.join(here, "HISTORY.md"), encoding="utf-8") as history_file:
+# with open("HISTORY.md") as history_file:
+# with open("HISTORY.rst", encoding='utf-8') as history_file:
+# with open("HISTORY.md", encoding='utf-8') as history_file:
+with open(path.join(here, "HISTORY.md")) as history_file:
     history = history_file.read()
 
 with open("requirements.txt") as requirements_txt:
