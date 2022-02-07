@@ -37,8 +37,6 @@ class BirthdayTestManagers(TestCase):
             )
             model_test.save()
 
-            # print("model_test.birthday", model_test.birthday, type(model_test.birthday))
-
     def test_get_upcoming_birthdays(self):
 
         print("---" * 20)
@@ -70,11 +68,6 @@ class BirthdayTestManagers(TestCase):
         print("----" * 15)
 
         settings.DEBUG = False
-
-        # for query in connection.queries:
-        #     print(query["sql"])
-        #     print("----" * 5)
-        # print(len(connection.queries))
 
     def test_order_by_birthday(self):
 
