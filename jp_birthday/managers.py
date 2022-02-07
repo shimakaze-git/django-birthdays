@@ -1,5 +1,8 @@
-from django.db import models
-from django.db.models import Case, When
+from django.conf import settings
+
+from django.db import models, router, connection, backends
+from django.db.models import Case, When, Value, IntegerField, QuerySet
+from django.db.models.query_utils import Q
 
 # from django.db.models.query_utils import Q
 
@@ -13,6 +16,22 @@ import unicodedata
 import jaconv
 
 
+class JpBirthdayQuerySet(QuerySet):
+    def __init__(self, model=None, query=None, using=None, hints=None):
+        super().__init__(model, query, using, hints)
+
+    def order_by_ids_filter(self, ids: list):
+        cases = [When(id=id, then=Value(i + 1)) for i, id in enumerate(ids)]
+
+        birthdays = (
+            self.filter(id__in=ids)
+            .annotate(md_order=Case(*cases, output_field=IntegerField()))
+            .order_by("md_order")
+        )
+
+        return birthdays
+
+
 class JpBirthdayManager(models.Manager):
     """[summary]
 
@@ -20,7 +39,63 @@ class JpBirthdayManager(models.Manager):
         models ([type]): [description]
     """
 
+    CASE = "CASE WHEN %(bdoy)s<%(cdoy)s THEN %(bdoy)s+365 ELSE %(bdoy)s END"
     j2w = jeraconv.J2W()
+
+    @property
+    def _birthday_doy_field(self):
+        # print("self.model", self.model)
+        # print("self.model._meta", self.model._meta)
+        # print("self.model._meta.birthday_field", self.model._meta.birthday_field)
+        # print("doy_name", self.model._meta.birthday_field.doy_name)
+
+        return self.model._meta.birthday_field.doy_name
+
+    def _doy(self, day):
+        if not day:
+            day = date.today()
+        return day.timetuple().tm_yday
+
+    def _order(self, reverse=False, case=False) -> QuerySet:
+        """[summary]
+
+        Args:
+            reverse (bool, optional): Trueの場合は逆順にする. Defaults to False.
+            case (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            QuerySet: qs.order_byの結果を返す.
+        """
+
+        # print("~~~" * 30)
+
+        cdoy = date.today().timetuple().tm_yday
+        bdoy = self._birthday_doy_field
+        doys = {"cdoy": cdoy, "bdoy": bdoy}
+
+        if case:
+            # print("CASE", self.CASE % doys)
+            qs = self.extra(select={"internal_bday_order": self.CASE % doys})
+            order_field = "internal_bday_order"
+        else:
+            qs = self.all()
+            order_field = bdoy
+
+        order_by = "%s" % order_field
+        if reverse:
+            order_by = "-%s" % order_field
+
+        results = qs.order_by(order_by)
+        return results
+
+    def get_queryset(self):
+        return JpBirthdayQuerySet(self.model, using=self._db)
+
+    def cursor_filter_ids(self, cursor: backends.utils.CursorWrapper) -> list:
+        columns = [col[0] for col in cursor.description]
+        ids = [dict(zip(columns, row))["id"] for row in cursor.fetchall()]
+
+        return ids
 
     def _check_language(self, string):
         l_type = ""
@@ -86,9 +161,9 @@ class JpBirthdayManager(models.Manager):
             return range_birthdays
         return self.filter(birthday=None)
 
-    def get_upcoming_birthdays(
+    def _get_upcoming_birthdays(
         self, days=30, after=None, include_day=True, order=True, reverse=False
-    ):
+    ) -> JpBirthdayQuerySet:
         """[summary]
 
         Args:
@@ -99,12 +174,56 @@ class JpBirthdayManager(models.Manager):
             reverse (bool, optional): [description]. Defaults to False.
 
         Returns:
-            [type]: [description]
+            JpBirthdayQuerySet: [description]
         """
-        # 今後の誕生日
+        today = self._doy(after)
+        limit = today + days
 
-        birthdays = self.filter()
-        birthdays_list = [b.birthday_tm_yday for b in birthdays]
+        q = Q(
+            **{
+                "%s__gt%s"
+                % (self._birthday_doy_field, "e" if include_day else ""): today
+            }
+        )
+        q &= Q(**{"%s__lt" % self._birthday_doy_field: limit})
+
+        if limit > 365:
+            limit = limit - 365
+            today = 1
+
+            q2 = Q(**{"%s__gte" % self._birthday_doy_field: today})
+            q2 &= Q(**{"%s__lt" % self._birthday_doy_field: limit})
+            q = q | q2
+
+        if order:
+            qs = self._order(reverse, True)
+            return qs.filter(q)
+
+        return self.filter(q)
+
+    def get_upcoming_birthdays(
+        self, days=30, after=None, include_day=True, order=True, reverse=False
+    ) -> JpBirthdayQuerySet:
+        """get_upcoming_birthdays
+
+        Args:
+            days (int, optional): [description]. Defaults to 30.
+            after ([type], optional): [description]. Defaults to None.
+            include_day (bool, optional): [description]. Defaults to True.
+            order (bool, optional): [description]. Defaults to True.
+            reverse (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            JpBirthdayQuerySet: [description]
+        """
+
+        return self._get_upcoming_birthdays(30, after, include_day, order, reverse)
+
+        db_route = router.db_for_read(self)
+        engine = settings.DATABASES[db_route]["ENGINE"]
+        db_table_name = self.model._meta.db_table
+
+        cursor = connection.cursor()
 
         if after:
             after = datetime.combine(after, time())
@@ -112,77 +231,122 @@ class JpBirthdayManager(models.Manager):
         else:
             after = datetime.now()
 
-        days += 1
+        print("include_day", include_day)
+        print("after", after)
         if not include_day:
-            after = after + timedelta(days=1)
+            after += timedelta(days=1)
             days -= 1
+        days = str(days)
 
-        after_list = [
-            (after + timedelta(days=i)).date().timetuple().tm_yday for i in range(days)
-        ]
+        after = after.date()
+        after_str = "'{0}'".format(after)
 
-        idx_list = []
-        for a_t in after_list:
-            if birthdays_list.count(None) == len(birthdays_list):
-                break
+        sql = "select {0}.*, ".format(db_table_name)
+        if "sqlite3" in engine:
+            sql += "strftime('%m-%d', birthday) as md "
+            sql += "from {0} where md ".format(db_table_name)
+        else:
+            pass
 
-            for _ in birthdays_list:
-                if a_t in birthdays_list:
-                    n = birthdays_list.index(a_t)
-                    # print("n", n, a_t, birthdays_list[n])
-                    birthdays_list[n] = None
-                    idx_list.append(n)
+        next = date(year=int(after.year), month=12, day=31) - after
 
-        pk_list = [birthdays[idx].pk for idx in idx_list]
+        try:
+            ids = []
+            if int(days) > next.days:
+                diff = int(days) - next.days
 
-        birthdays = birthdays.filter(pk__in=pk_list)
-        if order:
-            birthdays = birthdays.order_by(*("birthday",))
+                sql_1 = sql
+                if "sqlite3" in engine:
+                    # sql_1 += "> strftime('%m-%d', {0})".format(after_str)
+                    sql_1 += ">= strftime('%m-%d', {0})".format(after_str)
+                else:
+                    pass
 
-        if reverse:
-            birthdays = birthdays.reverse()
-        return birthdays
+                if order:
+                    sql_1 += " order by md asc;"
 
-    def get_birthdays(self, day=None):
+                cursor.execute(sql_1)
+                ids += self.cursor_filter_ids(cursor)
+
+                sql_2 = sql
+                if "sqlite3" in engine:
+                    sql_2 += "between "
+                    sql_2 += "strftime('%m-%d', {0}) and ".format("'2000-01-01'")
+                    sql_2 += (
+                        "strftime('%m-%d', date({0}, 'localtime', '+{1} day'))".format(
+                            "'2000-01-01'", str(diff)
+                        )
+                    )
+                else:
+                    pass
+
+                if order:
+                    sql_2 += " order by md asc;"
+
+                cursor.execute(sql_2)
+                ids += self.cursor_filter_ids(cursor)
+            else:
+                between_sql = "between "
+                if "sqlite3" in engine:
+                    between_sql += "strftime('%m-%d', {0}) and ".format(after_str)
+                    between_sql += (
+                        "strftime('%m-%d', date({0}, 'localtime', '+{1} day'))".format(
+                            after_str, days
+                        )
+                    )
+
+                    # sql += " order by birthday asc;"
+                else:
+                    pass
+
+                sql += between_sql
+                if order:
+                    sql += " order by md asc;"
+
+                print("sql", sql)
+
+                cursor.execute(sql)
+                ids += self.cursor_filter_ids(cursor)
+
+            print("ids*******", ids)
+
+            if reverse:
+                ids.reverse()
+
+            birthdays = self.get_queryset().order_by_ids_filter(ids)
+
+            return birthdays
+        finally:
+            # print("cursor", type(cursor))
+            cursor.close()
+
+    def get_birthdays(self, day=None) -> JpBirthdayQuerySet:
         """[summary]
 
         Args:
             day ([type], optional): [description]. Defaults to None.
 
         Returns:
-            [type]: [description]
+            JpBirthdayQuerySet: [description]
         """
-        if not day:
-            day = date.today()
+        # print("~~~" * 30)
+        # print("get_birthdays")
+        # print("self._doy(day)", self._doy(day))
+        # print("_birthday_doy_field", self._birthday_doy_field)
 
-        birthdays = self.filter(
-            birthday__month__exact=day.month,
-            birthday__day__exact=day.day,
-        )
-        return birthdays
+        get_birthdays = self.filter(**{self._birthday_doy_field: self._doy(day)})
+        # print("get_birthdays", get_birthdays, type(get_birthdays))
 
-    def order_by_birthday(self, reverse=False):
-        """[summary]
+        return get_birthdays
+
+    def order_by_birthday(self, reverse=False) -> JpBirthdayQuerySet:
+        """生まれた年は関係なく誕生日順に並べる
 
         Args:
-            reverse (bool, optional): [description]. Defaults to False.
+            reverse (bool, optional): Trueの場合は逆順にする. Defaults to False.
 
         Returns:
-            [type]: [description]
+            JpBirthdayQuerySet: QuerySetの結果を返す.
         """
 
-        birthdays_ids = []
-        for i in range(1, 13):
-            birthdays_ids += [
-                b.pk
-                for b in self.filter(birthday__month__exact=i).order_by(*("birthday",))
-            ]
-
-        cases = [When(id=id, then=pos) for pos, id in enumerate(birthdays_ids)]
-        order = Case(*cases)
-
-        birthdays = self.filter(id__in=birthdays_ids).order_by(order)
-
-        if reverse:
-            birthdays = birthdays.reverse()
-        return birthdays
+        return self._order(reverse)
