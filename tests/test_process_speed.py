@@ -23,11 +23,11 @@ class BirthdayTestProcessSpeed(TestCase):
 
         self.birthdays = self.meiji + self.showa + self.heisei
 
-        # count = 100000
-        # count = 50000
-        count = 10000
-        # count = 2500
         # count = 100
+        # count = 2500
+        count = 10000
+        # count = 50000
+        # count = 100000
         self.birthdays = [str(fakegen.date_of_birth()) for _ in range(count)]
         for birthday in self.birthdays:
             model_test = ModelTest(
