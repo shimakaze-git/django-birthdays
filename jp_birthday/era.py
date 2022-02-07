@@ -18,14 +18,15 @@ class JpEra:
         """
         pass
 
-    def convert(self, str_arg, limit_check=True):
+    def convert(self, arg: str, limit_check=True):
         """[summary]
 
         Args:
             str_arg ([type]): [description]
             limit_check (bool, optional): [description]. Defaults to True.
         """
-        pass
+        str_arg = str(arg)
+        # str_arg = self.__pre_process(str_arg)
 
     def __pre_process(self, str_arg):
         """[summary]
