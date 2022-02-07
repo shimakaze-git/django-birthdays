@@ -19,13 +19,34 @@ class JpEra:
         pass
 
     def convert(self, str_arg, limit_check=True):
+        """[summary]
+
+        Args:
+            str_arg ([type]): [description]
+            limit_check (bool, optional): [description]. Defaults to True.
+        """
         pass
 
     def __pre_process(self, str_arg):
+        """[summary]
+
+        Args:
+            str_arg ([type]): [description]
+        """
         pass
 
     def __is_correct_format(self, str_arg):
+        """[summary]
+
+        Args:
+            str_arg ([type]): [description]
+        """
         pass
 
     def __is_correct_era(self, str_arg):
+        """[summary]
+
+        Args:
+            str_arg ([type]): [description]
+        """
         pass
