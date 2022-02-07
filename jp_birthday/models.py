@@ -18,6 +18,9 @@ class BaseBirthdayModel(models.Model):
     class Meta:
         abstract = True
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     @property
     def birthday_month(self):
         return self.birthday.timetuple().tm_mon
@@ -101,6 +104,23 @@ class BaseBirthdayModel(models.Model):
             age -= 1
 
         return age
+
+    def get_zodiac(self) -> str:
+        """
+        誕生日を元に干支を取得する.
+
+        Returns:
+            str: 干支を返す.
+        """
+        zodiacs = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
+
+        birthday = self.birthday
+        year = birthday.timetuple().tm_year
+
+        num_zodiac = (year + 8) % 12
+        zodiac = zodiacs[num_zodiac]
+
+        return zodiac
 
 
 class BirthdayModel(BaseBirthdayModel):
