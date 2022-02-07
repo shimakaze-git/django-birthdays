@@ -70,7 +70,7 @@ jobs:
           pandoc -f markdown -t rst -o README.rst README.md
           pandoc -f markdown -t rst -o HISTORY.rst HISTORY.md
 
-          rm HISTORY.md
+        # rm HISTORY.md
 
       - name: update master
         run: |
