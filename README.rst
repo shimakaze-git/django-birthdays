@@ -28,6 +28,8 @@ Features
 -  Get all user profiles which have their birthday today
 -  order the user profiles according to their birthday
 
+===
+
 -  Converting Birthdays to Japanese Style
 -  Calculate age based on birthday
 -  Get all birthdays in the specified Japanese calendar

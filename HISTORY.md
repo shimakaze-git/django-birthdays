@@ -1,5 +1,17 @@
 # HISTORY
 
+## [Unreleased](https://github.com/shimakaze-git/django-jp-birthday/tree/HEAD)
+
+[Full Changelog](https://github.com/shimakaze-git/django-jp-birthday/compare/v0.4.0...HEAD)
+
+**Merged pull requests:**
+
+- 干支を表示する機能を作成. [\#45](https://github.com/shimakaze-git/django-jp-birthday/pull/45) ([shimakaze-git](https://github.com/shimakaze-git))
+
+## [v0.4.0](https://github.com/shimakaze-git/django-jp-birthday/tree/v0.4.0) (2022-02-08)
+
+[Full Changelog](https://github.com/shimakaze-git/django-jp-birthday/compare/v0.3.0...v0.4.0)
+
 ## [v0.3.0](https://github.com/shimakaze-git/django-jp-birthday/tree/v0.3.0) (2022-02-07)
 
 [Full Changelog](https://github.com/shimakaze-git/django-jp-birthday/compare/v0.2.0...v0.3.0)
