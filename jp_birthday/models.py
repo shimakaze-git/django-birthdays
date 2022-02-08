@@ -30,8 +30,6 @@ class BaseBirthdayModel(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self._era = JapanEra()
-
     @property
     def birthday_month(self):
         return self.birthday.timetuple().tm_mon
@@ -66,7 +64,11 @@ class BaseBirthdayModel(models.Model):
         Returns:
             dict: [description]
         """
-        return self._era.convert_to_jp_era(birthday)
+
+        # print("get_jp_era", BaseBirthdayModel.objects)
+
+        era = JapanEra()
+        return era.convert_to_jp_era(birthday)
 
     def get_wareki_birthday(self, dict_type=False) -> object:
         """get wareki birthday

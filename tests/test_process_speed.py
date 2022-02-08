@@ -39,6 +39,7 @@ class BirthdayTestProcessSpeed(TestCase):
 
         jan1 = date(year=2010, month=1, day=1)
 
+        print("test_get_upcoming_birthdays")
         start = time.perf_counter()
         ModelTest.objects.get_upcoming_birthdays(30, jan1)
         end = time.perf_counter()
@@ -58,6 +59,7 @@ class BirthdayTestProcessSpeed(TestCase):
 
     def test_order_by_birthday(self):
 
+        print("test_order_by_birthday")
         start = time.perf_counter()
 
         years = [obj.birthday.year for obj in ModelTest.objects.order_by("birthday")]

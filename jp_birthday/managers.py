@@ -7,14 +7,9 @@ from django.db.models.query_utils import Q
 # from django.db.models.query_utils import Q
 from jp_birthday.eras import JapanEra
 
-from jeraconv import jeraconv
 
 # from math import pow
-from datetime import datetime, date, time, timedelta
-import pytz
-
-import unicodedata
-import jaconv
+from datetime import date
 
 
 class JpBirthdayQuerySet(QuerySet):
@@ -41,7 +36,6 @@ class JpBirthdayManager(models.Manager):
     """
 
     CASE = "CASE WHEN %(bdoy)s<%(cdoy)s THEN %(bdoy)s+365 ELSE %(bdoy)s END"
-    j2w = jeraconv.J2W()
 
     _era = JapanEra()
 
