@@ -80,23 +80,6 @@ class JpBirthdayManager(models.Manager):
 
         return ids
 
-    # def _check_language(self, string):
-    #     l_type = ""
-    #     for ch in string:
-    #         name = unicodedata.name(ch)
-
-    #         if "CJK UNIFIED" in name:
-    #             l_type = "kanji"
-    #         elif "HIRAGANA" in name:
-    #             l_type = "hiragana"
-    #         elif "KATAKANA" in name:
-    #             l_type = "katakana"
-    #         elif "LATIN" in name:
-    #             l_type = "english"
-    #         else:
-    #             l_type = "none"
-    #     return l_type
-
     def get_wareki_birthdays(self, wareki: str) -> QuerySet:
         """
         入力された和暦の誕生日を抽出
