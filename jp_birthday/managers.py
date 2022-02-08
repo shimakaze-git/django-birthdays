@@ -4,32 +4,14 @@ from django.db import models, router, connection, backends
 from django.db.models import Case, When, Value, IntegerField, QuerySet
 from django.db.models.query_utils import Q
 
-# from django.db.models.query_utils import Q
+from jp_birthday.eras import JapanEra
 
-from jeraconv import jeraconv
-
-# from math import pow
-from datetime import datetime, date, time, timedelta
-import pytz
-
-import unicodedata
-import jaconv
+from datetime import date
 
 
 class JpBirthdayQuerySet(QuerySet):
     def __init__(self, model=None, query=None, using=None, hints=None):
         super().__init__(model, query, using, hints)
-
-    def order_by_ids_filter(self, ids: list):
-        cases = [When(id=id, then=Value(i + 1)) for i, id in enumerate(ids)]
-
-        birthdays = (
-            self.filter(id__in=ids)
-            .annotate(md_order=Case(*cases, output_field=IntegerField()))
-            .order_by("md_order")
-        )
-
-        return birthdays
 
 
 class JpBirthdayManager(models.Manager):
@@ -40,7 +22,8 @@ class JpBirthdayManager(models.Manager):
     """
 
     CASE = "CASE WHEN %(bdoy)s<%(cdoy)s THEN %(bdoy)s+365 ELSE %(bdoy)s END"
-    j2w = jeraconv.J2W()
+
+    _era = JapanEra()
 
     @property
     def _birthday_doy_field(self):
@@ -97,53 +80,19 @@ class JpBirthdayManager(models.Manager):
 
         return ids
 
-    def _check_language(self, string):
-        l_type = ""
-        for ch in string:
-            name = unicodedata.name(ch)
-
-            if "CJK UNIFIED" in name:
-                l_type = "kanji"
-            elif "HIRAGANA" in name:
-                l_type = "hiragana"
-            elif "KATAKANA" in name:
-                l_type = "katakana"
-            elif "LATIN" in name:
-                l_type = "english"
-            else:
-                l_type = "none"
-        return l_type
-
-    def get_wareki_birthdays(self, wareki: str):
-        """[summary]
+    def get_wareki_birthdays(self, wareki: str) -> QuerySet:
+        """
+        入力された和暦の誕生日を抽出
 
         Args:
-            wareki (str): [description]
+            wareki (str): 和暦 (大正,昭和,平成,令和)
+
+        Returns:
+            QuerySet: 対象とするQuerySet
         """
 
-        l_type = self._check_language(wareki)
-
-        data = None
-        for key, value in self.j2w._J2W__data_dic.items():
-            reading = value["reading"]
-
-            reading_jp = reading["jp"]
-            reading_en = reading["en"]
-
-            if l_type == "kanji":
-                if wareki == key:
-                    data = value
-            elif l_type == "katakana" or l_type == "hiragana":
-                wareki = jaconv.kata2hira(wareki)
-                if wareki == reading_jp:
-                    data = value
-                    break
-            elif l_type == "english":
-                if wareki == reading_en:
-                    data = value
-                    break
-            else:
-                break
+        # datetime.date型の範囲を取得
+        data = self._era.get_date_range_from_jp_era(wareki)
 
         if data:
             start = data["start"]
@@ -216,109 +165,7 @@ class JpBirthdayManager(models.Manager):
         Returns:
             JpBirthdayQuerySet: [description]
         """
-
         return self._get_upcoming_birthdays(30, after, include_day, order, reverse)
-
-        db_route = router.db_for_read(self)
-        engine = settings.DATABASES[db_route]["ENGINE"]
-        db_table_name = self.model._meta.db_table
-
-        cursor = connection.cursor()
-
-        if after:
-            after = datetime.combine(after, time())
-            after = pytz.timezone("Asia/Tokyo").localize(after)
-        else:
-            after = datetime.now()
-
-        print("include_day", include_day)
-        print("after", after)
-        if not include_day:
-            after += timedelta(days=1)
-            days -= 1
-        days = str(days)
-
-        after = after.date()
-        after_str = "'{0}'".format(after)
-
-        sql = "select {0}.*, ".format(db_table_name)
-        if "sqlite3" in engine:
-            sql += "strftime('%m-%d', birthday) as md "
-            sql += "from {0} where md ".format(db_table_name)
-        else:
-            pass
-
-        next = date(year=int(after.year), month=12, day=31) - after
-
-        try:
-            ids = []
-            if int(days) > next.days:
-                diff = int(days) - next.days
-
-                sql_1 = sql
-                if "sqlite3" in engine:
-                    # sql_1 += "> strftime('%m-%d', {0})".format(after_str)
-                    sql_1 += ">= strftime('%m-%d', {0})".format(after_str)
-                else:
-                    pass
-
-                if order:
-                    sql_1 += " order by md asc;"
-
-                cursor.execute(sql_1)
-                ids += self.cursor_filter_ids(cursor)
-
-                sql_2 = sql
-                if "sqlite3" in engine:
-                    sql_2 += "between "
-                    sql_2 += "strftime('%m-%d', {0}) and ".format("'2000-01-01'")
-                    sql_2 += (
-                        "strftime('%m-%d', date({0}, 'localtime', '+{1} day'))".format(
-                            "'2000-01-01'", str(diff)
-                        )
-                    )
-                else:
-                    pass
-
-                if order:
-                    sql_2 += " order by md asc;"
-
-                cursor.execute(sql_2)
-                ids += self.cursor_filter_ids(cursor)
-            else:
-                between_sql = "between "
-                if "sqlite3" in engine:
-                    between_sql += "strftime('%m-%d', {0}) and ".format(after_str)
-                    between_sql += (
-                        "strftime('%m-%d', date({0}, 'localtime', '+{1} day'))".format(
-                            after_str, days
-                        )
-                    )
-
-                    # sql += " order by birthday asc;"
-                else:
-                    pass
-
-                sql += between_sql
-                if order:
-                    sql += " order by md asc;"
-
-                print("sql", sql)
-
-                cursor.execute(sql)
-                ids += self.cursor_filter_ids(cursor)
-
-            print("ids*******", ids)
-
-            if reverse:
-                ids.reverse()
-
-            birthdays = self.get_queryset().order_by_ids_filter(ids)
-
-            return birthdays
-        finally:
-            # print("cursor", type(cursor))
-            cursor.close()
 
     def get_birthdays(self, day=None) -> JpBirthdayQuerySet:
         """[summary]
@@ -329,14 +176,7 @@ class JpBirthdayManager(models.Manager):
         Returns:
             JpBirthdayQuerySet: [description]
         """
-        # print("~~~" * 30)
-        # print("get_birthdays")
-        # print("self._doy(day)", self._doy(day))
-        # print("_birthday_doy_field", self._birthday_doy_field)
-
         get_birthdays = self.filter(**{self._birthday_doy_field: self._doy(day)})
-        # print("get_birthdays", get_birthdays, type(get_birthdays))
-
         return get_birthdays
 
     def order_by_birthday(self, reverse=False) -> JpBirthdayQuerySet:
