@@ -58,6 +58,7 @@ jobs:
           echo ${{ env.REPOSITORY }}
           echo ${{ env.ACTOR }}
           
+          rm HISTORY.md
           github_changelog_generator -u ${{ env.ACTOR }} \
                                     -p ${{ env.REPOSITORY }} \
                                     --header-label '# HISTORY' \
