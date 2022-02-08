@@ -2,20 +2,11 @@ import datetime
 
 from django.db import models
 
-from jeraconv import jeraconv
 from datetime import date
 
 from jp_birthday.fields import BirthdayField
 from jp_birthday.managers import JpBirthdayManager
-
-# from .eras import JpEra
-# from jp_birthday.management import jp_birthday
-# from jp_birthday.admin import JpEra
 from jp_birthday.eras import JapanEra
-
-# from jp_birthday.utils import hogehoge
-
-# "python.analysis.extraPaths": []
 
 
 class BaseBirthdayModel(models.Model):

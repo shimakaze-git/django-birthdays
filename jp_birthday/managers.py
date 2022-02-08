@@ -4,28 +4,14 @@ from django.db import models, router, connection, backends
 from django.db.models import Case, When, Value, IntegerField, QuerySet
 from django.db.models.query_utils import Q
 
-# from django.db.models.query_utils import Q
 from jp_birthday.eras import JapanEra
 
-
-# from math import pow
 from datetime import date
 
 
 class JpBirthdayQuerySet(QuerySet):
     def __init__(self, model=None, query=None, using=None, hints=None):
         super().__init__(model, query, using, hints)
-
-    def order_by_ids_filter(self, ids: list):
-        cases = [When(id=id, then=Value(i + 1)) for i, id in enumerate(ids)]
-
-        birthdays = (
-            self.filter(id__in=ids)
-            .annotate(md_order=Case(*cases, output_field=IntegerField()))
-            .order_by("md_order")
-        )
-
-        return birthdays
 
 
 class JpBirthdayManager(models.Manager):
