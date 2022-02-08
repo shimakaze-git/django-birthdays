@@ -83,6 +83,19 @@ class BirthdayTestModels(TestCase):
             age = m.get_age()
             self.assertTrue("int" in str(type(age)))
 
+    def test_get_zodiac(self):
+        def get_zodiac(year: int):
+            zodiacs = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
+            num = (year + 8) % 12
+            return zodiacs[num]
+
+        model_tests = ModelTest.objects.all()
+        for m in model_tests:
+            zodiac = m.get_zodiac()
+            year = m.birthday.timetuple().tm_year
+
+            self.assertEqual(zodiac, get_zodiac(year))
+
     @classmethod
     def teardown_class(self):
         """テストclass実行の後処理"""
