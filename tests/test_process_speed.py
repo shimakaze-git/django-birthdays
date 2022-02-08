@@ -61,9 +61,9 @@ class BirthdayTestProcessSpeed(TestCase):
         start = time.perf_counter()
 
         years = [obj.birthday.year for obj in ModelTest.objects.order_by("birthday")]
+        end = time.perf_counter()
         birthdays = sorted([int(b.split("-")[0]) for b in self.birthdays])
 
-        end = time.perf_counter()
         run_time = end - start
         print("test_order_by_birthday 1", run_time)
 

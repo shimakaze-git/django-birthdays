@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 from jeraconv import jeraconv
@@ -6,6 +8,15 @@ from datetime import date
 from jp_birthday.fields import BirthdayField
 from jp_birthday.managers import JpBirthdayManager
 
+# from .eras import JpEra
+# from jp_birthday.management import jp_birthday
+# from jp_birthday.admin import JpEra
+from jp_birthday.eras import JapanEra
+
+# from jp_birthday.utils import hogehoge
+
+# "python.analysis.extraPaths": []
+
 
 class BaseBirthdayModel(models.Model):
     """BaseBirthdayModel"""
@@ -13,13 +24,13 @@ class BaseBirthdayModel(models.Model):
     objects = JpBirthdayManager()
     birthday = BirthdayField()
 
-    w2j = jeraconv.W2J()
-
     class Meta:
         abstract = True
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self._era = JapanEra()
 
     @property
     def birthday_month(self):
@@ -45,27 +56,17 @@ class BaseBirthdayModel(models.Model):
     def birthday_tm_yday(self):
         return self.birthday.timetuple().tm_yday
 
-    def _get_wareki_birthday(self) -> dict:
-        birthday = self.birthday
+    def _get_jp_era_birthday(self, birthday: datetime.date) -> dict:
+        """
+        西暦の誕生日から和暦の誕生日に変換する.
 
-        era_date = self.w2j.convert(
-            birthday.year, birthday.month, birthday.day, return_type="dict"
-        )
+        Args:
+            birthday (datetime.date): 自身の誕生日.
 
-        era = era_date["era"]
-        era_year = era_date["year"]
-
-        reading = self.w2j._W2J__data_dic[era]["reading"]
-        era_en = reading["en"]
-        era_en_short = era_en[0]
-
-        return {
-            "era": era_en,
-            "era_short": era_en_short,
-            "year": int(era_year),
-            "month": int(birthday.month),
-            "day": int(birthday.day),
-        }
+        Returns:
+            dict: [description]
+        """
+        return self._era.convert_to_jp_era(birthday)
 
     def get_wareki_birthday(self, dict_type=False) -> object:
         """get wareki birthday
@@ -76,7 +77,9 @@ class BaseBirthdayModel(models.Model):
         Returns:
             object: dictで返すか文字列で返すのどちらかになる.
         """
-        wareki_birthday = self._get_wareki_birthday()
+        birthday = self.birthday
+        wareki_birthday = self._get_jp_era_birthday(birthday)
+
         if not dict_type:
             wareki = wareki_birthday["era_short"]
             year = str(wareki_birthday["year"])
