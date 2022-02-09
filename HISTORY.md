@@ -1,17 +1,15 @@
 # HISTORY
 
-## [Unreleased](https://github.com/shimakaze-git/django-jp-birthday/tree/HEAD)
-
-[Full Changelog](https://github.com/shimakaze-git/django-jp-birthday/compare/v0.6.0...HEAD)
-
-**Merged pull requests:**
-
-- get\_jp\_era\_rangeを追加. [\#49](https://github.com/shimakaze-git/django-jp-birthday/pull/49) ([shimakaze-git](https://github.com/shimakaze-git))
-- Feature/fix gh actions [\#48](https://github.com/shimakaze-git/django-jp-birthday/pull/48) ([shimakaze-git](https://github.com/shimakaze-git))
-
 ## [v0.6.0](https://github.com/shimakaze-git/django-jp-birthday/tree/v0.6.0) (2022-02-09)
 
 [Full Changelog](https://github.com/shimakaze-git/django-jp-birthday/compare/v0.4.0...v0.6.0)
+
+**Merged pull requests:**
+
+- v0.6.0 [\#51](https://github.com/shimakaze-git/django-jp-birthday/pull/51) ([github-actions[bot]](https://github.com/apps/github-actions))
+- version 0.6をリリース [\#50](https://github.com/shimakaze-git/django-jp-birthday/pull/50) ([shimakaze-git](https://github.com/shimakaze-git))
+- get\_jp\_era\_rangeを追加. [\#49](https://github.com/shimakaze-git/django-jp-birthday/pull/49) ([shimakaze-git](https://github.com/shimakaze-git))
+- Feature/fix gh actions [\#48](https://github.com/shimakaze-git/django-jp-birthday/pull/48) ([shimakaze-git](https://github.com/shimakaze-git))
 
 ## [v0.4.0](https://github.com/shimakaze-git/django-jp-birthday/tree/v0.4.0) (2022-02-08)
 
