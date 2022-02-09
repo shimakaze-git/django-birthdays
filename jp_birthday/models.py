@@ -1,4 +1,5 @@
 import datetime
+from typing import Union, List, Tuple
 
 from django.db import models
 
@@ -122,6 +123,28 @@ class BirthdayModel(BaseBirthdayModel):
             age -= 1
 
         return age
+
+    def get_jp_era_birthday(self, dict_type=False) -> Union[str, dict]:
+        """
+        西暦の誕生日から和暦の誕生日に変換する.
+
+        Args:
+            dict_type (bool, optional): 辞書型で返すか文字列で返すかのフォーマト指定. Defaults to False.
+
+        Returns:
+            Union[str, dict]: dictで返すか文字列で返すのどちらかになる.
+        """
+
+        birthday = self.birthday
+        jp_era_birthday = self._get_jp_era_birthday(birthday)
+
+        if not dict_type:
+            jp_era = jp_era_birthday["era_short"]
+            year = str(jp_era_birthday["year"])
+            month = str(jp_era_birthday["month"])
+            day = str(jp_era_birthday["day"])
+            jp_era_birthday = jp_era + "-" + year + "-" + month + "-" + day
+        return jp_era_birthday
 
     def get_zodiac(self) -> str:
         """
