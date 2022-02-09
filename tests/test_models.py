@@ -68,17 +68,17 @@ class BirthdayTestModels(TestCase):
     def test_get_jp_era_birthday(self):
         model_tests = ModelTest.objects.all()
         for m in model_tests:
-            # month = m.birthday.month
-            # day = m.birthday.day
+            month = m.birthday.month
+            day = m.birthday.day
 
             jp_era_birthday = m.get_jp_era_birthday()
             print("jp_era_birthday", jp_era_birthday)
 
-            # wareki_month = int(wareki_birthday.split("-")[2])
-            # wareki_day = int(wareki_birthday.split("-")[3])
+            jp_era__month = int(jp_era_birthday.split("-")[2])
+            jp_era__day = int(jp_era_birthday.split("-")[3])
 
-            # self.assertEqual(month, wareki_month)
-            # self.assertEqual(day, wareki_day)
+            self.assertEqual(month, jp_era__month)
+            self.assertEqual(day, jp_era__day)
 
             # wareki_birthday = m.get_wareki_birthday(True)
             # self.assertEqual(month, wareki_birthday["month"])
