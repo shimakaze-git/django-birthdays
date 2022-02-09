@@ -61,6 +61,10 @@ class BirthdayTestModels(TestCase):
             self.assertEqual(month, wareki_month)
             self.assertEqual(day, wareki_day)
 
+            wareki_birthday = m.get_wareki_birthday(True)
+            self.assertEqual(month, wareki_birthday["month"])
+            self.assertEqual(day, wareki_birthday["day"])
+
     def test_get_wareki_birthdays(self):
         wareki_birthdays = ModelTest.objects.get_wareki_birthdays("heisei")
         for m in wareki_birthdays:
