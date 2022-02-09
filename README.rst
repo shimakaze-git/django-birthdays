@@ -28,7 +28,7 @@ Features
 -  Get all user profiles which have their birthday today
 -  order the user profiles according to their birthday
 
-===
+--------------
 
 -  Converting Birthdays to Japanese Style
 -  Calculate age based on birthday
@@ -65,23 +65,39 @@ characteristics as that.
            app_label = 'jp_birthday'
            ordering = ('pk',)
 
-Get all user profiles within the next 30 days:
+Get all user profiles within the next 30 days
+---------------------------------------------
 
 .. code:: python
 
-   ModelsTest.objects.get_upcoming_birthdays()
+   # ["2001-01-01", "2000-01-02", "2002-12-31"]
 
-Get all user profiles which have their birthday today:
+   jan1 = date(year=2010, month=1, day=1)
+   birthdays = ModelsTest.objects.get_upcoming_birthdays(after=jan1)
+   # ["2001-01-01", "2000-01-02"]
+
+Get all user profiles which have their birthday today
+-----------------------------------------------------
 
 .. code:: python
 
-   ModelsTest.objects.get_birthdays()
+   # ["2001-01-01", "2000-01-02", "2002-12-31", "1990-03-01"]
 
-Or order the user profiles according to their birthday:
+   jan1 = date(year=2010, month=1, day=1)
+   birthdays = ModelsTest.objects.get_birthdays(jan1)
+
+   # ["2001-01-01", "1990-01-01"]
+
+Order the user profiles according to their birthday
+---------------------------------------------------
 
 .. code:: python
 
-   ModelsTest.objects.order_by_birthday()
+   # ["2001-01-01", "2000-01-02", "2002-12-31", "1990-03-01"]
+
+   jan1 = date(year=2010, month=1, day=1)
+   birthdays = ModelsTest.objects.order_by_birthday()
+   # ["2001-01-01", "2000-01-02", "1990-03-01", "2002-12-31"]
 
 Docs
 ====
