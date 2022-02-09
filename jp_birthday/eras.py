@@ -1,3 +1,4 @@
+import math
 import datetime
 import json
 import unicodedata
@@ -47,6 +48,25 @@ class JapanEra:
         """
         return self.jtw._get_date_range_from_jp_era(jp_era)
 
+    def get_jp_era_range(self, birthday: datetime.date) -> int:
+        """
+        get_jp_era_range
+
+        Args:
+            birthday (datetime.date): [description]
+
+        Returns:
+            int: [description]
+        """
+        jp_era_birthday = self.convert_to_jp_era(birthday)
+
+        era = jp_era_birthday["era_kanji"]
+        data = self.get_date_range_from_jp_era(era)
+
+        max = data["max"]
+
+        return max
+
     # def convert(
     #     self,
     #     year=datetime.date.today().year,
@@ -56,29 +76,29 @@ class JapanEra:
     # ):
     #     pass
 
-    def __pre_process(self, str_arg):
-        """[summary]
+    # def __pre_process(self, str_arg):
+    #     """[summary]
 
-        Args:
-            str_arg ([type]): [description]
-        """
-        pass
+    #     Args:
+    #         str_arg ([type]): [description]
+    #     """
+    #     pass
 
-    def __is_correct_format(self, str_arg):
-        """[summary]
+    # def __is_correct_format(self, str_arg):
+    #     """[summary]
 
-        Args:
-            str_arg ([type]): [description]
-        """
-        pass
+    #     Args:
+    #         str_arg ([type]): [description]
+    #     """
+    #     pass
 
-    def __is_correct_era(self, str_arg):
-        """[summary]
+    # def __is_correct_era(self, str_arg):
+    #     """[summary]
 
-        Args:
-            str_arg ([type]): [description]
-        """
-        pass
+    #     Args:
+    #         str_arg ([type]): [description]
+    #     """
+    #     pass
 
 
 class WestToJapanEra:
@@ -117,10 +137,12 @@ class WestToJapanEra:
 
         era_en = reading["en"]
         era_en_short = era_en[0]
+        era_kanji = era
 
         return {
             "era": era_en,
             "era_short": era_en_short,
+            "era_kanji": era_kanji,
             "year": int(era_year),
             "month": int(month),
             "day": int(day),
