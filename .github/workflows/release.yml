@@ -63,14 +63,15 @@ jobs:
                                     -p ${{ env.REPOSITORY }} \
                                     --header-label '# HISTORY' \
                                     -t ${{ env.TOKEN }} \
+                                    --release-branch master \
                                     --output HISTORY.md
 
       - name: convert md to rst HISTORY.
         run: |
           sudo apt install pandoc
 
-          pandoc -f markdown -t rst -o README.rst README.md
-          pandoc -f markdown -t rst -o HISTORY.rst HISTORY.md
+        # pandoc -f markdown -t rst -o README.rst README.md
+        # pandoc -f markdown -t rst -o HISTORY.rst HISTORY.md
 
         # rm HISTORY.md
 
