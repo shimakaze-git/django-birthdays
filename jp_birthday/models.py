@@ -15,6 +15,8 @@ class BaseBirthdayModel(models.Model):
     objects = JpBirthdayManager()
     birthday = BirthdayField()
 
+    _era = JapanEra()
+
     class Meta:
         abstract = True
 
@@ -56,10 +58,8 @@ class BaseBirthdayModel(models.Model):
             dict: [description]
         """
 
-        # print("get_jp_era", BaseBirthdayModel.objects)
-
-        era = JapanEra()
-        return era.convert_to_jp_era(birthday)
+        # era = JapanEra()
+        return self._era.convert_to_jp_era(birthday)
 
     def get_wareki_birthday(self, dict_type=False) -> object:
         """get wareki birthday
@@ -80,6 +80,28 @@ class BaseBirthdayModel(models.Model):
             day = str(wareki_birthday["day"])
             wareki_birthday = wareki + "-" + year + "-" + month + "-" + day
         return wareki_birthday
+
+    def get_jp_era_range(self) -> int:
+        """
+        元号がどれくらい続いたかの年数を表示
+
+        Returns:
+            int: [description]
+        """
+        birthday = self.birthday
+        year = self._era.get_jp_era_range(birthday)
+        return year
+
+
+class BirthdayModel(BaseBirthdayModel):
+    """BirthdayModel"""
+
+    class Meta:
+        abstract = True
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # super(BirthdayModel, self).__init__(*args, **kwargs)
 
     def get_age(self) -> int:
         """get age from birthday.
@@ -117,14 +139,3 @@ class BaseBirthdayModel(models.Model):
         zodiac = zodiacs[num_zodiac]
 
         return zodiac
-
-
-class BirthdayModel(BaseBirthdayModel):
-    """BirthdayModel"""
-
-    class Meta:
-        abstract = True
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # super(BirthdayModel, self).__init__(*args, **kwargs)
