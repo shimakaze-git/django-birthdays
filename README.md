@@ -23,15 +23,15 @@ Authored by [shimakaze_soft](https://github.com/shimakaze-git) and some great
 
 # Features
 
-- Get all user profiles within the next 30 days
-- Get all user profiles which have their birthday today
-- order the user profiles according to their birthday
+- Converting Birthdays to Japanese Style
+- Get all birthdays in the specified Japanese calendar
+- Calculate age based on birthday
 
 -----
 
-- Converting Birthdays to Japanese Style
-- Calculate age based on birthday
-- Get all birthdays in the specified Japanese calendar
+- Get all user profiles within the next 30 days
+- Get all user profiles which have their birthday today
+- order the user profiles according to their birthday
 
 # Installation
 
@@ -57,6 +57,43 @@ class ModelsTest(BirthdayModel):
     class Meta:
         app_label = 'jp_birthday'
         ordering = ('pk',)
+```
+
+## Converting Birthdays to Japanese Style
+
+```Python
+# id: 1
+# ["2001-01-01"]
+
+m = ModelTest.objects.filter(id=1).first()
+birthday = m.get_wareki_birthday()
+# h-13-1-1
+
+birthday = m.get_wareki_birthday(True)
+# {'era': 'heisei', 'era_short': 'h', 'era_kanji': '平成', 'year': 13, 'month': 1, 'day': 1}
+```
+
+## Get all birthdays in the specified Japanese calendar
+
+```Python
+# ["2001-01-01", "2000-01-02", "2002-12-31", "1980-03-01"]
+
+birthdays = ModelTest.objects.get_wareki_birthdays("heisei")
+# ["2001-01-01", "2000-01-02", "2002-12-31"]
+
+birthdays = ModelTest.objects.get_wareki_birthdays("へいせい")
+# ["2001-01-01", "2000-01-02", "2002-12-31"]
+```
+
+## Calculate age based on birthday
+
+```Python
+# id: 1
+# ["1995-01-05"]
+
+m = ModelTest.objects.filter(id=1).first()
+birthday = m.get_age()
+# 27
 ```
 
 ## Get all user profiles within the next 30 days
