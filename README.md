@@ -27,6 +27,7 @@ Authored by [shimakaze_soft](https://github.com/shimakaze-git) and some great
 - Converting Birthdays to Japanese Style
 - Get all birthdays in the specified Japanese calendar
 - Calculate age based on birthday
+- Get the zodiac
 
 -----
 
@@ -95,6 +96,19 @@ birthdays = ModelTest.objects.get_wareki_birthdays("へいせい")
 m = ModelTest.objects.filter(id=1).first()
 birthday = m.get_age()
 # 27
+```
+
+## Get the zodiac
+
+```Python
+# ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
+
+# id: 1
+# ["1995-01-05"]
+
+m = ModelTest.objects.filter(id=1).first()
+birthday = m.get_zodiac()
+# 亥
 ```
 
 ## Get all user profiles within the next 30 days
