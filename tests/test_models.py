@@ -65,6 +65,25 @@ class BirthdayTestModels(TestCase):
             self.assertEqual(month, wareki_birthday["month"])
             self.assertEqual(day, wareki_birthday["day"])
 
+    def test_get_jp_era_birthday(self):
+        model_tests = ModelTest.objects.all()
+        for m in model_tests:
+            # month = m.birthday.month
+            # day = m.birthday.day
+
+            jp_era_birthday = m.get_jp_era_birthday()
+            print("jp_era_birthday", jp_era_birthday)
+
+            # wareki_month = int(wareki_birthday.split("-")[2])
+            # wareki_day = int(wareki_birthday.split("-")[3])
+
+            # self.assertEqual(month, wareki_month)
+            # self.assertEqual(day, wareki_day)
+
+            # wareki_birthday = m.get_wareki_birthday(True)
+            # self.assertEqual(month, wareki_birthday["month"])
+            # self.assertEqual(day, wareki_birthday["day"])
+
     def test_get_wareki_birthdays(self):
         wareki_birthdays = ModelTest.objects.get_wareki_birthdays("heisei")
         for m in wareki_birthdays:
