@@ -27,11 +27,6 @@ class JpBirthdayManager(models.Manager):
 
     @property
     def _birthday_doy_field(self):
-        # print("self.model", self.model)
-        # print("self.model._meta", self.model._meta)
-        # print("self.model._meta.birthday_field", self.model._meta.birthday_field)
-        # print("doy_name", self.model._meta.birthday_field.doy_name)
-
         return self.model._meta.birthday_field.doy_name
 
     def _doy(self, day):
@@ -74,12 +69,6 @@ class JpBirthdayManager(models.Manager):
     def get_queryset(self):
         return JpBirthdayQuerySet(self.model, using=self._db)
 
-    def cursor_filter_ids(self, cursor: backends.utils.CursorWrapper) -> list:
-        columns = [col[0] for col in cursor.description]
-        ids = [dict(zip(columns, row))["id"] for row in cursor.fetchall()]
-
-        return ids
-
     def get_wareki_birthdays(self, wareki: str) -> QuerySet:
         """
         入力された和暦の誕生日を抽出
@@ -110,10 +99,10 @@ class JpBirthdayManager(models.Manager):
             return range_birthdays
         return self.filter(birthday=None)
 
-    def _get_upcoming_birthdays(
+    def get_upcoming_birthdays(
         self, days=30, after=None, include_day=True, order=True, reverse=False
     ) -> JpBirthdayQuerySet:
-        """[summary]
+        """get_upcoming_birthdays
 
         Args:
             days (int, optional): [description]. Defaults to 30.
@@ -125,6 +114,7 @@ class JpBirthdayManager(models.Manager):
         Returns:
             JpBirthdayQuerySet: [description]
         """
+
         today = self._doy(after)
         limit = today + days
 
@@ -149,23 +139,6 @@ class JpBirthdayManager(models.Manager):
             return qs.filter(q)
 
         return self.filter(q)
-
-    def get_upcoming_birthdays(
-        self, days=30, after=None, include_day=True, order=True, reverse=False
-    ) -> JpBirthdayQuerySet:
-        """get_upcoming_birthdays
-
-        Args:
-            days (int, optional): [description]. Defaults to 30.
-            after ([type], optional): [description]. Defaults to None.
-            include_day (bool, optional): [description]. Defaults to True.
-            order (bool, optional): [description]. Defaults to True.
-            reverse (bool, optional): [description]. Defaults to False.
-
-        Returns:
-            JpBirthdayQuerySet: [description]
-        """
-        return self._get_upcoming_birthdays(30, after, include_day, order, reverse)
 
     def get_birthdays(self, day=None) -> JpBirthdayQuerySet:
         """[summary]

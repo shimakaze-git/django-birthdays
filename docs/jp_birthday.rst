@@ -1,14 +1,6 @@
 jp\_birthday package
 ====================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   jp_birthday.management
-
 Submodules
 ----------
 
@@ -16,6 +8,14 @@ jp\_birthday.admin module
 -------------------------
 
 .. automodule:: jp_birthday.admin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+jp\_birthday.eras module
+------------------------
+
+.. automodule:: jp_birthday.eras
    :members:
    :undoc-members:
    :show-inheritance:
