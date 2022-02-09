@@ -6,6 +6,7 @@
 ![https://django-jp-birthday.readthedocs.io/en/latest/?version=latest](https://readthedocs.org/projects/django-jp-birthday/badge/?version=latest)
 [![Updates](https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/shield.svg)](https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/)
 [![Python 3](https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/python-3-shield.svg)](https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/shimakaze-git/django-jp-birthday.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/shimakaze-git/django-jp-birthday/alerts/)
 ![https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday](https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday)
 ![https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday](https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday)
 ![https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg](https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg)
