@@ -82,6 +82,11 @@ class BirthdayTestModels(TestCase):
             birthday = str(m.birthday)
             self.assertTrue(birthday in self.heisei)
 
+        jp_era_birthdays = ModelTest.objects.get_jp_era_birthdays("ほげほげ")
+
+        self.assertEqual(0, jp_era_birthdays.count())
+        self.assertEqual(0, len(jp_era_birthdays))
+
     def test_get_age(self):
         model_tests = ModelTest.objects.all()
         for m in model_tests:
