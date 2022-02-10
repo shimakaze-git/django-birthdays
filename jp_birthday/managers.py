@@ -1,7 +1,11 @@
 from django.conf import settings
 
-from django.db import models, router, connection, backends
-from django.db.models import Case, When, Value, IntegerField, QuerySet
+from django.db import models
+
+# from django.db import models, router, connection, backends
+
+# from django.db.models import Case, When, Value, IntegerField, QuerySet
+from django.db.models import QuerySet
 from django.db.models.query_utils import Q
 
 from jp_birthday.eras import JapanEra
@@ -68,6 +72,44 @@ class JpBirthdayManager(models.Manager):
 
     def get_queryset(self):
         return JpBirthdayQuerySet(self.model, using=self._db)
+
+    def get_zodiac_birthdays(self, zodiac: str) -> JpBirthdayQuerySet:
+
+        # ('子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥')
+
+        zodiacs = {
+            0: "申",
+            1: "酉",
+            2: "戌",
+            3: "亥",
+            4: "子",
+            5: "丑",
+            6: "寅",
+            7: "卯",
+            8: "辰",
+            9: "巳",
+            10: "午",
+            11: "未",
+        }
+
+        order_by_birthdays = self.all().order_by("birthday").reverse()
+        if len(order_by_birthdays) > 0:
+            last_birthday = order_by_birthdays.first().birthday
+            last_year = int(last_birthday.timetuple().tm_year)
+
+            first_birthday = order_by_birthdays[len(order_by_birthdays) - 1].birthday
+            first_year = int(first_birthday.timetuple().tm_year)
+
+            years = list(range(first_year, last_year + 1))
+
+            zodiac_years = [y for y in years if zodiacs[y % 12] == zodiac]
+
+            query = Q()
+            for y in zodiac_years:
+                query.add(Q(birthday__year=y), Q.OR)
+
+            return self.filter(query)
+        return self.filter(birthday=None)
 
     def get_jp_era_birthdays(self, jp_era: str) -> JpBirthdayQuerySet:
         """
