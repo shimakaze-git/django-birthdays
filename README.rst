@@ -4,7 +4,7 @@ django-jp-birthday
 |https://pypi.python.org/pypi/django_jp_birthday| |image|
 |https://img.shields.io:/pypi/djversions/django-jp-birthday|
 |https://django-jp-birthday.readthedocs.io/en/latest/?version=latest|
-|Updates| |Python 3|
+|Updates| |Python 3| |Total alerts|
 |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday|
 |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday|
 |https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg|
@@ -27,6 +27,8 @@ Features
 -  Converting Birthdays to Japanese Style
 -  Get all birthdays in the specified Japanese calendar
 -  Calculate age based on birthday
+-  Get the zodiac
+-  Years of the Japanese era
 
 --------------
 
@@ -74,11 +76,11 @@ Converting Birthdays to Japanese Style
    # ["2001-01-01"]
 
    m = ModelTest.objects.filter(id=1).first()
-   birthday = m.get_wareki_birthday()
+   birthday = m.get_jp_era_birthday()
    # h-13-1-1
 
-   birthday = m.get_wareki_birthday(True)
-   # {'era': 'heisei', 'era_short': 'h', 'era_kanji': '平成', 'year': 13, 'month': 1, 'day': 1}
+   birthday = m.get_jp_era_birthday(True)
+   # {'era': 'heisei', 'era_short': 'h', 'era_jp': 'へいせい', 'era_kanji': '平成', 'year': 13, 'month': 1, 'day': 1}
 
 Get all birthdays in the specified Japanese calendar
 ----------------------------------------------------
@@ -87,10 +89,10 @@ Get all birthdays in the specified Japanese calendar
 
    # ["2001-01-01", "2000-01-02", "2002-12-31", "1980-03-01"]
 
-   birthdays = ModelTest.objects.get_wareki_birthdays("heisei")
+   birthdays = ModelTest.objects.get_jp_era_birthdays("heisei")
    # ["2001-01-01", "2000-01-02", "2002-12-31"]
 
-   birthdays = ModelTest.objects.get_wareki_birthdays("へいせい")
+   birthdays = ModelTest.objects.get_jp_era_birthdays("へいせい")
    # ["2001-01-01", "2000-01-02", "2002-12-31"]
 
 Calculate age based on birthday
@@ -104,6 +106,32 @@ Calculate age based on birthday
    m = ModelTest.objects.filter(id=1).first()
    birthday = m.get_age()
    # 27
+
+Get the zodiac
+--------------
+
+.. code:: python
+
+   # ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
+
+   # id: 1
+   # ["1995-01-05"]
+
+   m = ModelTest.objects.filter(id=1).first()
+   birthday = m.get_zodiac()
+   # 亥
+
+Years of the Japanese era
+-------------------------
+
+.. code:: python
+
+   # id: 1
+   # ["1995-01-05"]
+
+   m = ModelTest.objects.filter(id=1).first()
+   birthday = m.get_jp_era_years()
+   # 31
 
 Get all user profiles within the next 30 days
 ---------------------------------------------
@@ -121,7 +149,7 @@ Get all user profiles which have their birthday today
 
 .. code:: python
 
-   # ["2001-01-01", "2000-01-02", "2002-12-31", "1990-03-01"]
+   # ["2001-01-01", "2000-01-02", "2002-12-31", "1990-03-01", "1990-01-01"]
 
    jan1 = date(year=2010, month=1, day=1)
    birthdays = ModelsTest.objects.get_birthdays(jan1)
@@ -158,6 +186,8 @@ License
    :target: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/
 .. |Python 3| image:: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/python-3-shield.svg
    :target: https://pyup.io/repos/github/shimakaze-git/django-jp-birthday/
+.. |Total alerts| image:: https://img.shields.io/lgtm/alerts/g/shimakaze-git/django-jp-birthday.svg?logo=lgtm&logoWidth=18
+   :target: https://lgtm.com/projects/g/shimakaze-git/django-jp-birthday/alerts/
 .. |https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday| image:: https://img.shields.io/github/repo-size/shimakaze-git/django-jp-birthday
 .. |https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday| image:: https://img.shields.io/github/languages/code-size/shimakaze-git/django-jp-birthday
 .. |https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg| image:: https://codecov.io/gh/shimakaze-git/django-jp-birthday/branch/master/graph/badge.svg
