@@ -4,6 +4,7 @@ on:
       - master
       - develop
       - feature/*
+      - dependabot/*
     paths:
       - 'jp_birthday/*'
       - 'tests/*'
