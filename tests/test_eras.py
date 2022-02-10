@@ -5,7 +5,7 @@ from django.test import TestCase
 from tests.models import ModelTest
 from jp_birthday.eras import JapanEra
 
-# _check_language
+
 class BirthdayTestEras(TestCase):
     @classmethod
     def setup_class(self):
