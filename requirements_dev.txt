@@ -11,4 +11,4 @@ twine==3.8.0
 black==22.1.0
 codecov==2.1.12
 
-faker==12.1.0
+faker==12.2.0
