@@ -1,4 +1,8 @@
 on:
+  pull_request:
+    branches:
+      - dependabot/*
+    types: [open]
   push:
     branches:
       - master

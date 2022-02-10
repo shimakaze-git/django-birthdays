@@ -69,19 +69,21 @@ class JpBirthdayManager(models.Manager):
     def get_queryset(self):
         return JpBirthdayQuerySet(self.model, using=self._db)
 
-    def get_wareki_birthdays(self, wareki: str) -> QuerySet:
+    def get_jp_era_birthdays(self, jp_era: str) -> JpBirthdayQuerySet:
         """
         入力された和暦の誕生日を抽出
 
+        和暦の年号を元に生年月日を絞る.
+
         Args:
-            wareki (str): 和暦 (大正,昭和,平成,令和)
+            jp_era (str): 和暦の年号の文字列.
 
         Returns:
-            QuerySet: 対象とするQuerySet
+            JpBirthdayQuerySet: QuerySet型を継承したオブジェクトを返す.
         """
 
         # datetime.date型の範囲を取得
-        data = self._era.get_date_range_from_jp_era(wareki)
+        data = self._era.get_date_range_from_jp_era(jp_era)
 
         if data:
             start = data["start"]

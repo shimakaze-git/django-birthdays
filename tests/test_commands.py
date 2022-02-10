@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date, datetime
+from datetime import datetime
 from io import StringIO
 
-from django.core.exceptions import FieldError
+# from django.core.exceptions import FieldError
 
-from django.db import models
+# from django.db import models
 from django.test import TestCase
 from django.core.management import call_command
 
-from jp_birthday.fields import BirthdayField
+# from jp_birthday.fields import BirthdayField
 
 from tests.models import ModelTest
 
@@ -22,26 +22,45 @@ class BirthdayTest(TestCase):
                 birthday=datetime.strptime(birthday, "%Y-%m-%d").date()
             )
 
-    def test_default(self):
+    def test_get_zodiac(self):
 
         out = StringIO()
-        result = call_command(
+        call_command(
             "jp_birthday",
             "jp_birthday.ModelTest",
-            method="get_zodiac",
+            params={
+                "id": 1,
+                "method": "get_zodiac",
+            },
             verbosity=1,
             stdout=out,
         )
-        print("result", type(result))
-        # .call_command('mycommand', 'mydata', myopt=2)
+        self.assertIn("巳", out.getvalue())
 
-        # print("out.getvalue()", out.getvalue())
-        # self.assertEqual(len(ModelTest._meta.fields), 3)
-        # self.assertTrue(hasattr(ModelTest, "birthday"))
-        # self.assertEqual(ModelTest.objects.all().count(), len(self.birthdays))
+    def test_get_jp_era_birthdays(self):
 
-    def test_success(self):
-        pass
+        out = StringIO()
+        call_command(
+            "jp_birthday",
+            "jp_birthday.ModelTest",
+            params={"method": "get_jp_era_birthdays", "args": {"jp_era": "heisei"}},
+            verbosity=1,
+            stdout=out,
+        )
+        self.assertIn("JpBirthdayQuerySet", out.getvalue())
+        for i in range(1, len(self.birthdays) + 1):
+            self.assertIn("({0})".format(str(i)), out.getvalue())
+
+    def test_error_model(self):
+        out = StringIO()
+        call_command(
+            "jp_birthday",
+            "jp_birthday.ModelHogeTest",
+            params={"id": 1, "params": "get_zodiac"},
+            verbosity=1,
+            stdout=out,
+        )
+        self.assertIn("is not an ordered model, try:", out.getvalue())
 
     @classmethod
     def teardown_class(self):

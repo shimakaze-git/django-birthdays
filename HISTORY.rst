@@ -1,6 +1,12 @@
 HISTORY
 =======
 
+`v0.7.0 <https://github.com/shimakaze-git/django-jp-birthday/tree/v0.7.0>`__ (2022-02-09)
+-----------------------------------------------------------------------------------------
+
+`Full
+Changelog <https://github.com/shimakaze-git/django-jp-birthday/compare/v0.6.0...v0.7.0>`__
+
 `v0.6.0 <https://github.com/shimakaze-git/django-jp-birthday/tree/v0.6.0>`__ (2022-02-09)
 -----------------------------------------------------------------------------------------
 
