@@ -72,7 +72,7 @@ birthday = m.get_jp_era_birthday()
 # h-13-1-1
 
 birthday = m.get_jp_era_birthday(True)
-# {'era': 'heisei', 'era_short': 'h', 'era_kanji': '平成', 'year': 13, 'month': 1, 'day': 1}
+# {'era': 'heisei', 'era_short': 'h', 'era_jp': 'へいせい', 'era_kanji': '平成', 'year': 13, 'month': 1, 'day': 1}
 ```
 
 ## Get all birthdays in the specified Japanese calendar
