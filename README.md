@@ -71,7 +71,7 @@ m = ModelTest.objects.filter(id=1).first()
 birthday = m.get_wareki_birthday()
 # h-13-1-1
 
-birthday = m.get_wareki_birthday(True)
+birthday = m.get_jp_era_birthday(True)
 # {'era': 'heisei', 'era_short': 'h', 'era_kanji': '平成', 'year': 13, 'month': 1, 'day': 1}
 ```
 
@@ -80,10 +80,10 @@ birthday = m.get_wareki_birthday(True)
 ```Python
 # ["2001-01-01", "2000-01-02", "2002-12-31", "1980-03-01"]
 
-birthdays = ModelTest.objects.get_wareki_birthdays("heisei")
+birthdays = ModelTest.objects.get_jp_era_birthdays("heisei")
 # ["2001-01-01", "2000-01-02", "2002-12-31"]
 
-birthdays = ModelTest.objects.get_wareki_birthdays("へいせい")
+birthdays = ModelTest.objects.get_jp_era_birthdays("へいせい")
 # ["2001-01-01", "2000-01-02", "2002-12-31"]
 ```
 
