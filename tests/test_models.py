@@ -62,7 +62,6 @@ class BirthdayTestModels(TestCase):
             self.assertEqual(day, jp_era__day)
 
             jp_era_birthday = m.get_jp_era_birthday(True)
-            print("jp_era_birthday", jp_era_birthday)
             self.assertEqual(month, jp_era_birthday["month"])
             self.assertEqual(day, jp_era_birthday["day"])
             self.assertEqual(7, len(jp_era_birthday))

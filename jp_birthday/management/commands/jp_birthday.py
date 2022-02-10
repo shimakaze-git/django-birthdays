@@ -31,6 +31,7 @@ class Command(BaseCommand):
         ]
         candidates = "\n   {}".format("\n   ".join(base_birthday_models))
 
+        print("base_birthday_models", base_birthday_models)
         for model_name in options["model_name"]:
             if model_name not in base_birthday_models:
                 self.stdout.write(
@@ -41,12 +42,12 @@ class Command(BaseCommand):
                 break
 
             model = apps.get_model(model_name)
-            if not issubclass(model, BaseBirthdayModel):
-                raise CommandError(
-                    "{} does not inherit from OrderedModel or OrderedModelBase".format(
-                        str(model)
-                    )
-                )
+            # if not issubclass(model, BaseBirthdayModel):
+            #     raise CommandError(
+            #         "{} does not inherit from OrderedModel or OrderedModelBase".format(
+            #             str(model)
+            #         )
+            #     )
 
             try:
                 results = self.run_method(model, self.params)

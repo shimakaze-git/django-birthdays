@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date, datetime
+from datetime import datetime
 from io import StringIO
 
-from django.core.exceptions import FieldError
+# from django.core.exceptions import FieldError
 
-from django.db import models
+# from django.db import models
 from django.test import TestCase
 from django.core.management import call_command
 
-from jp_birthday.fields import BirthdayField
+# from jp_birthday.fields import BirthdayField
 
 from tests.models import ModelTest
 
