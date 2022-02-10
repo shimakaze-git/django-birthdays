@@ -106,7 +106,7 @@ class BirthdayTestModels(TestCase):
 
             self.assertEqual(zodiac, get_zodiac(year))
 
-    def test_get_jp_era_range(self):
+    def test_get_jp_era_years(self):
         # 平成
         heisei_birthdays = [
             datetime.strptime(b, "%Y-%m-%d").date() for b in self.heisei
@@ -114,7 +114,7 @@ class BirthdayTestModels(TestCase):
 
         model_tests = ModelTest.objects.filter(birthday__in=heisei_birthdays)
         for m in model_tests:
-            year = m.get_jp_era_range()
+            year = m.get_jp_era_years()
             self.assertEqual(year, 31)
 
         # 昭和
@@ -122,7 +122,7 @@ class BirthdayTestModels(TestCase):
 
         model_tests = ModelTest.objects.filter(birthday__in=showa_birthdays)
         for m in model_tests:
-            year = m.get_jp_era_range()
+            year = m.get_jp_era_years()
             print("year", year)
             self.assertEqual(year, 64)
 
@@ -131,7 +131,7 @@ class BirthdayTestModels(TestCase):
 
         model_tests = ModelTest.objects.filter(birthday__in=meiji_birthdays)
         for m in model_tests:
-            year = m.get_jp_era_range()
+            year = m.get_jp_era_years()
             self.assertEqual(year, 45)
 
     @classmethod

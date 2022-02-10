@@ -64,7 +64,7 @@ class BaseBirthdayModel(models.Model):
         # era = JapanEra()
         return self._era.convert_to_jp_era(birthday)
 
-    def get_jp_era_range(self) -> int:
+    def get_jp_era_years(self) -> int:
         """
         元号がどれくらい続いたかの年数を表示
 
@@ -72,7 +72,7 @@ class BaseBirthdayModel(models.Model):
             int: [description]
         """
         birthday = self.birthday
-        year = self._era.get_jp_era_range(birthday)
+        year = self._era.get_jp_era_years(birthday)
         return year
 
 

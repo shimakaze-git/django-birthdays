@@ -48,9 +48,9 @@ class JapanEra:
         """
         return self.jtw._get_date_range_from_jp_era(jp_era)
 
-    def get_jp_era_range(self, birthday: datetime.date) -> int:
+    def get_jp_era_years(self, birthday: datetime.date) -> int:
         """
-        get_jp_era_range
+        get_jp_era_years
 
         Args:
             birthday (datetime.date): [description]
