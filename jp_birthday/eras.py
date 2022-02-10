@@ -138,10 +138,12 @@ class WestToJapanEra:
         era_en = reading["en"]
         era_en_short = era_en[0]
         era_kanji = era
+        era_jp = reading["jp"]
 
         return {
             "era": era_en,
             "era_short": era_en_short,
+            "era_jp": era_jp,
             "era_kanji": era_kanji,
             "year": int(era_year),
             "month": int(month),
