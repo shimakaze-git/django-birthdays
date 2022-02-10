@@ -64,26 +64,6 @@ class BaseBirthdayModel(models.Model):
         # era = JapanEra()
         return self._era.convert_to_jp_era(birthday)
 
-    def get_wareki_birthday(self, dict_type=False) -> object:
-        """get wareki birthday
-
-        Args:
-            dict_type (bool, optional): 辞書型で返すか文字列で返すかのフォーマト指定. Defaults to False.
-
-        Returns:
-            object: dictで返すか文字列で返すのどちらかになる.
-        """
-        birthday = self.birthday
-        wareki_birthday = self._get_jp_era_birthday(birthday)
-
-        if not dict_type:
-            wareki = wareki_birthday["era_short"]
-            year = str(wareki_birthday["year"])
-            month = str(wareki_birthday["month"])
-            day = str(wareki_birthday["day"])
-            wareki_birthday = wareki + "-" + year + "-" + month + "-" + day
-        return wareki_birthday
-
     def get_jp_era_range(self) -> int:
         """
         元号がどれくらい続いたかの年数を表示

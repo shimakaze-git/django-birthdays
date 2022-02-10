@@ -101,36 +101,6 @@ class JpBirthdayManager(models.Manager):
             return range_birthdays
         return self.filter(birthday=None)
 
-    def get_wareki_birthdays(self, wareki: str) -> QuerySet:
-        """
-        入力された和暦の誕生日を抽出
-
-        Args:
-            wareki (str): 和暦 (大正,昭和,平成,令和)
-
-        Returns:
-            QuerySet: 対象とするQuerySet
-        """
-
-        # datetime.date型の範囲を取得
-        data = self._era.get_date_range_from_jp_era(wareki)
-
-        if data:
-            start = data["start"]
-            end = data["end"]
-
-            start_date = str(start["year"]) + "-"
-            start_date += str(start["month"]) + "-"
-            start_date += str(start["day"])
-
-            end_date = str(end["year"]) + "-"
-            end_date += str(end["month"]) + "-"
-            end_date += str(end["day"])
-
-            range_birthdays = self.filter(birthday__range=[start_date, end_date])
-            return range_birthdays
-        return self.filter(birthday=None)
-
     def get_upcoming_birthdays(
         self, days=30, after=None, include_day=True, order=True, reverse=False
     ) -> JpBirthdayQuerySet:

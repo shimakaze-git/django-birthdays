@@ -68,7 +68,7 @@ class ModelsTest(BirthdayModel):
 # ["2001-01-01"]
 
 m = ModelTest.objects.filter(id=1).first()
-birthday = m.get_wareki_birthday()
+birthday = m.get_jp_era_birthday()
 # h-13-1-1
 
 birthday = m.get_jp_era_birthday(True)
