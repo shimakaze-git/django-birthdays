@@ -28,6 +28,7 @@ Authored by [shimakaze_soft](https://github.com/shimakaze-git) and some great
 - Get all birthdays in the specified Japanese calendar
 - Calculate age based on birthday
 - Get the zodiac
+- Years of the Japanese era
 
 -----
 
@@ -111,6 +112,17 @@ birthday = m.get_zodiac()
 # 亥
 ```
 
+## Years of the Japanese era
+
+```Python
+# id: 1
+# ["1995-01-05"]
+
+m = ModelTest.objects.filter(id=1).first()
+birthday = m.get_jp_era_years()
+# 31
+```
+
 ## Get all user profiles within the next 30 days
 
 ```Python
@@ -124,7 +136,7 @@ birthdays = ModelsTest.objects.get_upcoming_birthdays(after=jan1)
 ## Get all user profiles which have their birthday today
 
 ```Python
-# ["2001-01-01", "2000-01-02", "2002-12-31", "1990-03-01"]
+# ["2001-01-01", "2000-01-02", "2002-12-31", "1990-03-01", "1990-01-01"]
 
 jan1 = date(year=2010, month=1, day=1)
 birthdays = ModelsTest.objects.get_birthdays(jan1)
