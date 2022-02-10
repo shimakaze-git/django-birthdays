@@ -1,5 +1,7 @@
 import datetime
-from typing import Union, List, Tuple
+
+# from typing import Union, List, Tuple
+from typing import Union
 
 from django.db import models
 
