@@ -11,24 +11,25 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("model_name", type=str, nargs="*")
-        parser.add_argument("--method", nargs="?", default="", type=str)
+        parser.add_argument(
+            "--params",
+            type=dict,
+            nargs="?",
+            default={"id": 1, "method": "", "args": {}},
+        )
 
     def handle(self, *args, **options):
         """
         Sometimes django-ordered-models ordering goes wrong, for various reasons,
         try re-ordering to a working state.
         """
-        # print("options", options)
-        # print("args", args)
+        # self.verbosity = options["verbosity"]
+        self.params = options["params"]
 
-        self.verbosity = options["verbosity"]
         base_birthday_models = [
             m._meta.label for m in apps.get_models() if issubclass(m, BaseBirthdayModel)
         ]
         candidates = "\n   {}".format("\n   ".join(base_birthday_models))
-
-        # print("base_birthday_models", base_birthday_models)
-        # print("candidates", candidates)
 
         for model_name in options["model_name"]:
             if model_name not in base_birthday_models:
@@ -47,16 +48,24 @@ class Command(BaseCommand):
                     )
                 )
 
-            method = options["method"]
-            self.run_method(model, method)
+            try:
+                results = self.run_method(model, self.params)
+                self.stdout.write("handle")
+                self.stdout.write(str(results))
+            except Exception as e:
+                raise e
 
-            self.stdout.write("handle")
+    def run_method(self, model: str, params: dict, *args, **options):
 
-    def run_method(self, model: str, method: str, *args, **options):
-        # all = model.objects.all()
-        # print("all", all)
-
-        method = "get_age"
-        if method in dir(model):
-            print("method", method)
-            # print(dir(model))
+        results = None
+        method = params["method"]
+        if method:
+            pk = params["id"] if "id" in params else None
+            if pk:
+                m = model.objects.filter(id=pk).first()
+                if method in dir(m):
+                    results = getattr(m, method)()
+            else:
+                args = params["args"]
+                results = getattr(model.objects, method)(**args)
+        return results
