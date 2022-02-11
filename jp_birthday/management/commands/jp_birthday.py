@@ -1,7 +1,5 @@
 from django.apps import apps
-from django.core.management import BaseCommand, CommandError
-
-# from django.db import models
+from django.core.management import BaseCommand
 
 from jp_birthday.models import BaseBirthdayModel
 

@@ -2,9 +2,6 @@ from django.conf import settings
 
 from django.db import models
 
-# from django.db import models, router, connection, backends
-
-# from django.db.models import Case, When, Value, IntegerField, QuerySet
 from django.db.models import QuerySet
 from django.db.models.query_utils import Q
 
