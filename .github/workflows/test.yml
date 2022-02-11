@@ -2,13 +2,14 @@ on:
   pull_request:
     branches:
       - dependabot/*
-    types: [opened, reopened]
+    types: [opened, synchronize, reopened]
 
   push:
     branches:
       - master
       - develop
       - feature/*
+      - dependabot/*
     paths:
       - 'jp_birthday/*'
       - 'tests/*'
