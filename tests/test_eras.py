@@ -27,6 +27,17 @@ class BirthdayTestEras(TestCase):
 
         self.era = JapanEra()
 
+    def test_get_zodiac_years(self):
+
+        zodiac = "申"
+        zodiac_list = [1992, 2004, 2016]
+
+        first = 1990
+        last = 2021
+        years = self.era.get_zodiac_years(zodiac, first, last)
+        for y in years:
+            self.assertTrue(y in zodiac_list)
+
     @classmethod
     def teardown_class(self):
         """テストclass実行の後処理"""

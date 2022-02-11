@@ -112,6 +112,37 @@ class BirthdayTestManagers(TestCase):
 
         self.assertEqual(years, birthdays)
 
+    def test_get_zodiac_birthdays(self):
+
+        print("---" * 20)
+        print("test_get_zodiac_birthdays")
+
+        # 巳
+        zodiac = "巳"
+        base = 2013
+        zodiac_list = [base - (12 * i) for i in range(100)]
+
+        zodiac_birthdays = ModelTest.objects.get_zodiac_birthdays(zodiac)
+        zodiac_birthdays_years = [
+            obj.birthday.timetuple().tm_year for obj in zodiac_birthdays
+        ]
+        for year in zodiac_birthdays_years:
+            self.assertTrue(year in zodiac_list)
+
+        # 丑
+        zodiac = "丑"
+        base = 2021
+        # zodiac_list = [2021, 2009, 1997, 1985, 1973]
+        zodiac_list = [base - (12 * i) for i in range(100)]
+
+        zodiac_birthdays = ModelTest.objects.get_zodiac_birthdays(zodiac)
+        zodiac_birthdays_years = [
+            obj.birthday.timetuple().tm_year for obj in zodiac_birthdays
+        ]
+        # print("zodiac_birthdays_years", zodiac_birthdays_years)
+        for year in zodiac_birthdays_years:
+            self.assertTrue(year in zodiac_list)
+
     @classmethod
     def teardown_class(self):
         """テストclass実行の後処理"""

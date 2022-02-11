@@ -25,9 +25,10 @@ Authored by [shimakaze_soft](https://github.com/shimakaze-git) and some great
 # Features
 
 - Converting Birthdays to Japanese Style
-- Get all birthdays in the specified Japanese calendar
+- Get all birthdays from specified Japanese calendar
 - Calculate age based on birthday
 - Get the zodiac
+- Get all birthdays from specified zodiac
 - Years of the Japanese era
 
 -----
@@ -76,7 +77,7 @@ birthday = m.get_jp_era_birthday(True)
 # {'era': 'heisei', 'era_short': 'h', 'era_jp': 'へいせい', 'era_kanji': '平成', 'year': 13, 'month': 1, 'day': 1}
 ```
 
-## Get all birthdays in the specified Japanese calendar
+## Get all birthdays from specified Japanese calendar
 
 ```Python
 # ["2001-01-01", "2000-01-02", "2002-12-31", "1980-03-01"]
@@ -110,6 +111,15 @@ birthday = m.get_age()
 m = ModelTest.objects.filter(id=1).first()
 birthday = m.get_zodiac()
 # 亥
+```
+
+## Get all birthdays from specified zodiac
+
+```Python
+# ["2001-01-01", "2000-01-02", "2002-12-31", "1980-03-01", "1995-02-01", "1995-12-01"]
+
+birthdays = ModelTest.objects.get_zodiac_birthdays("亥")
+# ["1995-02-01", "1995-12-01"]
 ```
 
 ## Years of the Japanese era
