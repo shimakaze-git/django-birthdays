@@ -1,8 +1,9 @@
-import math
 import datetime
 import json
 import unicodedata
 import jaconv
+
+from typing import List
 
 from jeraconv import jeraconv
 from jeraconv.jeraconv import PATH_BASE, DIR_DATA, FILE_JSON
@@ -66,6 +67,29 @@ class JapanEra:
         max = data["max"]
 
         return max
+
+    def get_zodiac_years(
+        self, zodiac: str, first_year: int, last_year: int
+    ) -> List[int]:
+        zodiacs = {
+            0: "申",
+            1: "酉",
+            2: "戌",
+            3: "亥",
+            4: "子",
+            5: "丑",
+            6: "寅",
+            7: "卯",
+            8: "辰",
+            9: "巳",
+            10: "午",
+            11: "未",
+        }
+
+        years = list(range(first_year, last_year + 1))
+
+        zodiac_years = [y for y in years if zodiacs[y % 12] == zodiac]
+        return zodiac_years
 
     # def convert(
     #     self,

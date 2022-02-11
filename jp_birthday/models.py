@@ -1,5 +1,3 @@
-import datetime
-
 # from typing import Union, List, Tuple
 from typing import Union
 
@@ -50,12 +48,12 @@ class BaseBirthdayModel(models.Model):
     def birthday_tm_yday(self):
         return self.birthday.timetuple().tm_yday
 
-    def _get_jp_era_birthday(self, birthday: datetime.date) -> dict:
+    def _get_jp_era_birthday(self, birthday: date) -> dict:
         """
         西暦の誕生日から和暦の誕生日に変換する.
 
         Args:
-            birthday (datetime.date): 自身の誕生日.
+            birthday (date): 自身の誕生日.
 
         Returns:
             dict: [description]
